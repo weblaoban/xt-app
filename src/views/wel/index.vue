@@ -1,13 +1,12 @@
 <template>
 	<div class="index-container">
-		<main-header :active="0"></main-header>
+		<main-header title="瑔石信托网" :active="0"></main-header>
 		<div class="bannerContent">
 			<el-carousel
 				ref="car"
 				:initial-index="0"
 				v-show="bannerList.length"
-				height="500px"
-				direction="vertical"
+				height="3.57rem"
 				:autoplay="true"
 			>
 				<el-carousel-item v-for="item in bannerList" :key="item">
@@ -17,61 +16,24 @@
 					></div>
 				</el-carousel-item>
 			</el-carousel>
-			<!-- 已经登陆啦 -->
-			<div class="loginContent haslogin">
-				<img src="/img/welcome.png" alt="" class="welcom" />
-				<div class="username">欢迎，张先生</div>
-				<div class="phoneinfo">13888888888</div>
-				<div class="button" @click="onModifyPassword">修改密码</div>
-				<div class="button gray" @click="onModifyPassword">退出登录</div>
-			</div>
-			<!-- 未登录 -->
-			<div
-				class="loginContent"
-				v-if="!showRegister && !showModifyPass && !userInfo.name"
-			>
-				<h4 class="loginTitle">登录</h4>
-				<div class="inputItem">
-					<input
-						v-model="userName"
-						class="input"
-						id="userName"
-						type="text"
-					/><label class="placeholder" for="userName" v-show="!userName"
-						>您的手机号</label
-					>
-					<div class="cut" v-show="!userName"></div>
-				</div>
-				<div class="inputItem">
-					<input
-						v-model="passWord"
-						class="input"
-						id="passWord"
-						type="password"
-					/><label class="placeholder" for="passWord" v-if="!passWord"
-						>登录密码</label
-					>
-					<div class="cut" v-if="!passWord"></div>
-				</div>
-				<div class="button" @click="onLogin">立即登录</div>
-				<div class="other">
-					<p @click="goRegister">还没有账号？ <span>立即注册</span></p>
-					<p @click="onForgetPassword">忘记密码</p>
-				</div>
-			</div>
 		</div>
 		<div class="cardContainer">
+					<div class="customer" @click="showContact = true">
+						<img src="/img/message.png" alt="" />
+					</div>
 			<div class="container">
 				<div class="cardContent">
 					<div class="cardItem" v-for="item in cardItem" :key="item.id">
-						<img :src="item.img" alt="" />
+                        <div class="cardMain">
+
+                            <img :src="item.img" alt="" />
 						<div class="cardDesc">
 							<p class="title">{{ item.title }}</p>
 							<p class="desc">{{ item.desc }}</p>
 						</div>
+                        </div>
 					</div>
 				</div>
-				<div class="cardline"></div>
 				<div class="amount">
 					<div class="amountItem">
 						累计交易<span>{{ amount }}</span
@@ -80,9 +42,6 @@
 					<div class="amountItem">
 						累计交易<span>{{ amount }}</span
 						>万元
-					</div>
-					<div class="customer" @click="showContact = true">
-						<img src="/img/message.png" alt="" />在线客服
 					</div>
 				</div>
 			</div>
@@ -370,73 +329,106 @@ this.$router.push({
 </script>
 
 <style lang="scss">
-.cardContainer {
-	background: #fff;
-	.cardContent {
-		height: 144px;
-		.cardItem {
-			width: 25%;
-			height: 100%;
-			padding: 40px 0;
-			box-sizing: border-box;
-			float: left;
-			display: flex;
-			align-items: center;
-			img {
-				width: 64px;
-				height: 64px;
-				margin-left: 13px;
-			}
-			.cardDesc {
-				.title {
-					font-size: 24px;
-					font-family: Heiti SC;
-					font-weight: 500;
-					color: #eaba63;
-				}
-				.desc {
-					font-size: 16px;
-					font-family: Heiti SC;
-					font-weight: 500;
-					color: #9a9a9c;
-				}
-			}
-		}
-	}
-	.cardline {
-		width: 100%;
+.bannerContent{
+
+	.el-carousel__button {
+		width: 0.5rem;
 		height: 2px;
-		background: linear-gradient(90deg, #fff, #e9b963, #ffffff);
-		opacity: 0.2;
+background: #FFFFFF;
 	}
-	.amount {
-		height: 105px;
-		position: relative;
-		.customer {
-			width: 189px;
-			height: 60px;
+	.el-carousel__indicator.is-active {
+background: #EABA63;
+border:none !important;
+	}
+    .el-carousel__indicator.is-active button{
+background: #EABA63;
+
+    }
+    .el-carousel__indicator--horizontal{
+        padding:0;
+    }
+    .el-carousel__indicators--horizontal{
+        bottom:0.28rem;
+    }
+}
+.cardContainer {
+	background: #fff;width: 7.5rem;
+height: 4.8rem;
+background: #F8FAFB;
+box-sizing: border-box;
+padding:0.3rem 0.2rem;
+position:relative;
+
+.customer {
+			width: 0.76rem;
+			height: 0.76rem;
 			background: #ec5e2a;
 			box-shadow: 0px 3px 5px 0px rgba(115, 89, 41, 0.5);
-			border-radius: 12px;
+			border-radius: 0.12rem;
 
-			font-size: 20px;
 			font-family: Heiti SC;
 			font-weight: 500;
 			color: #ffffff;
 			position: absolute;
 			right: 0;
-			bottom: -30px;
-			padding-left: 30px;
+			top:1.3rem;
+			padding-left: 0.1rem;
 			display: flex;
 			align-items: center;
 			line-height: 1;
 			box-sizing: border-box;
 			img {
-				width: 36px;
-				height: 36px;
-				margin-right: 14px;
+			width: 0.56rem;
+			height: 0.56rem;
 			}
 		}
+
+	.cardContent {
+        height:2.7rem;
+		.cardItem {
+			width: 50%;
+			padding: 0 0.1rem ;
+			box-sizing: border-box;
+			float: left;
+            height:1.15rem;
+            margin-bottom:0.2rem;
+            .cardMain{
+
+                height:1.15rem;
+                display: flex;
+			align-items: center;
+background: #FFFFFF;
+box-shadow: 0rem 0rem 0rem 0rem rgba(48,51,59,0.1);
+border-radius: 0.06rem;
+            }
+			img {
+				width: 0.64rem;
+				height: 0.64rem;
+				margin-left: 0.13rem;
+			}
+			.cardDesc {
+                height:0.64rem;
+				.title {
+font-size: 0.28rem;
+					font-family: Heiti SC;
+					font-weight: 400;
+					color: #eaba63;
+                    margin:0;
+                    margin-bottom:0.1rem;
+				}
+				.desc {
+                    margin:0;
+font-size: 0.2rem;
+					font-family: Heiti SC;
+					font-weight: 400;
+					color: #9a9a9c;
+				}
+			}
+		}
+	}
+	.amount {
+		height: 105px;
+		position: relative;
 		.amountItem {
 			width: 50%;
 			text-align: center;
@@ -459,7 +451,7 @@ this.$router.push({
 }
 .productContent {
 	padding: 80px 0;
-	background: #f8f8f8;
+	background: #fff;
 	&:nth-child(2n) {
 		background: #ffffff;
 	}

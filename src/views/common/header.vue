@@ -1,27 +1,19 @@
 <template>
 	<div class="index-container">
-		<div class="header">
-			<div class="container"><span>Hi </span>欢迎您的访问</div>
-		</div>
-		<div class="logoContent">
+        <div class="menuHeader">
+            <div class="buger" @click="toggleMenu"><img src="/img/h5/burger.png" alt=""></div>
+            <div class="title">{{ title }}</div>
+        </div>
+        <div class="menuMask" v-show="showMenu" @click="toggleMenu">
+            <div class="menuContent">
 			<div class="container">
-				<div class="logo"><img src="/img/logo.png" alt="" /></div>
-				<div class="phone">
-					<img src="/img/kefu.png" alt="" />
-					<div class="phoneInfo">
-						<p class="phonenumber">400-820-8820</p>
-						<p class="time">工作时间：9:00-17:00</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="menuContent">
-			<div class="container">
+                <div class="logo"><img src="/img/logo.png" alt=""></div>
 				<div class="menuList">
-					<div @click="onMenuClick(item)" :class="{'active':index==active}" v-for="(item,index) in menuList" :key="item" class="menuItem"><img v-if="item.icon" :src="item.icon" alt="">{{item.name}} <div class="tag" v-if="item.notOpen">暂未开放</div></div>
+					<div @click.capture="onMenuClick(item)" :class="{'active':index==active}" v-for="(item,index) in menuList" :key="item" class="menuItem">{{item.name}}</div>
 				</div>
 			</div>
 		</div>
+        </div>
 	</div>
 </template>
 
@@ -31,7 +23,7 @@ import { encrypt } from 'utils/util'
 import {register,modifyPassword} from '@/api/user.js'
 export default {
 	name: "header",
-    props:['active'],
+    props:['active','title'],
 	data() {
 		return {
             showContact:false,
@@ -40,16 +32,22 @@ export default {
             menuList:[
                 {
                     name:'首页',
-                    icon:'/img/home.png',
                     link:'/'
                 },{
-                    name:'集合信托',
+                    name:'产品列表',
                     link:'/xtcombine'
                 },{
-                    name:'集合资管',
-                    link:'/ziguan'
+                    name:'关于我们',
+                    link:'/aboutUs'
                 },{
-                    name:'私募基金',
+                    name:'修改密码',
+                    link:'/modifyPassword'
+                },{
+                    name:'联系我们',
+                    link:'/modifyPassword'
+                },
+                /*{
+                    name:'',
                     link:'/privateFund'
                 },{
                     name:'集合保险',
@@ -60,10 +58,7 @@ export default {
                 },{
                     name:'信托资讯',
                     link:'/information'
-                },{
-                    name:'关于我们',
-                    link:'/aboutUs'
-                }
+                }*/
             ],
             userName:'',
             passWord:'',
@@ -93,115 +88,89 @@ export default {
                 message:''
             },
             showPassword:false,
-            showModifyPass:false
+            showModifyPass:false,
+            showMenu:false
 		};
 	},
 	computed: {
 		...mapGetters(["userInfo"]),
 	},
-	created() {},
+	created() {
+        
+    },
 	methods: {
-        onModify(){
-            const {userName,passWord,gender,smsCode,phone} = this;
-            modifyPassword({smsCode,passWord:encrypt(passWord),phone}).then(res=>{
-                console.log(res)
-            })
-        },
-        sendSms(){
-            this.timer = setTimeout(()=>{
-this.timeDown=this.timeDown-1;
-if(this.timeDown<=1){
-    this.timeDown = this.originTime;
-    if(this.timer){
-        clearTimeout(this.timer);
-    }
-}else{
-    if(this.timer){
-        clearTimeout(this.timer);
-    }
-        this.sendSms()
-}
-            },1000)
-        },
         onMenuClick(menu){
             if(menu.link){
                 this.$router.push(menu.link)
             }
+        },
+        toggleMenu(){
+            this.showMenu = !this.showMenu
         }
     },
 };
 </script>
 
 <style lang="scss" scoped>
-.header{
-    height: 40px;
-background: #F7F7F7;
-line-height: 40px;
-color: #836C4C;
-font-size: 14px;
-font-weight: 500;
-span{
-    font-size: 16px;
-    color: #EABA63;
-    font-weight: 400;
-}
-}
-.logoContent {
-    height:120px;
-background: #FFFFFF;
-	.container {
-        height:100%;
-		display: flex;
-		justify-content: space-between;
-        align-items: center;
-        .logo{
-            img{
-                width:274px;
-                height:80px;
-            }
-        }
-		.phone {
-			display: flex;
-            img{
-                width:42px;
-                height:42px;
-                margin-right:10px;
-            }
-			.phoneInfo {
-				p {
-					margin: 0;
-					padding: 0;
-                    color:#EABA63;
-                    &.phonenumber{
-                        font-size: 32px;
-font-family: Arial;
+.menuHeader{
+    width: 7.5rem;
+height: 0.76rem;
+background: #EABA63;
+position:relative;
+.title{
+
+font-size: 0.32rem;
+font-family: PingFang SC;
 font-weight: 400;
-                    }
-                    &.time{
-                        font-size: 16px;
-font-family: Heiti SC;
-font-weight: 500;
-                    }
-				}
-			}
-		}
-	}
+color: #FFFFFF;
+text-align: center;
+line-height: 0.76rem;
 }
-.menuContent{
-    height: 52px;
-background: #30333B;
+.buger{
+    width:0.42rem;
+    height:0.42rem;
+    position:absolute;
+    left:0.32rem;
+    top:0.17rem;
+    img{
+        width:100%;
+        height:100%;
+    }
+}
+
+}
+
+.menuMask{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index:999;
+}
+.menuContent{width: 4.26rem;
+height: 100%;
+background: #EABA63;
+padding:0.5rem 0rem;
+box-sizing: border-box;
+
+.logo{
+    img{
+        width:100%;
+    }
+}
 .menuList{
-    display: flex;
     
 .menuItem{
-    width:12.5%;
-    line-height:52px;
+    width:100%;
+    line-height:1.04rem;
     position:relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-font-size: 18px;
-color:#fff;
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #806B4B;
+border-bottom: 1px solid #806B4B;
 cursor: pointer;
     .tag{
         width:57px;
@@ -224,19 +193,6 @@ line-height: 20px;
         width:20px;
         height:20px;
     }
-    &.active{
-        color:#EABA63;
-        &:after{
-            content:'';
-            display: block;
-            width:100%;
-            height:3px;
-            position:absolute;
-            bottom:0;
-            left:0;
-background: #EABA63;
-        }
-    }
 }
 }
 }
@@ -250,12 +206,11 @@ background: #EABA63;
 	.carouseCard {
 		width: 100%;
 		height: 100%;
-		background-image: url(/img/banner.png);
         background-size:100% 100%;
         background-position:center center;
         background-repeat: no-repeat;
 	}
-	.el-carousel__indicator--vertical .el-carousel__button {
+	.el-carousel__button {
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
@@ -266,16 +221,6 @@ background: #EABA63;
 		left: 0;
 		right: 0;
 		margin: auto;
-	}
-	.el-carousel__indicator--vertical {
-        padding:0;
-		width: 38px;
-		height: 38px;
-		position: relative;
-		border-radius: 50%;
-		background: transparent;
-		box-sizing: border-box;
-        margin-bottom:10px;
 	}
 	.el-carousel__indicator.is-active {
 		border: 1px solid #fff;

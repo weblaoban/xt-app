@@ -13,6 +13,7 @@ import '@smallwei/avue/lib/index.css';
 import crudCommon from '@/mixins/crud.js'
 import { getScreen } from './utils/util'
 // import './permission';
+import './utils/rem.js'
 import error from './error';
 import basicBlock from 'components/basic-block/main.vue'
 import basicContainer from 'components/basic-container/main.vue'
@@ -24,7 +25,7 @@ window.$crudCommon = crudCommon
 window.axios = axios;
 const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
+    app.component(key, component)
 }
 app.component('basicContainer', basicContainer)
 app.component('basicBlock', basicBlock)
@@ -36,10 +37,10 @@ app.use(i18n)
 app.use(store)
 app.use(router)
 app.use(ElementPlus, {
-  locale: messages[language]
+    locale: messages[language]
 })
 app.use(Avue, {
-  axios,
-  locale: messages[language]
+    axios,
+    locale: messages[language]
 })
 app.mount('#app')

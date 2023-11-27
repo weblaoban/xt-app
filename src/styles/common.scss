@@ -6,6 +6,7 @@ a{
 }
 *{
   outline: none;
+  font-size: 0.32rem;
 }
 
 .avue-sidebar,
@@ -118,6 +119,8 @@ a{
 @include scrollBar;
 
 .container{
-  width:1200px;
+  width:100%;
+  padding:0 0.3rem;
   margin:0 auto;
+  box-sizing: border-box;
 }
