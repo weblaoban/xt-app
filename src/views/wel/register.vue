@@ -1,26 +1,16 @@
 <template>
-	<div class="index-container">
-		<div class="header">
-			<div class="container"><span>Hi </span>欢迎您的访问</div>
-		</div>
-		<div class="logoContent">
-			<div class="container">
-				<div class="logo"><img src="/img/logo.png" alt="" /></div>
-				<div class="phone">
-					<img src="/img/kefu.png" alt="" />
-					<div class="phoneInfo">
-						<p class="phonenumber">400-820-8820</p>
-						<p class="time">工作时间：9:00-17:00</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="bannerContent">
-			<div class="carouseCard" style="height: 675px">
-				<img src="/img/welcomebg.png" alt="" />
-				<div class="loginContent register">
-					<h4 class="loginTitle">注册</h4>
+	<div class="index-container loginbg">
+        <mainHeader></mainHeader>
+        <div class="logo"><img src="/img/h5/logo.png" alt=""></div>
+        <div class="tabs">
+					<h4 :class="{loginTitle:true,active:active==1}" @click="setActive(1)">登录</h4>
+					<h4  :class="{loginTitle:true,active:active==2}" @click="setActive(2)">注册</h4>
+        </div>
+        <div class="container">
+
+            <div class="loginContent register" v-show="active===2">
 					<div class="genderCon">
+                        <div class="label">您的姓名</div>
 						<div class="inputItem">
 							<input
 								autocomplete="off"
@@ -28,10 +18,8 @@
 								class="input"
 								id="userName"
 								type="text"
-							/><label class="placeholder" for="userName" v-show="!userName"
-								>输入您的姓名</label
-							>
-							<div class="cut"></div>
+                                placeholder="输入您的姓名"
+							/>
 						</div>
 						<div class="gender">
 							<div class="genderItem">
@@ -53,18 +41,18 @@
 						</div>
 					</div>
 					<div class="inputItem">
+                        <div class="label">手机号</div>
 						<input
 							autocomplete="off"
 							v-model="phone"
 							class="input"
 							id="phone"
 							type="text"
-						/><label class="placeholder" for="phone" v-show="!phone"
-							>请输入您的手机号</label
-						>
-						<div class="cut"></div>
+                            placeholder="请输入您的手机号"
+						/>
 					</div>
 					<div class="smscodeCon">
+                        <div class="label">验证码</div>
 						<div class="inputItem">
 							<input
 								autocomplete="off"
@@ -72,14 +60,12 @@
 								class="input"
 								id="smsCode"
 								type="text"
-							/><label class="placeholder" for="smsCode" v-show="!smsCode"
-								>输入手机验证码</label
-							>
-							<div class="cut"></div>
+                                placeholder="输入手机验证码"
+							/>
 						</div>
 						<div class="sendBtn">
 							<div class="send" v-if="timeDown === originTime" @click="sendSms">
-								发送
+								获取验证码
 							</div>
 							<div class="hasSend" v-if="timeDown !== originTime">
 								{{ timeDown }}
@@ -87,17 +73,16 @@
 						</div>
 					</div>
 					<div class="inputItem">
+                        <div class="label">设置密码</div>
 						<input
 							autocomplete="off"
 							v-model="passWord"
 							class="input"
 							id="passWord"
+                            placeholder="输入您的登录密码"
 							:type="showPassword ? 'text' : 'password'"
-						/><label class="placeholder" for="passWord" v-if="!passWord"
-							>输入您的登录密码</label
-						>
-						<div class="cut"></div>
-						<img
+						/>
+						<!-- <img
 							@click="showPassword = false"
 							v-if="showPassword"
 							src="/img/show.png"
@@ -110,21 +95,20 @@
 							src="/img/hide.png"
 							alt=""
 							class="togglePassword"
-						/>
+						/> -->
 					</div>
 					<div class="inputItem">
+                        <div class="label">再次输入密码</div>
 						<input
 							autocomplete="off"
 							v-model="twopassWord"
 							class="input"
 							id="twopassWord"
+                            placeholder="再次输入登录密码"
 							@input="twoPasswordChange"
 							:type="showtwoPassword ? 'text' : 'password'"
-						/><label class="placeholder" for="twopassWord" v-if="!twopassWord"
-							>再次输入登录密码</label
-						>
-						<div class="cut"></div>
-						<img
+						/>
+						<!-- <img
 							@click="showtwoPassword = false"
 							v-if="showtwoPassword"
 							src="/img/show.png"
@@ -137,32 +121,73 @@
 							src="/img/hide.png"
 							alt=""
 							class="togglePassword"
-						/>
+						/> -->
 					</div>
 					<p class="errInfo">{{ errInfo }}</p>
 					<div class="button" @click="onRegister">立即注册</div>
-					<div class="other">
-						<p></p>
-						<p @click="backLogin">返回登陆</p>
-					</div>
 				</div>
-			</div>
-		</div>
-		<main-footer></main-footer>
+
+
+            <div class="loginContent register" v-show="active===1">
+					<div class="inputItem">
+                        <div class="label">手机号</div>
+						<input
+							autocomplete="off"
+							v-model="phone"
+							class="input"
+							id="phone"
+							type="text"
+                            placeholder="请输入您的手机号"
+						/>
+					</div>
+					<div class="inputItem">
+                        <div class="label">登录密码</div>
+						<input
+							autocomplete="off"
+							v-model="passWord"
+							class="input"
+							id="passWord"
+                            placeholder="输入您的登录密码"
+							:type="showPassword ? 'text' : 'password'"
+						/>
+						<!-- <img
+							@click="showPassword = false"
+							v-if="showPassword"
+							src="/img/show.png"
+							alt=""
+							class="togglePassword"
+						/>
+						<img
+							@click="showPassword = true"
+							v-if="!showPassword"
+							src="/img/hide.png"
+							alt=""
+							class="togglePassword"
+						/> -->
+					</div>
+					<p class="errInfo">{{ errInfo }}</p>
+					<div class="button" @click="onRegister">立即登录</div>
+                    <div class="other">
+                    <p></p>
+                    <p @click="onForgetPassword">忘记密码</p>
+                </div>
+				</div>
+        </div>
 	</div>
 </template>
 
 <script>
-import mainFooter from "../common/footer.vue";
+import mainHeader from "../common/header.vue";
 import { encrypt } from "utils/util";
 import { register, modifyPassword } from "@/api/user.js";
 export default {
 	name: "register",
 	components: {
-		mainFooter,
+		mainHeader,
 	},
 	data() {
 		return {
+            active:1,
 			showtwoPassword: false,
 			showPassword: false,
 			showContact: false,
@@ -175,32 +200,13 @@ export default {
 			originTime: 30,
 			timeDown: 30,
 			timer: null,
-			products: [
-				{
-					name: "名称",
-				},
-				{
-					name: "名称",
-				},
-				{
-					name: "名称",
-				},
-				{
-					name: "名称",
-				},
-			],
-			contact: {
-				name: "",
-				phone: "",
-				message: "",
-			},
 		};
 	},
 	created() {},
 	methods: {
-		backLogin() {
-			history.go(-1);
-		},
+        setActive(active){
+this.active = active
+        },
 		onRegister() {
 			const { userName, passWord, gender, smsCode, phone } = this;
 			if (!userName || !passWord || !gender || !smsCode || !phone) {
@@ -243,174 +249,95 @@ export default {
 				this.errInfo = "两次密码不一致，请检查";
 			}
 		},
+		onLogin() {
+			const { userName, passWord } = this;
+			if (!userName) {
+				document.getElementById("userName").focus();
+				return;
+			}
+			if (!passWord) {
+				document.getElementById("passWord").focus();
+				return;
+			}
+			this.$store
+				.dispatch("LoginByUsername", { username: userName, password: passWord })
+				.then(() => {
+					this.$store.dispatch("GetUserInfo");
+				});
+		},
+		onForgetPassword() {
+			this.$router.push("/forgetPassword");
+		},
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-.header {
-	height: 40px;
-	background: #f7f7f7;
-	line-height: 40px;
-	color: #836c4c;
-	font-size: 14px;
-	font-weight: 500;
-	span {
-		font-size: 16px;
-		color: #eaba63;
-		font-weight: 400;
-	}
-}
-.logoContent {
-	height: 120px;
-	background: #ffffff;
-	.container {
-		height: 100%;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		.logo {
-			img {
-				width: 274px;
-				height: 80px;
-			}
-		}
-		.phone {
-			display: flex;
-			img {
-				width: 42px;
-				height: 42px;
-				margin-right: 10px;
-			}
-			.phoneInfo {
-				p {
-					margin: 0;
-					padding: 0;
-					color: #eaba63;
-					&.phonenumber {
-						font-size: 32px;
-						font-family: Arial;
-						font-weight: 400;
-					}
-					&.time {
-						font-size: 16px;
-						font-family: Heiti SC;
-						font-weight: 500;
-					}
-				}
-			}
-		}
-	}
-}
-.menuContent {
-	height: 52px;
-	background: #30333b;
-	.menuList {
-		display: flex;
 
-		.menuItem {
-			width: 12.5%;
-			line-height: 52px;
+.loginbg{
+    width:100%;
+    height:100%;
+    
+background-image: url(/img/h5/loginbg.png);
+background-repeat: no-repeat;
+background-size: 100% 100%;
+background-position: left center;
+}
+.logo{
+    margin:0.88rem auto 0.7rem;
+    img{
+        width:2.57rem;
+        height:2.05rem;
+        display: block;
+        margin:0 auto;
+    }
+}
+.tabs{
+    height:0.5rem;
+    margin-bottom:0.36rem;
+    .loginTitle{
+        &:first-child{
+            float:left;
+            margin-left:1.35rem;
+        }
+        &:last-child{
+            float:right;
+            margin-right:1.35rem;
+        }
+    }
+}
+.loginTitle {
+font-size: 0.32rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #30333B;
+opacity: 0.8;
+cursor: pointer;
 			position: relative;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 18px;
-			color: #fff;
-			cursor: pointer;
-			.tag {
-				width: 57px;
-
-				text-align: center;
+			text-align: center;
+            margin:0;
+            &.active{
+			&::after {
 				position: absolute;
-				font-size: 12px;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #ffffff;
-				background-image: url(/img/notopen.png);
-				background-size: 57px 19px;
-				background-position: center center;
-				background-repeat: no-repeat;
-				top: 0;
-				left: 110px;
-				height: 20px;
-				line-height: 20px;
+				content: "";
+				display: block;width: 100%;
+height: 0.12rem;
+background: #EABA63;
+
+				left: 0;
+				right: 0;
+				bottom: 0.05rem;
+				margin: auto;
+                z-index:-1;
 			}
-			img {
-				width: 20px;
-				height: 20px;
-			}
-			&.active {
-				color: #eaba63;
-				&:after {
-					content: "";
-					display: block;
-					width: 100%;
-					height: 3px;
-					position: absolute;
-					bottom: 0;
-					left: 0;
-					background: #eaba63;
-				}
-			}
+            }
 		}
-	}
-}
-.bannerContent .el-carousel__indicators--vertical {
-	top: 50%;
-	right: calc(50% - 520px);
-	transform: translate(50%, -50%);
-}
-.bannerContent {
-	position: relative;
-	.carouseCard {
+.loginContent {
 		width: 100%;
-		height: 100%;
-		background-image: url(/img/registerbg.png);
-		background-size: 100% 100%;
-		background-position: center center;
-		background-repeat: no-repeat;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		& > img {
-			height: 322px;
-		}
-	}
-	.el-carousel__indicator--vertical .el-carousel__button {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: #fff;
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		margin: auto;
-	}
-	.el-carousel__indicator--vertical {
-		padding: 0;
-		width: 38px;
-		height: 38px;
-		position: relative;
-		border-radius: 50%;
-		background: transparent;
-		box-sizing: border-box;
-		margin-bottom: 10px;
-	}
-	.el-carousel__indicator.is-active {
-		border: 1px solid #fff;
-	}
-	.loginContent {
-		// position:absolute;
-		// top:56px;
-		// right:calc(50% - 490px);
-		width: 380px;
-		height: 565px;
 		background: #ffffff;
-		box-shadow: 0px 0px 10px 10px rgba(234, 186, 99, 0.1);
 		border-radius: 12px;
+        box-sizing: border-box;
+        padding:0.01rem 0.37rem 0.3rem;
 
 		&.haslogin {
 			text-align: center;
@@ -441,6 +368,7 @@ export default {
 		&.register {
 			.inputItem {
 				// margin-bottom:10px;
+                font-size: 0.28rem;
 				.phoneInfo {
 					text-align: center;
 					font-size: 16px;
@@ -462,7 +390,7 @@ export default {
 					height: 18px;
 					position: absolute;
 					right: 10px;
-					top: 10px;
+					bottom: 10px;
 				}
 			}
 			.loginTitle {
@@ -470,36 +398,37 @@ export default {
 			}
 			.cut {
 				opacity: 0;
+                display: none;
 			}
 			.genderCon {
 				display: flex;
-				width: 280px;
+				width: 100%;
 				margin: 0 auto;
 				align-items: center;
 				justify-content: space-between;
-				margin-bottom: 20px;
+				margin-bottom: 0.1rem;
+                flex-wrap: wrap;
 				.inputItem,
-				.input {
-					width: 150px;
-					margin: 0;
+				.input {width: 2.91rem;
+
 				}
 				.radio {
 					position: relative;
-					font-size: 14px;
+					font-size: 0.28rem;
 					font-family: Heiti SC;
 					font-weight: 500;
 					color: #30333b;
-					margin-right: 6px;
+					margin-right: 0.41rem;
 				}
 				input[type="checkbox"],
 				input[type="radio"] {
 					opacity: 0;
 				}
 				.radio-inner {
-					width: 18px;
-					height: 18px;
+					width: 0.42rem;
+					height: 0.42rem;
 					box-sizing: border-box;
-					padding: 0 8px;
+					padding: 0 0.08rem;
 					border-radius: 50%;
 					position: absolute;
 					border: 1px solid #d9d9da;
@@ -508,6 +437,7 @@ export default {
 					left: -5px;
 					margin: auto;
 					&.active {
+					border: 1px solid #30333b;
 						&::after {
 							content: "";
 							display: block;
@@ -517,39 +447,36 @@ export default {
 							left: 0;
 							right: 0;
 							margin: auto;
-							width: 6px;
-							height: 6px;
-							border-radius: 6px;
+							width: 0.1rem;
+							height: 0.1rem;
+							border-radius: 0.1rem;
 							background: #30333b;
+					border: 1px solid #30333b;
 						}
 					}
 				}
 			}
 			.smscodeCon {
-				display: flex;
-				width: 280px;
+				width: 100%;
 				margin: 0 auto;
-				align-items: center;
-				justify-content: space-between;
-				margin-bottom: 20px;
-				.inputItem,
-				.input {
-					width: 190px;
-					margin: 0;
-				}
+				margin-bottom: 0.1rem;
+                position: relative;
 				.send {
-					width: 70px;
-					height: 39px;
-					background: linear-gradient(5deg, #eaba63, #fac76c);
-					border-radius: 8px;
+					width: 1.8rem;
+					height: 0.42rem;
+					line-height: 0.42rem;
+                    
 					cursor: pointer;
 
-					font-size: 14px;
-					font-family: Heiti SC;
-					font-weight: 500;
-					color: #ffffff;
-					line-height: 39px;
-					text-align: center;
+                    font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #EABA63;
+                    position:absolute;
+                    bottom:0.15rem;
+                    right:0;
+                    border-left:1px solid #EABA63;
+                    padding-left:0.2rem;
 				}
 				.hasSend {
 					width: 70px;
@@ -565,14 +492,13 @@ export default {
 				}
 			}
 			.button {
-				margin-top: 50px;
-				margin-bottom: 8px;
+				margin:0.53rem 0 0;
 			}
 		}
 		.other {
 			display: flex;
 			justify-content: space-between;
-			width: 280px;
+			width: 100%;
 			margin: 0 auto;
 			p {
 				font-size: 14px;
@@ -589,30 +515,6 @@ export default {
 				}
 			}
 		}
-		.button {
-			margin-top: 40px;
-			margin-bottom: 20px;
-		}
-		.loginTitle {
-			font-size: 20px;
-			font-weight: 500;
-			color: #30333b;
-			position: relative;
-			text-align: center;
-			margin-bottom: 40px;
-			&::after {
-				position: absolute;
-				content: "";
-				display: block;
-				width: 50px;
-				height: 4px;
-				background: #eaba63;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				margin: auto;
-			}
-		}
 		.cut {
 			background-color: #fff;
 			border-radius: 10px;
@@ -626,16 +528,15 @@ export default {
 		}
 		.inputItem {
 			position: relative;
-			width: 280px;
-			margin: 0 auto 22px;
+			width: 100%;
 		}
 		.input {
-			width: 280px;
-			height: 40px;
-			background: #ffffff;
+			width: 100%;
+height: 0.72rem;
+background: #F8FAFB;
+border-radius: 0.12rem;
 			border: 1px solid #f3f2f8;
-			border-radius: 8px;
-			padding-left: 20px;
+			padding-left:0.1rem;
 			box-sizing: border-box;
 		}
 		.placeholder {
@@ -652,18 +553,18 @@ export default {
 			transition: transform 200ms, color 200ms;
 			top: 16px;
 		}
-		.input:focus ~ .cut {
-			transform: translateY(8px);
-		}
-		.input:focus ~ .placeholder {
-			transform: translateY(-24px) translateX(10px) scale(0.75);
-			color: #dc2f55;
-			z-index: 1;
-		}
+        .label{
+            width:100%;
+font-size: 0.28rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #9A9A9C;
+flex-shrink: 0;
+margin:0.4rem 0 0.21rem 0;
+        }
 	}
-}
 .button {
-	width: 280px;
+	width: 100%;
 	height: 44px;
 	background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
 	box-shadow: 0px 3px 0px 0px #dea949;

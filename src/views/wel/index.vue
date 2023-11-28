@@ -36,12 +36,12 @@
 				</div>
 				<div class="amount">
 					<div class="amountItem">
-						累计交易<span>{{ amount }}</span
-						>万元
+						<span>{{ amount }}</span
+						>万元<br/>累计交易
 					</div>
 					<div class="amountItem">
-						累计交易<span>{{ amount }}</span
-						>万元
+						<span>{{ amount }}</span
+						>人<br/>累计服务客户
 					</div>
 				</div>
 			</div>
@@ -49,52 +49,31 @@
 		<div class="productC">
 			<div class="productContent product1">
 				<div class="container">
-					<div class="productTitle"><span>信托产品</span></div>
+					<div class="productTitle"><span>产品推荐</span></div>
 					<div class="products">
-						<div class="productItem" v-for="item in product1" :key="item.id">
-							<div class="title">{{ item.name }}</div>
-							<div class="desc">产品收益</div>
+						<div class="productItem" v-for="item in product" :key="item.id">
+							<div :class="'title '+'title'+item.categoryId">{{ item.name }}</div>
+                            <div class="descCon">
+
+                                <div class="desc">业绩比较基准</div>
+							<div class="desc">投资门槛</div>
+                            </div>
+                            <div class="descCon">
 							<p class="count">9.7 <span>%</span></p>
+							<p class="count">9.7 <span>%</span></p></div>
 							<div class="line"></div>
 							<div class="duration">产品期限：{{item.investLimitId}}</div>
-							<div class="button" @click="goDetail(item,1)">立即查看</div>
+                            <div class="tag"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="productContent product2">
-				<div class="container">
-					<div class="productTitle">集合资管</div>
-					<div class="products">
-						<div class="productItem" v-for="item in product2" :key="item">
-							<div class="title">{{ item.name }}</div>
-							<div class="desc">产品收益</div>
-							<p class="count">9.7 <span>%</span></p>
-							<div class="line"></div>
-							<div class="duration">产品期限：{{item.investLimitId}}</div>
-							<div class="button" @click="goDetail(item,2)">立即查看</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="productContent product3">
-				<div class="container">
-					<div class="productTitle">私募基金</div>
-					<div class="products">
-						<div class="productItem" v-for="item in product3" :key="item">
-							<div class="title">{{ item.name }}</div>
-							<div class="desc">产品收益</div>
-							<p class="count">9.7 <span>%</span></p>
-							<div class="line"></div>
-							<div class="duration">产品期限：{{item.investLimitId}}</div>
-							<div class="button" @click="goDetail(item,3)">立即查看</div>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="more">查看更多</div>
 		</div>
 		<!-- 客户咨询 -->
-		<div class="contact" v-if="showContact">
+        <div class="contentMask" v-if="showContact">
+            
+		<div class="contact">
 			<div class="contactTitle">客户咨询</div>
 			<img
 				class="close el-icon-close"
@@ -123,25 +102,11 @@
 				<div class="button" @click="sendComm">提交</div>
 			</div>
 		</div>
-		<div class="aboutUs">
-			<div class="container">
-				<div class="menuCard">
-					<div class="menuCardItem"><span>信托问答</span></div>
-					<div class="menuCardItem"><span>信托资讯</span></div>
-					<div class="menuCardItem"><span>关于我们</span></div>
-				</div>
-				<div class="company">
-					<h4>合作伙伴</h4>
-					<img src="/img/companyBg.png" alt="" class="companyBg" />
-					<div class="partner">
-						<div v-for="(item, index) in 6" :key="item" class="partnerItem">
-							<img :src="'/img/company' + index + '.png'" alt="" />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<main-footer></main-footer>
+        </div>
+
+        <div class="phonel">客服电话：400-0000-000</div>
+
+        <div class="loginBtn"><div class="button" @click="goLogin">登录</div><div class="button" @click="goRegister">注册</div></div>
 	</div>
 </template>
 
@@ -223,9 +188,7 @@ export default {
 			userName: "",
 			passWord: "",
 			bannerList: [],
-			product1: [],
-			product2: [],
-			product3: [],
+			product: [],
             loading:false
 		};
 	},
@@ -250,17 +213,17 @@ export default {
 			list({ categoryId: 97, soldNum: 1,status:-1 }).then((res) => {
 				if (res && res.status === 200) {
                     console.log(res.data.data.records)
-					this.product1 = res.data.data.records;
+					this.product = this.product.concat(res.data.data.records);
 				}
 			});
 			list({ categoryId: 98, soldNum: 1,status:-1 }).then((res) => {
 				if (res && res.status === 200) {
-					this.product2 = res.data.data.records;
+					this.product = this.product.concat(res.data.data.records);
 				}
 			});
 			list({ categoryId: 99, soldNum: 1,status:-1}).then((res) => {
 				if (res && res.status === 200) {
-					this.product3 = res.data.data.records;
+					this.product = this.product.concat(res.data.data.records);
 				}
 			});
 		},
@@ -280,6 +243,9 @@ export default {
 					this.$store.dispatch("GetUserInfo");
 				});
 		},
+        goLogin(){
+			this.$router.push("/login");
+        },
 		goRegister() {
 			this.$router.push("/register");
 		},
@@ -404,7 +370,7 @@ border-radius: 0.06rem;
 			img {
 				width: 0.64rem;
 				height: 0.64rem;
-				margin-left: 0.13rem;
+				margin-right: 0.13rem;
 			}
 			.cardDesc {
                 height:0.64rem;
@@ -426,49 +392,77 @@ font-size: 0.2rem;
 			}
 		}
 	}
-	.amount {
-		height: 105px;
+	.amount {width: 6.7rem;
+height: 1.29rem;
+background: #EABA63;
+box-shadow: 0rem 0rem 0rem 0rem rgba(48,51,59,0.1);
+border-radius: 0.06rem;
+margin:0 auto 0.5rem;
+box-sizing: border-box;
+padding:0.05rem 0;
 		position: relative;
 		.amountItem {
 			width: 50%;
 			text-align: center;
 			float: left;
 
-			font-size: 18px;
+            font-size: 0.2rem;
 			font-family: Heiti SC;
 			font-weight: 500;
-			padding: 30px 0 50px;
+			padding: 0.27rem 0;
 			box-sizing: border-box;
-			color: #9a9a9c;
+			color: #fff;
+            &:first-child{
+                border-right:1px solid RGBA(237, 194, 117, 1);
+            }
 			span {
-				font-size: 33px;
+font-size: 0.36rem;
 				font-family: Arial;
 				font-weight: 400;
-				color: #eaba63;
+				color: #fff;
 			}
 		}
 	}
 }
-.productContent {
-	padding: 80px 0;
+.productC{
 	background: #fff;
+    .more{
+        width: 6.7rem;
+height: 0.68rem;
+line-height: 0.68rem;
+background: #FFFFFF;
+box-shadow: 0rem 0rem 0.1rem 0rem rgba(48,51,59,0.2);
+border-radius: 0.06rem;
+text-align: center;
+font-size: 0.28rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #EABA63;
+margin:0.22rem auto 0.5rem;
+
+    }
+}
+.productContent {
+	padding: 0.5rem 0;
 	&:nth-child(2n) {
 		background: #ffffff;
 	}
 	.productTitle {
-		font-size: 36px;
+font-size: 0.36rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #30333B;
 		font-family: Heiti SC;
 		font-weight: 500;
 		color: #30333b;
 		text-align: center;
-		margin-bottom: 89px;
-		line-height: 35px;
+		margin-bottom: 0.48rem;
+		line-height: 1.5;
 		&:after {
 			content: "";
-			display: block;
-			width: 150px;
-			height: 10px;
-			background: linear-gradient(90deg, #69adff, #f68036);
+			display: block;width: 1.5rem;
+height: 0.1rem;
+background: #EABA63;
 			opacity: 0.5;
 			left: 0;
 			right: 0;
@@ -479,290 +473,228 @@ font-size: 0.2rem;
 		}
 	}
 	.products {
-		display: flex;
-		// justify-content: space-between;
 		.productItem {
-			width: 280px;
-			height: 377px;
-			background: #ffffff;
-			box-shadow: 0px 0px 21px 9px rgba(66, 142, 230, 0.1);
-			border-radius: 12px;
-			text-align: center;
-            margin-right:27px;
-			.title {
-				height: 94px;
-				background: linear-gradient(0deg, #89f7fe, #66a6ff);
-				border-radius: 12px 12px 0px 0px;
-				text-align: center;
-				line-height: 94px;
-				font-size: 24px;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #ffffff;
-				text-align: center;  margin-bottom: 20px;
-			}
-			&:nth-child(2n) {
-				box-shadow: 0px 0px 21px 9px rgba(252, 106, 74, 0.1);
-				.title {
-					background: linear-gradient(0deg, #f28e26, #fd644f);
-				}
+			width: 100%;
+height: 2.74rem;
+background: #FFFFFF;
+box-shadow: 0rem 0rem 0.1rem 0rem rgba(48,51,59,0.2);
+border-radius: 0.06rem;
+padding:0.2rem 0.3rem;
+box-sizing: border-box;
+position:relative;
+margin-bottom:0.2rem;
+.tag{
+position:absolute;
+width:0.83rem;
+height:0.73rem;
+top:0;
+right:0;
+img{
+    width:100%;
+    height:100%;
+}
+}
+			.title {width: 4.71rem;
+font-size: 0.32rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #30333B;
+margin-bottom:0.1rem;
+box-sizing: border-box;
+padding-left:1rem;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+
+background-image: url(/img/h5/title1.png);
+background-repeat: no-repeat;
+background-size: 0.92rem 0.3rem;
+background-position: left center;
+&.title98{
+    
+background-image: url(/img/h5/title2.png);
+}
+&.title99{
+    
+background-image: url(/img/h5/title3.png);
+}
+
+
 			}
 			.desc {
-				font-size: 16px;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #9a9a9c;
+                width:50%;
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #9A9A9C;
 			}
+            .descCon{
+                display: flex;
+            }
 			.count {
-				font-size: 48px;
-				font-family: Arial;
-				font-weight: 400;
-				color: #eaba63;
-				margin: 9px 0 30px;
+                width:50%;
+font-size: 0.52rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #EABA63;
+				margin: 0.1rem 0;
 				span {
-					font-size: 24px;
+					font-size: 0.24rem;
 					font-weight: 400;
 				}
+                &:nth-child(2){
+                    
+color: #30333B;
+                }
 			}
-			.line {
-				width: 238px;
-				border-bottom: 1px dashed #9a9a9c;
+			.duration {width: 6.3rem;
+height: 0.45rem;
+background: linear-gradient(90deg, #F8FAFB, #FFFFFF);
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #9A9A9C;
+box-sizing: border-box;
+padding-left:0.1rem;
 
-				margin: 31px auto 20px;
-			}
-			.duration {
-				font-size: 16px;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #30333b;
-				margin-bottom: 30px;
-			}
-			.button {
-				width: 240px;
-				height: 54px;
-				line-height: 54px;
 			}
             &:last-child{
                 margin:0;
+            }
+
+            &.finish{
+color: #9A9A9C !important;
             }
 		}
 	}
 }
 
-.product2 {
-    .productTitle{
-        
-		&:after {
-background: linear-gradient(90deg, #F1954C, #938BE4);
-		}
-    }
-	.products {
-		.productItem {
-			box-shadow: 0px 0px 21px 9px rgba(234, 186, 99, 0.1);
-			.title {
-				background: linear-gradient(0deg, #fad126, #f39800);
-			}
-			&:nth-child(2n) {
-				box-shadow: 0px 0px 21px 9px rgba(130, 135, 222, 0.1);
-				.title {
-					background: linear-gradient(0deg, #7683d9, #d8a0fe);
-				}
-			}
-		}
-	}
-}
-.product3 {
-    .productTitle{
-        
-		&:after {
-background: linear-gradient(90deg, #FE924E, #3AE9BB);
-		}
-    }
-	.products {
-		.productItem {
-			box-shadow: 0px 0px 21px 9px rgba(252, 107, 109, 0.1);
-			.title {
-				background: linear-gradient(90deg, #ff934c, #fc686f);
-			}
-			&:nth-child(2n) {
-				box-shadow: 0px 0px 21px 9px rgba(60, 231, 188, 0.1);
-				.title {
-					background: linear-gradient(90deg, #38ebba, #6fb1d2);
-				}
-			}
-		}
-	}
-}
+.phonel{
 
-.aboutUs {
-	background: #ffffff;
-	padding: 80px 0;
-	.menuCard {
-		display: flex;
-		justify-content: space-between;
-		.menuCardItem {
-			width: 380px;
-			height: 200px;
-			background: #000000;
-			opacity: 0.6;
-			border-radius: 12px;
-			position: relative;
-			&:nth-child(1) {
-				background-image: url(/img/help1.png);
-				background-size: 100% 100%;
-				background-position: center center;
-				background-repeat: no-repeat;
-			}
-			&:nth-child(2) {
-				background-image: url(/img/help2.png);
-				background-size: 100% 100%;
-				background-position: center center;
-				background-repeat: no-repeat;
-			}
-			&:nth-child(3) {
-				background-image: url(/img/help3.png);
-				background-size: 100% 100%;
-				background-position: center center;
-				background-repeat: no-repeat;
-			}
-			span {
-				font-size: 42px;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #ffffff;
-				position: absolute;
-				bottom: 34px;
-				right: 39px;
-			}
-		}
-	}
-
-	.company {
-		position: relative;
-		margin-top: 80px;
-		h4 {
-			margin: 0;
-			text-align: center;
-			font-size: 36px;
-			font-family: Heiti SC;
-			font-weight: 500;
-			color: #30333b;
-		}
-		.companyBg {
-			position: absolute;
-			top: 60px;
-			left: 0;
-			right: 0;
-			margin: auto;
-			width: 532px;
-		}
-		.partner {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			.partnerItem {
-				margin-right: 54px;
-				&:nth-child(4n) {
-					margin: 0;
-				}
-				img {
-					height: 105px;
-				}
-			}
-		}
-	}
+font-size: 0.2rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #806B4B;
+line-height: 0.24rem;
+text-align: center;
+margin-bottom:0.29rem;
 }
-
+.contentMask{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto;
+    overflow-y: scroll;
+    background: rgba(0,0,0,0.5);
+	z-index: 400;
+}
 .contact {
-	width: 380px;
-	height: 554px;
+	width: 6.5rem;
+	height: 9.28rem;
 	background: #ffffff;
-	box-shadow: 0px 3px 5px 0px rgba(105, 105, 105, 0.5);
-	border-radius: 6px;
+box-shadow: 0rem 0rem 0rem 0rem rgba(105,105,105,0.5);
+border-radius: 0.12rem;
 	position: relative;
 	box-sizing: border-box;
 	position: fixed;
-	top: 200px;
-	z-index: 400;
+	top: 1.4rem;
+    left:0.5rem;
+    margin:auto;
 
-	right: calc(50% - 600px);
+	right: 0.5rem;
 	.contactCon {
-		padding: 20px 30px;
+		padding: 0.2rem 0.3rem;
 		box-sizing: border-box;
 	}
 	.contactTitle {
-		height: 43px;
-		background: #dea949;
-		border-radius: 6px 6px 0px 0px;
-		font-size: 18px;
+		height: 0.8rem;
+		background: #dea949;border-radius: 0.12rem 0.12rem 0rem 0rem;
+		font-size: 0.32rem;
 		font-family: Heiti SC;
 		font-weight: 500;
 		color: #ffffff;
-		line-height: 43px;
+		line-height: 0.8rem;
 		text-align: center;
 	}
 	.close {
 		position: absolute;
+        left:0;
+        right:0;
+        margin:auto;
+        bottom:-1rem;
 		z-index: 2;
-		top: 17px;
-		right: 18px;
-		color: #fff;
-		font-size: 17px;
-		z-index: 2;
-		width: 18px;
-		height: 18px;
+		width: 0.64rem;
+		height: 0.64rem;
 		cursor: pointer;
 	}
 	.contactTips {
 		background: #fdf8ef;
-		font-size: 16px;
+font-size: 0.28rem;
 		font-family: Heiti SC;
 		font-weight: 500;
 		color: #9a9a9c;
-		line-height: 18px;
-		padding: 15px;
-		margin-bottom: 10px;
+		padding: 0.26rem 0.3rem;
+		margin-bottom: 0.3rem;
 	}
 	.contactItem {
 		.label {
-			font-size: 16px;
-			font-family: Heiti SC;
-			font-weight: 500;
-			color: #9a9a9a;
-			line-height: 18px;
-			line-height: 26px;
-			margin: 0 0 10px 0;
+font-size: 0.28rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #9A9A9A;
+line-height: 0.31rem;
+			margin: 0 0 0.2rem 0;
 		}
 		input {
 			width: 100%;
-			height: 40px;
+height: 0.68rem;
+background: #F8FAFB;
+border-radius: 0.12rem;
+
 			background: #f8f8f8;
-			border-radius: 6px;
 			border: none;
 			outline: none;
-			padding: 0 20px;
+			padding: 0 0.1rem;
 			box-sizing: border-box;
-			&.textarea {
-				height: 120px;
-			}
 		}
         textarea{
 			width: 100%;
 			background: #f8f8f8;
-			border-radius: 6px;
+			border-radius: 0.12rem;
 			border: none;
 			outline: none;
             resize: none;
-			padding: 10px 20px;
+			padding: 0.1rem;
             box-sizing: border-box;
         }
 	}
 	.button {
-		width: 320px;
-		margin-top: 20px;
+		width: 100%;
+		margin-top: 0.4rem;
 	}
 }
-
+.loginBtn{
+width:100%;
+height:0.88rem;
+background-image: url(/img/h5/btnbg.png);
+background-repeat: no-repeat;
+background-size: 100% 100%;
+.button{
+    float:left;width: 3rem;
+    line-height: 0.58rem;
+height: 0.58rem;box-shadow: 0rem 0.1rem 0rem 0rem #DEA949;
+font-size: 0.3rem;
+font-family: PingFang SC;
+font-weight: 400;
+margin-left:0.39rem;
+&:nth-child(1){
+    
+margin-left:0.5rem;
+}
+}
+}
 .button {
 	width: 280px;
 	height: 44px;
