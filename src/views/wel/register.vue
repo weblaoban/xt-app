@@ -208,19 +208,28 @@ export default {
 this.active = active
         },
 		onRegister() {
-			const { userName, passWord, gender, smsCode, phone } = this;
-			if (!userName || !passWord || !gender || !smsCode || !phone) {
+			const { userName, passWord,gender, smsCode, phone,twopassWord } = this;
+			if (!userName || !passWord  || !smsCode || !phone) {
 				this.errInfo = "请输入完整信息";
 				return;
-			}
+			}  if(!twopassWord){
+				this.errInfo = "请确认密码";
+				return;
+            }
 			register({
-				nickName: userName,
+                realName:userName,
+				nickName: phone,
+                mobile:phone,
 				passWord: encrypt(passWord),
-				gender,
+				sex:gender===0?'M':'F',
 				smsCode,
-				phone,
 			}).then((res) => {
 				console.log(res);
+                if(res.data.success){
+                    this.backLogin()
+                }else{
+                    this.$message.error(res.data.msg)
+                }
 			});
 		},
 		sendSms() {
@@ -249,6 +258,7 @@ this.active = active
 				this.errInfo = "两次密码不一致，请检查";
 			}
 		},
+	
 		onLogin() {
 			const { userName, passWord } = this;
 			if (!userName) {

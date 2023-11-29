@@ -1,12 +1,12 @@
 import { setToken, removeToken } from 'utils/auth'
-import { setStore, getStore } from 'utils/store'
+import { setStore, getStore, clearStore } from 'utils/store'
 import { encrypt, deepClone } from 'utils/util'
 import { loginByUsername, getUserInfo, getMenu, getTopMenu, logout, refreshToken } from '@/api/user'
 import { formatPath } from '@/router/avue-router'
 
 const user = {
     state: {
-        userInfo: {},
+        userInfo: getStore({ name: 'userInfo' }) || {},
         permission: {},
         roles: [],
         menuId: {},
@@ -31,11 +31,17 @@ const user = {
                     userName: user.username,
                     passWord: encrypt(user.password)
                 }).then(res => {
-                    const data = res.data.data;
-                    commit('SET_TOKEN', data.accessToken);
-                    commit('SET_REFRESH_TOKEN', data.refreshToken);
-                    commit('DEL_ALL_TAG', []);
-                    commit('CLEAR_LOCK');
+                    console.log(res)
+                    if (res && res.data && res.data.success) {
+
+                        const data = res.data.data;
+                        commit('SET_TOKEN', data.accessToken);
+                        commit('SET_REFRESH_TOKEN', data.refreshToken);
+                        commit('DEL_ALL_TAG', []);
+                        commit('CLEAR_LOCK');
+                    } else {
+
+                    }
                     resolve();
                 })
             })
@@ -56,7 +62,8 @@ const user = {
             return new Promise((resolve, reject) => {
                 getUserInfo().then((res) => {
                     const data = res.data.data;
-                    // commit('SET_USERIFNO', data.userInfo);
+                    commit('SET_USERIFNO', data);
+                    setStore({ name: 'userInfo', content: data })
                     // commit('SET_ROLES', data.roles);
                     // commit('SET_PERMISSION', data.permission)
                     resolve(data);
@@ -82,19 +89,21 @@ const user = {
         // 登出
         LogOut({ commit }) {
             return new Promise((resolve, reject) => {
-                logout().then(() => {
-                    commit('SET_TOKEN', '')
-                    commit('SET_REFRESH_TOKEN', '');
-                    commit('SET_MENUALL_NULL', []);
-                    commit('SET_MENU', [])
-                    commit('SET_ROLES', [])
-                    commit('DEL_ALL_TAG', []);
-                    commit('CLEAR_LOCK');
-                    removeToken()
-                    resolve()
-                }).catch(error => {
-                    reject(error)
-                })
+                // logout().then(() => {
+                commit('SET_TOKEN', '')
+                commit('SET_REFRESH_TOKEN', '');
+                commit('SET_MENUALL_NULL', []);
+                commit('SET_MENU', [])
+                commit('SET_ROLES', [])
+                commit('DEL_ALL_TAG', []);
+                commit('CLEAR_LOCK');
+                commit('SET_USERIFNO', {});
+                clearStore()
+                removeToken()
+                resolve()
+                // }).catch(error => {
+                //     reject(error)
+                // })
             })
         },
         //注销session

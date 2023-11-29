@@ -8,7 +8,7 @@ export const list = (data) => {
         meta: {
             isSerialize: true,
         },
-        params: data,
+        params: { ...data, soldNum: -1 },
     });
 };
 
@@ -38,6 +38,16 @@ export const proddetail = (params) => {
     return request({
         url: baseUrl + '/prod/prodInfo/',
         method: 'get',
-        params:{...params}
+        params: { ...params }
+    })
+}
+
+
+
+export const yuyue = (data) => {
+    return request({
+        url: baseUrl + '/p/collection/addOrCancel',
+        method: 'post',
+        data: { ...data }
     })
 }

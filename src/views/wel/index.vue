@@ -246,6 +246,9 @@ export default {
         goLogin(){
 			this.$router.push("/login");
         },
+        onLogout(){
+            this.$store.dispatch('LogOut')
+        },
 		goRegister() {
 			this.$router.push("/register");
 		},
