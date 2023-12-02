@@ -48,7 +48,7 @@ export default {
 	data() {
 		return {
             currentCat:0,
-			prodList: [{name:111,state:1}],
+			prodList: [],
             state0list:[],
             state1list:[],
             curList:[],
