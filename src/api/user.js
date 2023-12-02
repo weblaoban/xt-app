@@ -88,3 +88,11 @@ export const getUserProd = (params) => {
         params: { ...params }
     })
 }
+
+
+export const getBuyDetail = (id) => {
+    return request({
+        url: baseUrl + '/admin/prodTagReference/info/' + id,
+        method: 'get',
+    })
+}

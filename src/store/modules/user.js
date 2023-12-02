@@ -118,6 +118,7 @@ const user = {
                 commit('CLEAR_LOCK');
                 removeToken()
                 resolve()
+                clearStore()
             })
         },
         GetTopMenu() {

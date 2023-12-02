@@ -133,6 +133,35 @@ export default [
                     import(
 						/* webpackChunkName: "views" */ "@/views/wel/forgetPassword.vue"
                     ),
+            }, {
+                path: 'linkus',
+                name: "联系我们",
+                meta: {
+                    title: "联系我们",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/linkus.vue"
+                    ),
+            }, {
+                path: 'buyDetail',
+                name: "购买详情",
+                meta: {
+                    title: "购买详情",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/buyDetail.vue"
+                    ),
+            },
+            {
+                path: "buyDetailInfo/:id",
+                name: "产品购买详情",
+                meta: {
+                    title: "产品购买详情",
+                },
+                component: () =>
+                    import(/* webpackChunkName: "views" */ "@/views/wel/buyDetailInfo.vue"),
             },
         ],
     },

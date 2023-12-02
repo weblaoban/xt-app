@@ -3,7 +3,7 @@
 	<div class="index-container">
         <main-header :active="3"></main-header>
 		私募基金
-	<main-footer></main-footer>
+	
 	</div>
 </template>
 

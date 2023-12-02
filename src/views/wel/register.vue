@@ -67,7 +67,7 @@
 							<div class="send" v-if="timeDown === originTime" @click="sendSms">
 								获取验证码
 							</div>
-							<div class="hasSend" v-if="timeDown !== originTime">
+							<div class="hasSend send" v-if="timeDown !== originTime">
 								{{ timeDown }}
 							</div>
 						</div>
@@ -80,6 +80,7 @@
 							class="input"
 							id="passWord"
                             placeholder="输入您的登录密码"
+							@input="twoPasswordChange"
 							:type="showPassword ? 'text' : 'password'"
 						/>
 						<!-- <img
@@ -166,7 +167,7 @@
 						/> -->
 					</div>
 					<p class="errInfo">{{ errInfo }}</p>
-					<div class="button" @click="onRegister">立即登录</div>
+					<div class="button" @click="onLogin">立即登录</div>
                     <div class="other">
                     <p></p>
                     <p @click="onForgetPassword">忘记密码</p>
@@ -180,6 +181,7 @@
 import mainHeader from "../common/header.vue";
 import { encrypt } from "utils/util";
 import { register, modifyPassword } from "@/api/user.js";
+import {clearStore} from '@/utils/store'
 export default {
 	name: "register",
 	components: {
@@ -206,6 +208,7 @@ export default {
 	methods: {
         setActive(active){
 this.active = active
+				this.errInfo = "";
         },
 		onRegister() {
 			const { userName, passWord,gender, smsCode, phone,twopassWord } = this;
@@ -224,9 +227,8 @@ this.active = active
 				sex:gender===0?'M':'F',
 				smsCode,
 			}).then((res) => {
-				console.log(res);
                 if(res.data.success){
-                    this.backLogin()
+                    history.go(-1)
                 }else{
                     this.$message.error(res.data.msg)
                 }
@@ -254,25 +256,32 @@ this.active = active
 			}
 		},
 		twoPasswordChange(value) {
-			if (value !== this.passWord) {
+			if (this.twopassWord && this.passWord && value !== this.passWord) {
 				this.errInfo = "两次密码不一致，请检查";
-			}
+			}else{
+
+this.errInfo = "";
+}
 		},
 	
 		onLogin() {
 			const { userName, passWord } = this;
 			if (!userName) {
-				document.getElementById("userName").focus();
+				document.getElementById("userName").focus();	this.errInfo = "请输入完整信息";
 				return;
 			}
 			if (!passWord) {
-				document.getElementById("passWord").focus();
+				document.getElementById("passWord").focus();	this.errInfo = "请输入完整信息";
 				return;
 			}
+
+this.errInfo = "";
+            clearStore()
 			this.$store
 				.dispatch("LoginByUsername", { username: userName, password: passWord })
 				.then(() => {
 					this.$store.dispatch("GetUserInfo");
+                    history.go(-1)
 				});
 		},
 		onForgetPassword() {
@@ -489,14 +498,6 @@ color: #EABA63;
                     padding-left:0.2rem;
 				}
 				.hasSend {
-					width: 70px;
-					height: 39px;
-					background: #f8f8f8;
-					border-radius: 8px;
-					line-height: 39px;
-					font-size: 14px;
-					font-family: Heiti SC;
-					font-weight: 500;
 					color: #30333b;
 					text-align: center;
 				}
@@ -594,5 +595,11 @@ margin:0.4rem 0 0.21rem 0;
 		color: #9a9a9c;
 		margin-top: 0;
 	}
+}
+
+.errInfo{
+    font-size: 0.2rem;
+    color:red;
+    margin:0;
 }
 </style>

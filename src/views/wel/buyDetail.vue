@@ -1,19 +1,12 @@
 <!-- 集合信托 -->
 <template>
 	<div class="index-container prodListContainer">
-		<main-header title="产品列表"></main-header>
+		<main-header title="产品购买详情"></main-header>
 		<div class="combineCon">
-			<div class="combineBanner">
-				<div class="input">
-					<input v-model="key" @blur="fetchListBykey" type="text" placeholder="状态｜期限｜门槛｜付息方式｜领域" />
-					<img src="/img/search.png" alt="" class="search" />
-				</div>
-			</div>
 			<div class="combineContent">
                 <div class="tabs">
-                    <div :class="{tabItem:true,active:currentCat==97}" @click="setCat(97)">信托产品</div>
-                    <div :class="{tabItem:true,active:currentCat==98}" @click="setCat(98)">集合资管</div>
-                    <div :class="{tabItem:true,active:currentCat==99}" @click="setCat(99)">私募基金</div>
+                    <div :class="{tabItem:true,active:currentCat==0}" @click="setCat(0)">存续中</div>
+                    <div :class="{tabItem:true,active:currentCat==1}" @click="setCat(1)">已完成兑付</div>
                 </div>
 			</div>
 		</div>
@@ -22,32 +15,19 @@
 				<div class="container scrollList" ref="scrollCon">
                     <div class="products" ref="scrollList">
 						<div @click="goDetail(item)" :class="{productItem:true,finish:item.status==3}" v-for="item in prodList" :key="item.id">
-							<div :class="'title '+'title'+item.categoryId">{{ item.name }}</div>
+							<div :class="'title '+'title'+item.state">{{ item.name }}</div>
                             <div class="descCon">
 
+                                <div class="desc">持有金额</div>
                                 <div class="desc">业绩比较基准</div>
-							<div class="desc">投资门槛</div>
                             </div>
                             <div class="descCon">
-							<p class="count">{{ item.brief || 0 }} <span>%</span></p>
-							<p class="count"><span>{{ item.pmStand }}</span></p></div>
+							<p class="count">{{ item.zmount || 0 }} <span>元</span></p>
+							<p class="count">{{ item.brief }}<span>%</span></p></div>
 							<div class="line"></div>
-							<div class="duration">产品期限：{{item.investLimitId}}</div>
-                            <div class="tag" v-if="item.status==1||item.status==3"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
+							<div class="duration">到期日：{{item.dtime}}</div>
 						</div>
 					</div>
-
-					<!-- <div class="paginationCon">
-						<el-pagination
-							background
-							layout="prev, pager, next"
-							:page-size="page.pageSize"
-							:current-page="page.current"
-							:total="page.total"
-							@current-change="currentChange"
-						>
-						</el-pagination>
-					</div> -->
 				</div>
 
 	
@@ -57,7 +37,8 @@
 <script>
 import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
-import { list } from "@/api/prod.js";
+import { getUserProd } from "@/api/user.js";
+import { mapGetters } from "vuex";
 export default {
 	name: "jeZi",
 	components: {
@@ -66,208 +47,13 @@ export default {
 	},
 	data() {
 		return {
-			searchs: [
-				{
-					label: "产品状态：",
-					prop: "status",
-					options: [
-						{
-							label: "不限",
-							value: "-1",
-						},
-						{
-							label: "预售",
-							value: "1",
-						},
-						{
-							label: "在售",
-							value: "2",
-						},
-						{
-							label: "售罄",
-							value: "3",
-						},
-					],
-				},
-				{
-					label: "产品期限：",
-					prop: "investLimitId",
-					options: [
-						{
-							label: "不限",
-							value: "-1",
-						},
-						{
-							label: "一年内（含）",
-							value: "1",
-						},
-						{
-							label: "一年至两年（含）",
-							value: "2",
-						},
-						{
-							label: "两年以上",
-							value: "3",
-						},
-					],
-				},
-				{
-					label: "投资门槛：",
-					prop: "pmStand",
-					options: [
-						{
-							label: "不限",
-							value: "-1",
-						},
-						{
-							label: "50万以内（含）",
-							value: "1",
-						},
-						{
-							label: "50万至100万（含）",
-							value: "2",
-						},
-						{
-							label: "100万至300万（含）",
-							value: "3",
-						},
-						{
-							label: "300万以上",
-							value: "4",
-						},
-					],
-				},
-				{
-					label: "付息方式：",
-					prop: "inrestMethodId",
-					options: [
-						{
-							label: "不限",
-							value: "-1",
-						},
-						{
-							label: "按月付息",
-							value: "1",
-						},
-						{
-							label: "按季付息",
-							value: "2",
-						},
-						{
-							label: "半年付息",
-							value: "3",
-						},
-						{
-							label: "按年付息",
-							value: "4",
-						},
-						{
-							label: "到期付息",
-							value: "5",
-						},
-					],
-				},
-				{
-					label: "投资领域：",
-					prop: "prodEffid",
-					options: [
-						{
-							label: "不限",
-							value: "-1",
-						},
-						{
-							label: "工商企业类",
-							value: "0",
-						},
-						{
-							label: "金融市场类",
-							value: "1",
-						},
-						{
-							label: "基础设施类",
-							value: "2",
-						},
-						{
-							label: "房地产类",
-							value: "3",
-						},
-						{
-							label: "资金池类",
-							value: "4",
-						},
-						{
-							label: "其他",
-							value: "5",
-						},
-					],
-				},
-			],
-			selected: {
-				status: {
-					label: "不限",
-					value: "-1",
-				},
-				investLimitId: {
-					label: "不限",
-					value: "-1",
-				},
-				pmStand: {
-					label: "不限",
-					value: "-1",
-				},
-				inrestMethodId: {
-					label: "不限",
-					value: "-1",
-				},
-				prodEffid: {
-					label: "不限",
-					value: "-1",
-				},
-			},
-            currentCat:97,
-			prodList: [],
-			propColumn: [
-				{
-					label: "产品名称",
-					value: "name",
-					align: "left",
-				},
-				{
-					label: "状态",
-					value: "status",
-				},
-				{
-					label: "类型",
-					value: "categoryId",
-				},
-				{
-					label: "期限",
-					value: "investLimitId",
-				},
-				{
-					label: "业绩比较基准",
-					value: "brief",
-				},
-				{
-					label: "投资门槛",
-					value: "pmStand",
-				},
-				{
-					label: "付息方式",
-					value: "inrestMethodId",
-				},
-				{
-					label: "投资领域",
-					value: "prodEffid",
-				},
-				{
-					label: "防控评级",
-					value: "lev",
-				},
-			],
-
+            currentCat:0,
+			prodList: [{name:111,state:1}],
+            state0list:[],
+            state1list:[],
+            curList:[],
 			page: {
-				pageSize: 15,
+				pageSize: 100,
 				total: 0,
 				current: 1,
 			},
@@ -275,77 +61,45 @@ export default {
             loading:false
 		};
 	},
-    mounted(){
-const scrollCon = this.$refs.scrollCon;
-if(scrollCon){
-    scrollCon.addEventListener('scroll',this.scrollBottom,true)
-}
-    },
+	computed: {
+		...mapGetters(["userInfo"]),
+	},
 	created() {
 		this.fetchList()
 	},
 	methods: {
 		fetchList() {
-			const { selected, page,currentCat } = this;
-			list({ ...page, status: -1,categoryId: currentCat,soldNum:-1}).then(res=>{
-                this.prodList = this.prodList.concat(res.data.data.records);
+			const { page } = this;
+			getUserProd({ ...page,uid:this.userInfo.userId}).then(res=>{
+                this.state0list = res.data.data.records.filter(item=>item.state===0)
+                this.state1list = res.data.data.records.filter(item=>item.state===1)
+                this.prodList = this.state0list;
                 this.page.total = res.data.data.total;
             });
 		},
         setCat(cat){
-            this.currentCat = cat;
-this.prodList=[]
-this.page ={
-				pageSize: 15,
-				total: 0,
-				current: 1,
-			}
-this.fetchList()
-        },
-        fetchListBykey(){
-            if(!this.key){
-                this.fetchList();
-                return;
-            }
-            keylist({keystr:this.key,catstr:97,size:100}).then(res=>{
-                this.prodList = res.data.data.records;
-                this.page.total = res.data.data.total;
-            })
-        },
-		
-        scrollBottom(e){
-            if(this.loading){
-                return;
-            }
-const scrollList = this.$refs.scrollList;
-const scrollCon = this.$refs.scrollCon;
-console.log(scrollCon.scrollTop)
-console.log(scrollCon.clientHeight)
-console.log(scrollList.clientHeight)
-const toBottom = scrollCon.scrollTop+scrollCon.clientHeight>=scrollList.clientHeight;
-const {pageSize,
-				total,
-				current,
-			} = this.page
-            const unfinish = pageSize*current<total
-if(unfinish && toBottom){
-    this.page.current = this.page.current+1;
-            if(this.key){
-                this.fetchListBykey();
-                return;
-            }
-this.fetchList()
-}
+          if(cat==0){
+            this.prodList = state0list
+          }
+          if(cat==1){
+            this.prodList = state1list
+          }
         },
         goDetail(row){
 this.$router.push({
-    path:'/prodDetail/'+row.id,
+    path:'/buyDetailInfo/'+row.id,
     query:{
         type:1
     }
 })
         }
 	},
+    beforeUnmount(){
+const scrollCon = this.$refs.scrollCon;
+if(scrollCon){
+    scrollCon.removeEventListener('scroll',this.scrollBottom,true)
+}
+    }
 };
 </script>
 
@@ -397,6 +151,7 @@ font-size: 0.2rem;
 }
 
 .combineContent {
+    margin-top:0.7rem;
 	.searchCard {
 		width: 100%;
 		height: 358px;
@@ -520,22 +275,21 @@ font-weight: 400;
 color: #30333B;
 margin-bottom:0.1rem;
 box-sizing: border-box;
-padding-left:1rem;
+padding-left:0.82rem;
 overflow: hidden;
 text-overflow: ellipsis;
 white-space: nowrap;
 
-background-image: url(/img/h5/title1.png);
 background-repeat: no-repeat;
-background-size: 0.92rem 0.3rem;
+background-size: 0.72rem 0.3rem;
 background-position: left center;
-&.title98{
+&.title0{
     
-background-image: url(/img/h5/title2.png);
+background-image: url(/img/h5/detailstate0.png);
 }
-&.title99{
+&.title1{
     
-background-image: url(/img/h5/title3.png);
+background-image: url(/img/h5/detailstate1.png);
 }
 
 
@@ -552,16 +306,19 @@ color: #9A9A9C;
             }
 			.count {
                 width:50%;
-font-size: 0.52rem;
+font-size: 0.36rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #EABA63;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 				margin: 0.1rem 0;
 				span {
 					font-size: 0.24rem;
 					font-weight: 400;
 				}
-                &:nth-child(2){
+                &:nth-child(1){
                     
 color: #30333B;
                 }
@@ -647,7 +404,7 @@ font-weight: 400;
 color: #30333B;
 &::before{
 content:'';
-display: block;width: 1.3rem;
+display: block;width: 100%;
 height: 0.06rem;
 background: #EABA63;
 left:0;

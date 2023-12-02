@@ -8,9 +8,22 @@ export const list = (data) => {
         meta: {
             isSerialize: true,
         },
-        params: { ...data, soldNum: -1 },
+        params: data,
     });
 };
+
+
+// 产品列表 根据关键字查询
+export const keylist = (data) => {
+    return request({
+        url: baseUrl + '/p/prod/find',
+        method: "get",
+        meta: {
+            isSerialize: true,
+        },
+        params: data,
+    })
+}
 
 // 资讯用来查banner 问答和资讯根据分类id来
 export const zxlist = (params) => {
@@ -41,7 +54,6 @@ export const proddetail = (params) => {
         params: { ...params }
     })
 }
-
 
 
 export const yuyue = (data) => {

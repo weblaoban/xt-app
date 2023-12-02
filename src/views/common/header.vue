@@ -9,7 +9,8 @@
 			<div class="container">
                 <div class="logo"><img src="/img/logo.png" alt=""></div>
 				<div class="menuList">
-					<div @click.capture="onMenuClick(item)" :class="{'active':index==active}" v-for="(item,index) in menuList" :key="item" class="menuItem">{{item.name}}</div>
+					<div @click.stop="onMenuClick(item)" :class="{'active':index==active}" v-for="(item,index) in menuList" :key="item" class="menuItem">{{item.name}}</div>
+                    <div v-if="userInfo.userId" class="menuItem" @click.stop="goBuyDetail">购买详情</div>
 				</div>
 			</div>
 		</div>
@@ -37,14 +38,20 @@ export default {
                     name:'产品列表',
                     link:'/xtcombine'
                 },{
+                    name:'信托问答',
+                    link:'/trustQa'
+                },{
+                    name:'信托资讯',
+                    link:'/information'
+                },{
                     name:'关于我们',
                     link:'/aboutUs'
                 },{
                     name:'修改密码',
-                    link:'/modifyPassword'
+                    link:'/updatePassword'
                 },{
                     name:'联系我们',
-                    link:'/modifyPassword'
+                    link:'/linkus'
                 },
                 /*{
                     name:'',
@@ -52,12 +59,6 @@ export default {
                 },{
                     name:'集合保险',
                     notOpen:true
-                },{
-                    name:'信托问答',
-                    link:'/trustQa'
-                },{
-                    name:'信托资讯',
-                    link:'/information'
                 }*/
             ],
             userName:'',
@@ -103,6 +104,9 @@ export default {
             if(menu.link){
                 this.$router.push(menu.link)
             }
+        },
+        goBuyDetail(){
+                this.$router.push('/buyDetail')
         },
         toggleMenu(){
             this.showMenu = !this.showMenu

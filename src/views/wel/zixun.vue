@@ -3,16 +3,16 @@
 	<div class="index-container zixun">
         <main-header :active="6"></main-header>
 		<div class="banner"></div>
-        <div class="container">
-            <div class="zixunCon">
-                <div class="zixunList">
+        <div class="container scrollList">
+            <div class="zixunCon" ref="scrollCon">
+                <div class="zixunList" ref="scrollList">
                     <div class="zixunItem" @click="goDetail(item)" v-for="item in list" :key="item.id">
                         <h4 class="ellipsis">{{ item.title }}</h4>
                         <p class="ellipsis">{{ item.des }}</p>
                         <span class="time">{{ item.uploadTime }}</span>
                         </div>
                 </div>
-                <div class="paginationCon">
+                <!-- <div class="paginationCon">
 						<el-pagination
 							background
 							layout="prev, pager, next"
@@ -22,10 +22,9 @@
 							@current-change="currentChange"
 						>
 						</el-pagination>
-					</div>
+					</div> -->
             </div>
         </div>
-	<main-footer></main-footer>
 	</div>
 </template>
 
@@ -46,19 +45,32 @@ export default {
 				total: 0,
 				current: 1,
 			},
-            list:[]
+            list:[],
+            loading:false
 		};
 	},
+    mounted(){
+const scrollCon = this.$refs.scrollCon;
+if(scrollCon){
+    scrollCon.addEventListener('scroll',this.scrollBottom,true)
+}
+    },
 	created() {this.fetchList()},
 	methods: {
 		fetchList() {
+            if(this.loading){
+                return;
+            }
+            this.loading = true
 			const { page } = this;
-			console.log(page);
-			// console.log(list);
 			zxlist({ ...page, status: 0, categoryId: 8 }).then(res=>{
                 console.log(res)
-                this.list = res.data.data.records
+                this.list = this.list.concat(res.data.data.records)
                 this.page.total = res.data.data.total
+            this.loading = false
+            }).catch(()=>{
+
+            this.loading = false
             });
 		},
 		onSelectSearch(value, prop) {
@@ -66,55 +78,82 @@ export default {
 			this.selected[prop] = value;
 		},
         goDetail(row){
-            this.$router.push('/trustQaDetail/'+row.id)
+            this.$router.push('/informationDetail/'+row.id)
+        },
+        scrollBottom(e){
+            if(this.loading){
+                return;
+            }
+const scrollList = this.$refs.scrollList;
+const scrollCon = this.$refs.scrollCon;
+console.log(scrollCon.scrollTop)
+console.log(scrollCon.clientHeight)
+console.log(scrollList.clientHeight)
+const toBottom = (scrollCon.scrollTop+scrollCon.clientHeight)>=scrollList.clientHeight;
+const {pageSize,
+				total,
+				current,
+			} = this.page
+            const unfinish = (pageSize*current)<total
+if(unfinish && toBottom){
+    this.page.current = this.page.current+1;
+this.fetchList()
+}
         }
     },
+    beforeUnmount(){
+const scrollCon = this.$refs.scrollCon;
+if(scrollCon){
+    scrollCon.removeEventListener('scroll',this.scrollBottom,true)
+}
+    }
 };
 </script>
 
 <style lang="scss">
 .zixun{
+    width:100%;
+    height:100%;
     .banner{
 width:100%;
-height:293px;
+height:1.82rem;
 		background-image: url(/img/zixunbanner.png);
-		background-size: 1920px 293px;
-		background-position: center center;
+		background-size: 100% 3rem;
+		background-position: left top;
 		background-repeat: no-repeat;
     }
 
     .zixunItem{
-        height:114px;
-        border-bottom: 1px solid rgba(154, 154, 156, 0.2);
-        padding:30px 0;
+        height:1.74rem;
+        border-bottom: 1px dashed rgba(154, 154, 156, 0.2);
+        padding:0.3rem 0;
         box-sizing: border-box;
         position:relative;
+&:last-child{
+    border-bottom:none;
+}
         .time{
-            position:absolute;
-            top:30px;
-            right:0;
-font-size: 14px;
-font-family: Heiti SC;
-font-weight: 500;
+font-size: 0.2rem;
+font-family: PingFang SC;
+font-weight: 400;
 color: #9A9A9C;
+margin-top:0.2rem;
         }
         h4{
 
-font-size: 18px;
-font-family: Heiti SC;
-font-weight: 500;
+            font-size: 0.28rem;
+font-family: PingFang SC;
+font-weight: 400;
 color: #30333B;
 margin:0;
-margin-bottom:18px;
-width:844px;
+margin-bottom:0.23rem;
         }
         p{
             margin:0;
-font-size: 16px;
-font-family: Heiti SC;
-font-weight: 500;
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
 color: #30333B;
-width:844px;
         }
         .ellipsis{
 overflow: hidden;
@@ -130,7 +169,19 @@ text-decoration: underline;
             }
         }
     }
-    
+ 
+    .scrollList{
+        width:100%;
+        height:calc(100% - 2.6rem);
+        padding:0;
+        .zixunCon{
+            height: 100%;
+            padding:0 0.3rem;
+        }
+        .zixunCon{
+            overflow-y: scroll;
+        }
+    } 
 
 .paginationCon {
 	margin-top: 30px;

@@ -1,173 +1,64 @@
 <template>
     <div class="prodDetail">
-        <main-header title="产品详情"></main-header>
+        <main-header title="产品购买详情"></main-header>
         <div class="banner"></div>
         <div class="prodDetailCon">
 
             <div class="container">
             <div class="section1">
                 <div :class="{productItem:true,finish:detail.status==3}">
-							<div :class="'title '+'title'+detail.categoryId">{{ detail.name }}</div>
+                    <div :class="'title '+'title'+item.state">{{ detail.name }}</div>
                             <div class="descCon">
 
+                                <div class="desc">持有金额</div>
                                 <div class="desc">业绩比较基准</div>
-							<div class="desc">投资门槛</div>
                             </div>
                             <div class="descCon">
-							<p class="count">{{ detail.brief || 0 }} <span>%</span></p>
-							<p class="count"><span>{{ detail.pmStand }}</span></p></div>
+							<p class="count">{{ detail.zmount || 0 }} <span>元</span></p>
+							<p class="count">{{ detail.brief }}<span>%</span></p></div>
 							<div class="line"></div>
-							<div class="duration">产品期限：{{detail.investLimitId}}</div>
-                            <div class="tag" v-if="detail.status==1||detail.status==3"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
-
-                            <div class="button" v-if="!detail.imgs" @click="onYuyue(detail)">  我要预约  </div>
-                            <div class="button gray" v-if="detail.imgs">  已预约  </div>
+							<div class="duration">
+                                <span>成立时间：{{detail.otime}}</span>
+                                <span>到期时间：{{detail.dtime}}</span>
+                                </div>
 						</div>
             </div>
 
             <div class="section2">
-                <div class="title">产品概况</div>
-                <el-row>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">产品名称</div><div class="infoDesc">{{ detail.name }}</div></div></el-col>
-
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">产品类别</div><div class="infoDesc">{{ type[active] }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">发行机构</div><div class="infoDesc">{{ detail.organid }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">投资领域</div><div class="infoDesc">{{ detail.prodEffId }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">收益类型</div><div class="infoDesc">{{ detail.investId }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">规模</div><div class="infoDesc">{{ detail.name }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">投资门槛</div><div class="infoDesc">{{ detail.pmStand }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">产品期限</div><div class="infoDesc">{{ detail.investLimitId }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">付息方式</div><div class="infoDesc">{{ detail.inrestMethodId }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">所在地域</div><div class="infoDesc">{{ detail.area }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">业绩比较基准</div><div class="infoDesc">{{ detail.brief }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">大小配额比</div><div class="infoDesc">{{ detail.investRatio }}</div></div></el-col>
-                    <el-col :span="24"><div class="infoItem"><div class="infoLabel">风控级别</div><div class="infoDesc">{{ detail.lev }}</div></div></el-col>
-                </el-row>
-
-
-                <div class="title">产品进度</div>
+                <div class="title">回款计划</div>
                 <div class="progress">
-                    <div class="progressItem" v-for="item in detail.porder" :key="item">{{ item }}</div>
+                    <div class="progressItem" v-for="(item,index) in detail.qlist" :key="item">
+                        {{ index+1 }}
+                        {{ item.desc }}
+
+                        <span v-if="item.finish" class="state finish">已兑付</span>
+                        <span v-if="!item.finish"  class="state">未开始</span>
+                        </div>
                 </div>
-                <div class="title">产品详情</div>
-                <div class="detailCon" v-html="detail.content"></div>
             </div>
         </div>
         </div>
-
-		<!-- 确认预约产品弹窗 -->
-		<div class="model" v-if="showYuyue">
-			<div class="modelContent">
-				<div class="yuyue">	<img
-				class="close el-icon-close"
-				@click="showAgreement = false"
-				src="/img/close.png"
-				alt=""
-			/>
-					<h3>产品预约</h3>
-					<p class="desc">您要预约的产品为</p>
-					<p class="title">{{ detail.name }}</p>
-					<div class="button" @click="onDoYuyue">确定</div>
-				</div>
-			</div>
-		</div>
-		<!-- 协议 -->
-		<div class="model" v-if="showAgreement">
-			<div class="modelContent">
-				<div class="agreement">	<img
-				class="close el-icon-close"
-				@click="showAgreement = false"
-				src="/img/close.png"
-				alt=""
-			/>
-					<img class="logo" src="/img/logo.png" alt="" />
-					<div class="agCon">
-						<h1>《合格投资者认定》</h1>
-						<p>
-							本网谨遵中国银行业监督管理委员会发布的《信托公司集合资金信托计划管理办法》之规定，只向特定投资者展示信托产品信息，不构成任何投资推介建议。
-						</p>
-						<p>
-							阁下如有意进行信托投资，请承诺符合《信托公司集合资金信托计划管理办法》之规定合格投资者的条件。
-						</p>
-						<p>
-							即具备相应风险识别能力和风险承担能力，投资于单只信托产品金额不低于100万元，且符合下列相关标准之一：
-						</p>
-						<p class="red">
-							1.承诺符合金融类资产不低于300万元;（金融资产包括银行存款、股票、债券、基金份额、资产管理计划、银行理财产品、信托计划、保险产品、期货权益等）
-						</p>
-						<p class="red">或</p>
-						<p class="red">
-							2.承诺符合最近三年个人平均收入不低于50万元人民币；
-						</p>
-						<h1 style="margin-top: 50px">《免责条款》</h1>
-						<p>
-							一、本网致力于提供完整、准确的产品信息，信息内容绝大部份来自于本网的授权机构，本网尽谨慎注意和一致描述义务。尽
-						</p>
-					</div>
-					<div class="checkBox">
-						<img
-							v-if="checked"
-							src="/img/checked.png"
-							@click="toggleCheck"
-							alt=""
-							class="checked"
-						/>
-						<img
-							v-if="!checked"
-							src="/img/unchecked.png"
-							@click="toggleCheck"
-							alt=""
-							class="notCheced"
-						/>
-						<span
-							>我接受 <span class="yel">《合格投资者认定》</span>、<span
-								class="yel"
-								>《免责条款》</span
-							>中所有条款</span
-						>
-					</div>
-					<div class="button" @click="onAgree">确定</div>
-				</div>
-			</div>
-		</div>
     </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import mainFooter from '../common/footer.vue'
 import mainHeader from '../common/header.vue'
-import { proddetail } from "@/api/prod.js";
-import {addComment} from '@/api/index.js'
+import { getBuyDetail } from "@/api/user.js";
 export default {
 	name: "jeZi",
 	components: {
-        mainFooter,
         mainHeader
 	},
 	data() {
 		return {
             detail:{},
-            active:'',
-            zixun:'',
-            content:'',
             loading:false,
-			checked: false,
-			showAgreement: false,
-			showYuyue: false,
-            type:{
-                1:'集合信托',
-                2:'集合资管',
-                3:'私募基金',
-            }
 		};
 	},
 	computed: {
 		...mapGetters(["userInfo"]),
 	},
-    mounted(){
-window.scrollTo(0,0)
-    },
 	created() {
         this.getDetail();
 },
@@ -177,68 +68,11 @@ mounted(){
 	methods: {
         getDetail(){
             const id = this.$route.params.id
-            const active =this.$route.query.type || 1
-            this.active = active
-            proddetail({id}).then(res=>{
-                this.detail = res.data.data
-                this.detail.porder = JSON.parse(this.detail.porder)
+            getBuyDetail(id).then(({data})=>{
+          data.qlist = data.qlist ? JSON.parse(data.qlist) : []
+                this.detail = data
             })
         },
-        sendComm(){
-            if(this.loading){
-                return;
-            }
-            const {name,tel} = this.userInfo;
-            const {content} = this;
-            if(!name||!tel||!content){
-                return;
-            }
-            const id = this.$route.params.id
-            this.loading = true;
-            addComment({content,prodId:id}).then(res=>{
-                const data = res.data;
-                if(data && data.success){
-                    this.$message.success('提交成功');
-                    this.content = ''
-            this.loading = false;
-                }
-            }).catch(()=>{
-                
-            this.loading = false;
-            })
-        },
-        onYuyue(){
-            if(!this.userInfo.userId){
-                this.$router.push('/login')
-                return;
-            }
-            this.showAgreement = true
-        },
-		toggleCheck() {
-			this.checked = !this.checked;
-		},
-        onAgree(){
-            if(!this.checked){
-                this.$message.error('请先同意协议');
-                return;
-            }
-            this.showYuyue = true
-            this.showAgreement = false
-        },
-        onDoYuyue(){
-const cur = this.detail;
-const userInfo = this.userInfo
-if(cur.id){
-    yuyue({prodId:cur.id,userId:userInfo.userId}).then(res=>{
-        if(res && res.data && res.data.success){
-            this.$message.success('预约成功')
-            this.showYuyue = false
-            this.cur = {}
-            this.fetchList()
-        }
-    })
-}
-        }
     },
 };
 </script>
@@ -247,6 +81,7 @@ if(cur.id){
 .prodDetail{
     padding-bottom:0.5rem;
     box-sizing: border-box;
+    background: #F8FAFB;
     .banner{width: 7.5rem;
 height: 3.3rem;
 background: linear-gradient(0deg, rgba(161,196,253,0.5), rgba(194,233,251,0.5));
@@ -473,13 +308,26 @@ margin-bottom:0.8rem;
 padding:0 0.25rem ;
 .progressItem{
 line-height: 1.5;
-    border: 1px dashed #EABA63;;
+    border: 1px dashed rgba(235, 235, 235, 1);;
 font-size: 0.2rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #30333B;
 width:100%;
-padding:0.22rem 0;
+padding:0.14rem 1rem 0.14rem;
+box-sizing: border-box;
+.state{
+    float:right;
+font-size: 0.18rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #80C269;
+opacity: 0.5;
+&.finish{
+
+color: #9A9A9C;
+}
+}
 }
 
 }
@@ -544,10 +392,13 @@ color: #9A9A9C;
             }
 			.count {
                 width:50%;
-font-size: 0.52rem;
+font-size: 0.36rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #EABA63;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 				margin: 0.1rem 0;
 				span {
 					font-size: 0.24rem;
@@ -561,12 +412,18 @@ color: #30333B;
 			.duration {width: 6.3rem;
 height: 0.45rem;
 background: linear-gradient(90deg, #F8FAFB, #FFFFFF);
-font-size: 0.24rem;
-font-family: PingFang SC;
-font-weight: 400;
 color: #9A9A9C;
 box-sizing: border-box;
 padding-left:0.1rem;
+span{
+    float:right;
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+    &:first-child{
+        float:left;
+    }
+}
 
 			}
             &:last-child{

@@ -5,9 +5,9 @@
         <div class="container">
 
             <div class="phoneInfo">
-							<span>{{ phone.slice(0, 3) }} </span
-							><span>{{ phone.slice(3, 7) }} </span
-							><span>{{ phone.slice(7, 11) }} </span>
+							<span>{{ userInfo.nickName.slice(0, 3) }} </span
+							><span>{{ userInfo.nickName.slice(3, 7) }} </span
+							><span>{{ userInfo.nickName.slice(7, 11) }} </span>
                             <p>登录手机号</p>
 						</div>
             <div class="loginContent register">
@@ -25,7 +25,7 @@
 							<div class="send" v-if="timeDown === originTime" @click="sendSms">
 								获取验证码
 							</div>
-							<div class="hasSend" v-if="timeDown !== originTime">
+							<div class="hasSend send" v-if="timeDown !== originTime">
 								{{ timeDown }}
 							</div>
 						</div>
@@ -36,6 +36,7 @@
 							v-model="passWord"
 							class="input"
 							id="passWord"
+							@input="twoPasswordChange"
 							:type="showPassword ? 'text' : 'password'"
 						/>
 						<!-- <img
@@ -58,6 +59,7 @@
 						<input
 							autocomplete="off"
 							v-model="twopassWord"
+							@input="twoPasswordChange"
 							class="input"
 							id="twopassWord"
 							:type="showtwoPassword ? 'text' : 'password'"
@@ -77,6 +79,7 @@
 							class="togglePassword"
 						/> -->
 					</div>
+					<p class="errInfo">{{ errInfo }}</p>
 					<div class="button" @click="onModify">确认修改</div>
 					<div class="other">
 						<p></p>
@@ -91,6 +94,7 @@
 import mainHeader from "../common/header.vue";
 import { encrypt } from "utils/util";
 import { register, modifyPassword } from "@/api/user.js";
+import { mapGetters } from "vuex";
 export default {
 	name: "register",
 	components: {
@@ -104,7 +108,6 @@ export default {
 			userName: "",
 			passWord: "",
 			twopassWord: "",
-			phone: "13888888888",
 			gender: 0,
 			smsCode: "",
 			originTime: 30,
@@ -115,9 +118,13 @@ export default {
 				phone: "",
 				message: "",
 			},
+            errInfo:''
 		};
 	},
 	created() {},
+	computed: {
+		...mapGetters(["userInfo"]),
+	},
 	methods: {
 		backLogin() {
 			this.$router.replace("/login");
@@ -134,11 +141,29 @@ export default {
 				console.log(res);
 			});
 		},
+		
 		onModify() {
-			const { userName, passWord, gender, smsCode, phone } = this;
-			modifyPassword({ smsCode, passWord: encrypt(passWord), phone }).then(
+			const { userName, passWord, gender, smsCode, userInfo:{nickName},twopassWord } = this;
+            if(!twopassWord){
+				this.errInfo = "请确认密码";
+				return;
+            }
+			if (!passWord  || !smsCode) {
+				this.errInfo = "请输入完整信息";
+				return;
+			}
+			modifyPassword({ smsCode, passWord: encrypt(passWord), 
+				nickName, }).then(
 				(res) => {
-					console.log(res);
+                if(res.data.success){
+                    this.$message.success('修改成功');
+                    setTimeout(()=>{
+            this.$store.dispatch('LogOut')
+                    this.backLogin()
+                    },2000)
+                }else{
+                    this.$message.error(res.data.msg)
+                }
 				}
 			);
 		},
@@ -163,6 +188,14 @@ export default {
 				this.$router.push(menu.link);
 			}
 		},
+		twoPasswordChange(value) {
+			if (this.twopassWord && this.passWord && value !== this.passWord) {
+				this.errInfo = "两次密码不一致，请检查";
+			}else{
+
+				this.errInfo = "";
+            }
+		},
 	},
 };
 </script>
@@ -180,11 +213,11 @@ background-position: left center;
 }
 .container{
 
-    padding:0.88rem 0.4rem 0;
+    padding:0.6rem 0.4rem 0;
 box-sizing: border-box;
 }
 .phoneInfo{
-margin:0.8rem 0 0;
+margin:0.6rem 0 0;
 text-align: center;
 span{
     margin-right:0.1rem;font-size: 0.48rem;
@@ -198,7 +231,7 @@ font-size: 0.28rem;
 font-family: Heiti SC;
 font-weight: 500;
 color: #9A9A9C;
-margin:0.4rem 0 1.5rem;
+margin:0.3rem 0 1rem;
 }
 }
 .loginContent {
@@ -348,14 +381,6 @@ color: #EABA63;
                     padding-left:0.2rem;
 				}
 				.hasSend {
-					width: 70px;
-					height: 39px;
-					background: #f8f8f8;
-					border-radius: 8px;
-					line-height: 39px;
-					font-size: 14px;
-					font-family: Heiti SC;
-					font-weight: 500;
 					color: #30333b;
 					text-align: center;
 				}
@@ -454,5 +479,9 @@ margin:0.4rem 0 0.21rem 0;
 		color: #9a9a9c;
 		margin-top: 0;
 	}
+}.errInfo{
+    font-size: 0.2rem;
+    color:red;
+    margin:0;
 }
 </style>

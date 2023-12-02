@@ -51,7 +51,7 @@
 				<div class="container">
 					<div class="productTitle"><span>产品推荐</span></div>
 					<div class="products">
-						<div class="productItem" v-for="item in product" :key="item.id">
+						<div @click="goDetail(item)" :class="{productItem:true,finish:item.status==3}" v-for="item in product" :key="item.id">
 							<div :class="'title '+'title'+item.categoryId">{{ item.name }}</div>
                             <div class="descCon">
 
@@ -63,12 +63,12 @@
 							<p class="count">9.7 <span>%</span></p></div>
 							<div class="line"></div>
 							<div class="duration">产品期限：{{item.investLimitId}}</div>
-                            <div class="tag"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
+                            <div class="tag" v-if="item.status==1||item.status==3"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
 						</div>
 					</div>
 				</div>
 			</div>
-            <div class="more">查看更多</div>
+            <div class="more" @click="goMore">查看更多</div>
 		</div>
 		<!-- 客户咨询 -->
         <div class="contentMask" v-if="showContact">
@@ -106,7 +106,7 @@
 
         <div class="phonel">客服电话：400-0000-000</div>
 
-        <div class="loginBtn"><div class="button" @click="goLogin">登录</div><div class="button" @click="goRegister">注册</div></div>
+        <div class="loginBtn" v-if="!userInfo.userId"><div class="button" @click="goLogin">登录</div><div class="button" @click="goRegister">注册</div></div>
 	</div>
 </template>
 
@@ -284,7 +284,9 @@ export default {
             this.loading = false;
             })
         },
-
+goMore(){
+this.$router.push('/xtcombine')
+},
         goDetail(row,type){
 this.$router.push({
     path:'/prodDetail/'+row.id,
@@ -568,6 +570,9 @@ padding-left:0.1rem;
             &.finish{
 color: #9A9A9C !important;
             }
+
+
+
 		}
 	}
 }

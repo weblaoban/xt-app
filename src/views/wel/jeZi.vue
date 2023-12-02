@@ -3,7 +3,7 @@
 	<div class="index-container">
         <main-header :active="2"></main-header>
 		集合资管
-	<main-footer></main-footer>
+	
 	</div>
 </template>
 
