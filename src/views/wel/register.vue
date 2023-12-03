@@ -220,9 +220,8 @@ this.active = active
 				return;
             }
 			register({
-                realName:userName,
-				nickName: phone,
-                mobile:phone,
+				nickName: userName,
+                userMmobile:phone,
 				passWord: encrypt(passWord),
 				sex:gender===0?'M':'F',
 				smsCode,
@@ -438,6 +437,7 @@ background: #EABA63;
 					font-weight: 500;
 					color: #30333b;
 					margin-right: 0.41rem;
+                    padding-left:0.44rem;
 				}
 				input[type="checkbox"],
 				input[type="radio"] {

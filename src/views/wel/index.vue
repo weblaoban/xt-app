@@ -10,7 +10,11 @@
 				:autoplay="true"
 			>
 				<el-carousel-item v-for="item in bannerList" :key="item">
-					<div
+                    <a v-if="item.link" :href="item.link">	<div
+						class="carouseCard"
+						:style="'background-image:url(' + item.imgUrl + ')'"
+					></div></a>
+					<div v-if="!item.link"
 						class="carouseCard"
 						:style="'background-image:url(' + item.imgUrl + ')'"
 					></div>
@@ -59,8 +63,8 @@
 							<div class="desc">投资门槛</div>
                             </div>
                             <div class="descCon">
-							<p class="count">9.7 <span>%</span></p>
-							<p class="count">9.7 <span>%</span></p></div>
+							<p class="count">{{ item.brief || 0 }} <span>%</span></p>
+							<p class="count"><span>{{ item.pmStand }}</span></p></div>
 							<div class="line"></div>
 							<div class="duration">产品期限：{{item.investLimitId}}</div>
                             <div class="tag" v-if="item.status==1||item.status==3"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
@@ -202,9 +206,8 @@ export default {
 	methods: {
 		getBannerList() {
 			zxlist({ categoryId: 11 }).then((res) => {
-				console.log(res);
 				if (res && res.status === 200) {
-					this.bannerList = res.data.data.records;
+					this.bannerList = res.data.data.records.filter(item=>item.imgUrl).sort((a,b)=>{return a.seq-b.seq});
 					this.$refs.car.setActiveItem(0);
 				}
 			});

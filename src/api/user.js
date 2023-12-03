@@ -92,7 +92,7 @@ export const getUserProd = (params) => {
 
 export const getBuyDetail = (id) => {
     return request({
-        url: baseUrl + '/admin/prodTagReference/info/' + id,
+        url: baseUrl + '/p/prodTagReference/info/' + id,
         method: 'get',
     })
 }
