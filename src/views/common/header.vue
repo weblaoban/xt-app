@@ -117,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 .menuHeader{
-    width: 7.5rem;
+    width:  100%;
 height: 0.76rem;
 background: #EABA63;
 position:relative;

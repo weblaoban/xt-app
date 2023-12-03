@@ -11,17 +11,44 @@
                     <div class="label">手机号</div>
 					<input autocomplete="off" v-model="phone" class="input" id="phone" type="text" />
 				</div>
-                <div class="smscodeCon">
-                    
-				<div class="inputItem">
-                    <div class="label">验证码</div>
-					<input v-model="smsCode" class="input" id="smsCode" type="text" />
-				</div>
-                <div class="sendBtn">
-                    <div class="send" v-if="timeDown===originTime" @click="sendSms">获取验证码</div>
-                    <div class="hasSend" v-if="timeDown!==originTime">{{timeDown}}</div>
-                </div>
-                </div>
+            
+					<div class="smscodeCon">
+                        <div class="label">图形验证码</div>
+						<div class="inputItem">
+							<input
+								autocomplete="off"
+								v-model="code"
+								class="input"
+								id="code"
+								type="text"
+                                placeholder="输入图形验证码"
+							/>
+						</div>
+						<div class="sendBtn">
+        <img :src="captcha" alt="" @click="refershCode">
+						</div>
+					</div>
+					<div class="smscodeCon">
+                        <div class="label">验证码</div>
+						<div class="inputItem">
+							<input
+								autocomplete="off"
+								v-model="smsCode"
+								class="input"
+								id="smsCode"
+								type="text"
+                                placeholder="输入手机验证码"
+							/>
+						</div>
+						<div class="sendBtn">
+							<div class="send" v-if="timeDown === originTime" @click="checkCaptcha">
+								获取验证码
+							</div>
+							<div class="hasSend send" v-if="timeDown !== originTime">
+								{{ timeDown }}
+							</div>
+						</div>
+					</div>
 				<div class="inputItem">
                     <div class="label">设置密码</div>
 					<input v-model="passWord" class="input" id="passWord" :type="showPassword?'text':'password'" placeholder="" />
@@ -34,6 +61,7 @@
                     <!-- <img @click="showtwoPassword=false" v-if="showtwoPassword" src="/img/show.png" alt="" class="togglePassword">
                     <img @click="showtwoPassword = true" v-if="!showtwoPassword" src="/img/hide.png" alt="" class="togglePassword"> -->
 				</div>
+					<p class="errInfo">{{ errInfo }}</p>
                 <div class="button" @click="onModify">确认修改</div>
                 <div class="other">
                     <p></p>
@@ -47,7 +75,7 @@
 <script>
 import mainHeader from "../common/header.vue";
 import { encrypt } from 'utils/util'
-import {register,modifyPassword} from '@/api/user.js'
+import {register,modifyPassword,getCaptcha,sendSmsCode,checkCode} from '@/api/user.js'
 export default {
 	name: "register",
 	components: {
@@ -61,7 +89,7 @@ export default {
             userName:'',
             passWord:'',
             twopassWord:'',
-            phone:'13888888888',
+            phone:'',
             gender:0,
             smsCode:'',
             originTime:30,
@@ -86,10 +114,70 @@ export default {
                 phone:'',
                 message:''
             },
+            code:'',
+            captcha:'',
+            time:new Date().getTime(),
+            errInfo:''
 		};
 	},
-	created() {},
+	mounted() {this.getCaptcha()},
 	methods: {
+        getCaptcha(){
+            getCaptcha({time:this.time}).then((res)=>{
+                const file = new FileReader()
+                const that = this;
+                file.onloadend =function(e){
+                that.captcha = e.target.result
+                }
+                file.readAsDataURL(res.data)
+            })
+        },
+        refershCode(){
+this.time = new Date().getTime();
+this.code=''
+this.getCaptcha();
+        },
+        checkCaptcha(){
+            if(!this.code){
+                this.errInfo = "请输入图形验证码";
+                return;
+            }
+            // this.errInfo = "";
+            checkCode({time:this.time,code:this.code}).then(({data})=>{
+                if(data.data){
+
+                    this.sendSms()
+                this.errInfo = "";
+                }else{
+                this.errInfo = "请输入正确的图形验证码";
+                this.refershCode()
+                }
+            })
+        },
+		sendSms() {
+            debugger
+            sendSmsCode({mobile:this.phone}).then(res=>{
+                if(res && res.data&& res.data.success){
+this.timeDownfn()
+                }
+            })
+		},
+        timeDownfn(){
+			this.timer = setTimeout(() => {
+				this.timeDown = this.timeDown - 1;
+				if (this.timeDown <= 1) {
+					this.timeDown = this.originTime;
+					if (this.timer) {
+						clearTimeout(this.timer);
+					}
+				} else {
+					if (this.timer) {
+						clearTimeout(this.timer);
+					}
+					this.timeDownfn();
+				}
+			}, 1000);
+        },
         backLogin(){
 			this.$router.replace("/login");
         },
@@ -105,22 +193,6 @@ export default {
             modifyPassword({smsCode,passWord:encrypt(passWord),phone}).then(res=>{
                 console.log(res)
             })
-        },
-        sendSms(){
-            this.timer = setTimeout(()=>{
-this.timeDown=this.timeDown-1;
-if(this.timeDown<=1){
-    this.timeDown = this.originTime;
-    if(this.timer){
-        clearTimeout(this.timer);
-    }
-}else{
-    if(this.timer){
-        clearTimeout(this.timer);
-    }
-        this.sendSms()
-}
-            },1000)
         },
         onMenuClick(menu){
             if(menu.link){
@@ -275,23 +347,34 @@ box-sizing: border-box;
 				margin: 0 auto;
 				margin-bottom: 0.1rem;
                 position: relative;
-				.send {
-					width: 1.8rem;
-					height: 0.42rem;
-					line-height: 0.42rem;
-                    
-					cursor: pointer;
+                .sendBtn{
 
-                    font-size: 0.24rem;
+width: 1.8rem;
+height: 0.42rem;    position:absolute;
+bottom:0.15rem;
+right:0;
+img{
+    width:100%;
+    height:100%;
+}
+}
+.send {
+width: 1.8rem;
+height: 0.42rem;
+line-height: 0.42rem;
+
+cursor: pointer;
+
+font-size: 0.24rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #EABA63;
-                    position:absolute;
-                    bottom:0.15rem;
-                    right:0;
-                    border-left:1px solid #EABA63;
-                    padding-left:0.2rem;
-				}
+position:absolute;
+bottom:0;
+right:0;
+border-left:1px solid #EABA63;
+padding-left:0.2rem;
+}
 				.hasSend {
 					width: 70px;
 					height: 39px;
@@ -399,5 +482,9 @@ margin:0.4rem 0 0.21rem 0;
 		color: #9a9a9c;
 		margin-top: 0;
 	}
+}.errInfo{
+    font-size: 0.2rem;
+    color:red;
+    margin:0;
 }
 </style>

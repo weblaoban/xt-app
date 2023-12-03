@@ -71,15 +71,6 @@ export const modifyPassword = (data) =>
         method: "put",
         data: data,
     });
-
-// 发送短信验证码
-export const sendSmsCode = (data) =>
-    request({
-        url: baseUrl + "/p/sms/send",
-        method: "post",
-        data: data,
-    });
-
 // 用户购买详情 参数 uid
 export const getUserProd = (params) => {
     return request({
@@ -94,5 +85,31 @@ export const getBuyDetail = (id) => {
     return request({
         url: baseUrl + '/p/prodTagReference/info/' + id,
         method: 'get',
+    })
+}
+// 发送短信验证码
+export const sendSmsCode = (data) =>
+    request({
+        url: baseUrl + "/sms/send",
+        method: "post",
+        data: data,
+    });
+
+
+export const getCaptcha = (params) => {
+    return request({
+        url: baseUrl + '/captcha/code',
+        method: 'get',
+        responseType: 'blob',
+        params: { ...params }
+    })
+}
+
+
+export const checkCode = (data) => {
+    return request({
+        url: baseUrl + '/captcha/check',
+        method: 'post',
+        data: { ...data }
     })
 }

@@ -52,6 +52,22 @@
 						/>
 					</div>
 					<div class="smscodeCon">
+                        <div class="label">图形验证码</div>
+						<div class="inputItem">
+							<input
+								autocomplete="off"
+								v-model="code"
+								class="input"
+								id="code"
+								type="text"
+                                placeholder="输入图形验证码"
+							/>
+						</div>
+						<div class="sendBtn">
+        <img :src="captcha" alt="" @click="refershCode">
+						</div>
+					</div>
+					<div class="smscodeCon">
                         <div class="label">验证码</div>
 						<div class="inputItem">
 							<input
@@ -64,7 +80,7 @@
 							/>
 						</div>
 						<div class="sendBtn">
-							<div class="send" v-if="timeDown === originTime" @click="sendSms">
+							<div class="send" v-if="timeDown === originTime" @click="checkCaptcha">
 								获取验证码
 							</div>
 							<div class="hasSend send" v-if="timeDown !== originTime">
@@ -180,7 +196,7 @@
 <script>
 import mainHeader from "../common/header.vue";
 import { encrypt } from "utils/util";
-import { register, modifyPassword } from "@/api/user.js";
+import { register, modifyPassword,getCaptcha,sendSmsCode,checkCode } from "@/api/user.js";
 import {clearStore} from '@/utils/store'
 export default {
 	name: "register",
@@ -196,18 +212,81 @@ export default {
 			userName: "",
 			passWord: "",
 			twopassWord: "",
-			phone: "13888888888",
+			phone: "",
 			gender: 0,
 			smsCode: "",
 			originTime: 30,
 			timeDown: 30,
 			timer: null,
+            code:'',
+            captcha:'',
+            time:new Date().getTime(),
+            errInfo:''
 		};
 	},
-	created() {},
+	mounted() {},
 	methods: {
+        getCaptcha(){
+            getCaptcha({time:this.time}).then((res)=>{
+                const file = new FileReader()
+                const that = this;
+                file.onloadend =function(e){
+                that.captcha = e.target.result
+                }
+                file.readAsDataURL(res.data)
+            })
+        },
+        refershCode(){
+this.time = new Date().getTime();
+this.code=''
+this.getCaptcha()
+        },
+        checkCaptcha(){
+            if(!this.code){
+                this.errInfo = "请输入图形验证码";
+                return;
+            }
+            // this.errInfo = "";
+            checkCode({time:this.time,code:this.code}).then(({data})=>{
+                if(data.data){
+
+                    this.sendSms()
+                this.errInfo = "";
+                }else{
+                this.errInfo = "请输入正确的图形验证码";
+                this.refershCode()
+                }
+            })
+        },
+		sendSms() {
+            debugger
+            sendSmsCode({mobile:this.phone}).then(res=>{
+                if(res && res.data&& res.data.success){
+this.timeDownfn()
+                }
+            })
+		},
+        timeDownfn(){
+			this.timer = setTimeout(() => {
+				this.timeDown = this.timeDown - 1;
+				if (this.timeDown <= 1) {
+					this.timeDown = this.originTime;
+					if (this.timer) {
+						clearTimeout(this.timer);
+					}
+				} else {
+					if (this.timer) {
+						clearTimeout(this.timer);
+					}
+					this.timeDownfn();
+				}
+			}, 1000);
+        },
         setActive(active){
 this.active = active
+if(active==2){
+    this.refershCode()
+}
 				this.errInfo = "";
         },
 		onRegister() {
@@ -233,29 +312,13 @@ this.active = active
                 }
 			});
 		},
-		sendSms() {
-			this.timer = setTimeout(() => {
-				this.timeDown = this.timeDown - 1;
-				if (this.timeDown <= 1) {
-					this.timeDown = this.originTime;
-					if (this.timer) {
-						clearTimeout(this.timer);
-					}
-				} else {
-					if (this.timer) {
-						clearTimeout(this.timer);
-					}
-					this.sendSms();
-				}
-			}, 1000);
-		},
 		onMenuClick(menu) {
 			if (menu.link) {
 				this.$router.push(menu.link);
 			}
 		},
 		twoPasswordChange(value) {
-			if (this.twopassWord && this.passWord && value !== this.passWord) {
+			if (this.twopassWord && this.passWord && this.twopassWord !== this.passWord) {
 				this.errInfo = "两次密码不一致，请检查";
 			}else{
 
@@ -278,9 +341,14 @@ this.errInfo = "";
             clearStore()
 			this.$store
 				.dispatch("LoginByUsername", { username: userName, password: passWord })
-				.then(() => {
-					this.$store.dispatch("GetUserInfo");
+				.then(({data}) => {  if(data.success){
+
+this.$store.dispatch("GetUserInfo");
                     history.go(-1)
+}else{
+
+this.errInfo = data.msg
+}
 				});
 		},
 		onForgetPassword() {
@@ -436,8 +504,8 @@ background: #EABA63;
 					font-family: Heiti SC;
 					font-weight: 500;
 					color: #30333b;
-					margin-right: 0.41rem;
-                    padding-left:0.44rem;
+					margin-right: 0.3rem;
+                    padding-left:0.3rem;
 				}
 				input[type="checkbox"],
 				input[type="radio"] {
@@ -480,6 +548,17 @@ background: #EABA63;
 				margin: 0 auto;
 				margin-bottom: 0.1rem;
                 position: relative;
+                .sendBtn{
+
+					width: 1.8rem;
+					height: 0.42rem;    position:absolute;
+                    bottom:0.15rem;
+                    right:0;
+                    img{
+                        width:100%;
+                        height:100%;
+                    }
+                }
 				.send {
 					width: 1.8rem;
 					height: 0.42rem;
@@ -492,7 +571,7 @@ font-family: PingFang SC;
 font-weight: 400;
 color: #EABA63;
                     position:absolute;
-                    bottom:0.15rem;
+                    bottom:0;
                     right:0;
                     border-left:1px solid #EABA63;
                     padding-left:0.2rem;

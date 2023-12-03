@@ -47,7 +47,7 @@
 
                 <div class="title">产品进度</div>
                 <div class="progress">
-                    <div class="progressItem" v-for="item in detail.porder" :key="item">{{ item }}</div>
+                    <div class="progressItem" v-for="item in detail.porder" :key="item">{{ item.detail }}</div>
                 </div>
                 <div class="title">产品详情</div>
                 <div class="detailCon" v-html="detail.content"></div>
@@ -247,7 +247,7 @@ if(cur.id){
 .prodDetail{
     padding-bottom:0.5rem;
     box-sizing: border-box;
-    .banner{width: 7.5rem;
+    .banner{width: 100%;
 height: 3.3rem;
 background: linear-gradient(0deg, rgba(161,196,253,0.5), rgba(194,233,251,0.5));
 
@@ -473,7 +473,7 @@ margin-bottom:0.8rem;
 padding:0 0.25rem ;
 .progressItem{
 line-height: 1.5;
-    border: 1px dashed #EABA63;;
+    border-bottom: 1px dashed #EABA63;;
 font-size: 0.2rem;
 font-family: PingFang SC;
 font-weight: 400;

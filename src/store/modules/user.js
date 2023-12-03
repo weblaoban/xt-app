@@ -31,9 +31,7 @@ const user = {
                     userName: user.username,
                     passWord: encrypt(user.password)
                 }).then(res => {
-                    console.log(res)
                     if (res && res.data && res.data.success) {
-
                         const data = res.data.data;
                         commit('SET_TOKEN', data.accessToken);
                         commit('SET_REFRESH_TOKEN', data.refreshToken);
@@ -42,7 +40,7 @@ const user = {
                     } else {
 
                     }
-                    resolve();
+                    resolve(res);
                 })
             })
         },

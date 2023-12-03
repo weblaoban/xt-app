@@ -82,7 +82,7 @@ mounted(){
     padding-bottom:0.5rem;
     box-sizing: border-box;
     background: #F8FAFB;
-    .banner{width: 7.5rem;
+    .banner{width: 100%;
 height: 3.3rem;
 background: linear-gradient(0deg, rgba(161,196,253,0.5), rgba(194,233,251,0.5));
 

@@ -326,7 +326,7 @@ background: #EABA63;
     }
 }
 .cardContainer {
-	background: #fff;width: 7.5rem;
+	background: #fff;width: 100%;
 height: 4.8rem;
 background: #F8FAFB;
 box-sizing: border-box;

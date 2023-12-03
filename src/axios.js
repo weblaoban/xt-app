@@ -59,18 +59,13 @@ axios.interceptors.response.use(res => {
     }
     // 如果请求为非200否者默认统一处理
     if (status !== 200) {
-        ElMessage({
-            message: message,
-            type: 'error'
-        })
-        return Promise.reject(new Error(message))
-    }
-    if (!res.data.success) {
-        ElMessage({
-            message: res.data.msg,
-            type: 'error'
-        })
-        return Promise.reject(new Error(message))
+        if (!res.data.success) {
+            ElMessage({
+                message: res.data.msg,
+                type: 'error'
+            })
+            return Promise.reject(new Error(message))
+        }
     }
     return res;
 }, error => {
