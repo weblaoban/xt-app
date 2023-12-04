@@ -10,7 +10,7 @@
 				</div>
 			</div>
 			<div class="combineContent">
-                <div class="tabs">
+                <div class="tabs" v-if="!key">
                     <div :class="{tabItem:true,active:currentCat==97}" @click="setCat(97)">信托产品</div>
                     <div :class="{tabItem:true,active:currentCat==98}" @click="setCat(98)">集合资管</div>
                     <div :class="{tabItem:true,active:currentCat==99}" @click="setCat(99)">私募基金</div>
@@ -57,7 +57,7 @@
 <script>
 import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
-import { list } from "@/api/prod.js";
+import { list,keylist } from "@/api/prod.js";
 export default {
 	name: "jeZi",
 	components: {
@@ -319,9 +319,6 @@ this.fetchList()
             }
 const scrollList = this.$refs.scrollList;
 const scrollCon = this.$refs.scrollCon;
-console.log(scrollCon.scrollTop)
-console.log(scrollCon.clientHeight)
-console.log(scrollList.clientHeight)
 const toBottom = scrollCon.scrollTop+scrollCon.clientHeight>=scrollList.clientHeight;
 const {pageSize,
 				total,
@@ -664,5 +661,7 @@ position: absolute;
 .scrollList{
     height:calc(100% - 3rem);
     overflow-y: scroll;
+    padding-bottom:0.3rem;
+    box-sizing: border-box;
 }
 </style>

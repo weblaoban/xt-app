@@ -79,11 +79,12 @@ export default {
 		},
         setCat(cat){
           if(cat==0){
-            this.prodList = state0list
+            this.prodList = this.state0list
           }
           if(cat==1){
-            this.prodList = state1list
+            this.prodList = this.state1list
           }
+          this.currentCat = cat
         },
         goDetail(row){
 this.$router.push({

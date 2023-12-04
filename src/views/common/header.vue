@@ -3,6 +3,7 @@
         <div class="menuHeader">
             <div class="buger" @click="toggleMenu"><img src="/img/h5/burger.png" alt=""></div>
             <div class="title">{{ title }}</div>
+            <div class="logout" v-if="userInfo.userId" @click="logout">退出</div>
         </div>
         <div class="menuMask" v-show="showMenu" @click="toggleMenu">
             <div class="menuContent">
@@ -110,6 +111,9 @@ export default {
         },
         toggleMenu(){
             this.showMenu = !this.showMenu
+        },
+        logout(){
+            this.$store.dispatch('LogOut')
         }
     },
 };
@@ -129,6 +133,19 @@ font-weight: 400;
 color: #FFFFFF;
 text-align: center;
 line-height: 0.76rem;
+}
+.logout{
+
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #FFFFFF;
+text-align: center;
+line-height: 0.76rem;
+position:absolute;
+right:0.3rem;
+top:0;
+cursor: pointer;
 }
 .buger{
     width:0.42rem;

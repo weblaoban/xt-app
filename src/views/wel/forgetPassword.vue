@@ -190,8 +190,14 @@ this.timeDownfn()
         },
         onModify(){
             const {userName,passWord,gender,smsCode,phone} = this;
-            modifyPassword({smsCode,passWord:encrypt(passWord),phone}).then(res=>{
-                console.log(res)
+            modifyPassword({code:smsCode,passWord:encrypt(passWord),phone}).then(res=>{
+                if(res.data.success){
+                    this.$message.success('修改成功，请登录')
+			this.$router.replace("/login");
+                }else{
+                    this.$message.error(res.data.msg)
+                    this.refershCode()
+                }
             })
         },
         onMenuClick(menu){

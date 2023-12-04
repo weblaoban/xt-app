@@ -290,7 +290,7 @@ if(active==2){
 				this.errInfo = "";
         },
 		onRegister() {
-			const { userName, passWord,gender, smsCode, phone,twopassWord } = this;
+			const { userName, passWord,gender, smsCode, phone,twopassWord,code } = this;
 			if (!userName || !passWord  || !smsCode || !phone) {
 				this.errInfo = "请输入完整信息";
 				return;
@@ -299,16 +299,20 @@ if(active==2){
 				return;
             }
 			register({
+                mobile:phone,
 				nickName: userName,
-                userMmobile:phone,
+                userMobile:phone,
 				passWord: encrypt(passWord),
 				sex:gender===0?'M':'F',
-				smsCode,
+				code:smsCode,
+                t:this.time
 			}).then((res) => {
                 if(res.data.success){
-                    history.go(-1)
+                    this.$message.success('注册成功，请登录')
+                    this.setActive(1)
                 }else{
                     this.$message.error(res.data.msg)
+                    this.refershCode()
                 }
 			});
 		},

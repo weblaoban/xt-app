@@ -18,7 +18,7 @@
 							<p class="count"><span>{{ detail.pmStand }}</span></p></div>
 							<div class="line"></div>
 							<div class="duration">产品期限：{{detail.investLimitId}}</div>
-                            <div class="tag" v-if="detail.status==1||detail.status==3"><img :src="'/img/h5/tag'+item.status+'.png'" alt=""></div>
+                            <div class="tag" v-if="detail.status==1||detail.status==3"><img :src="'/img/h5/tag'+detail.status+'.png'" alt=""></div>
 
                             <div class="button" v-if="!detail.imgs" @click="onYuyue(detail)">  我要预约  </div>
                             <div class="button gray" v-if="detail.imgs">  已预约  </div>
@@ -137,7 +137,7 @@
 import { mapGetters } from "vuex";
 import mainFooter from '../common/footer.vue'
 import mainHeader from '../common/header.vue'
-import { proddetail } from "@/api/prod.js";
+import { proddetail,yuyue } from "@/api/prod.js";
 import {addComment} from '@/api/index.js'
 export default {
 	name: "jeZi",

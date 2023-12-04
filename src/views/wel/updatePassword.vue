@@ -238,6 +238,7 @@ this.timeDownfn()
                     },2000)
                 }else{
                     this.$message.error(res.data.msg)
+                    this.refershCode()
                 }
 				}
 			);

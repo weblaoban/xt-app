@@ -74,7 +74,7 @@ export const modifyPassword = (data) =>
 // 用户购买详情 参数 uid
 export const getUserProd = (params) => {
     return request({
-        url: baseUrl + '/admin/prodTagReference/find',
+        url: baseUrl + '/p/prodTagReference/find',
         method: 'get',
         params: { ...params }
     })
