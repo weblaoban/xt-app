@@ -190,7 +190,7 @@ this.timeDownfn()
         },
         onModify(){
             const {userName,passWord,gender,smsCode,phone} = this;
-            modifyPassword({code:smsCode,passWord:encrypt(passWord),phone}).then(res=>{
+            modifyPassword({code:smsCode,passWord:encrypt(passWord),mobile:phone,userMobile:phone,time:this.time}).then(res=>{
                 if(res.data.success){
                     this.$message.success('修改成功，请登录')
 			this.$router.replace("/login");
