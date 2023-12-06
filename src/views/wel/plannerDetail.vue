@@ -1,7 +1,7 @@
 <!-- 集合信托 -->
 <template>
 	<div class="index-container prodListContainer">
-		<main-header title="产品购买详情"></main-header>
+		<main-header title="客户购买详情"></main-header>
 		<div class="combineCon">
 			<div class="combineContent">
                 <div class="tabs">
@@ -14,18 +14,22 @@
 
 				<div class="container scrollList" ref="scrollCon">
                     <div class="products" ref="scrollList">
-						<div @click="goDetail(item)" :class="{productItem:true,finish:item.status==3}" v-for="item in prodList" :key="item.id">
+						<div :class="{productItem:true,finish:item.status==3}" v-for="item in prodList" :key="item.id">
 							<div :class="'title '+'title'+item.state">{{ item.name }}</div>
                             <div class="descCon">
-
-                                <div class="desc">持有金额</div>
-                                <div class="desc">业绩比较基准</div>
-                            </div>
+							<p class="count">{{ item.amount || 0 }} <span>元</span></p>
+							<p class="count"></p></div>
                             <div class="descCon">
-							<p class="count">{{ item.zmount || 0 }} <span>元</span></p>
-							<p class="count">{{ item.brief }}<span>%</span></p></div>
+
+                                <div class="desc">持有金额（元）</div>
+                                <div class="desc">客户：{{ item.nickName }}</div>
+                            </div>
 							<div class="line"></div>
-							<div class="duration">到期日：{{item.dtime}}</div>
+
+							<div class="duration">
+                                <span>成立时间：{{item.otime}}</span>
+                                <span>到期时间：{{item.dtime}}</span>
+                                </div>
 						</div>
 					</div>
 				</div>
@@ -37,10 +41,9 @@
 <script>
 import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
-import { getUserProd } from "@/api/user.js";
+import { getPlannerProd } from "@/api/user.js";
 import { mapGetters } from "vuex";
 export default {
-	name: "jeZi",
 	components: {
 		mainFooter,
 		mainHeader,
@@ -70,11 +73,20 @@ export default {
 	methods: {
 		fetchList() {
 			const { page } = this;
-			getUserProd({ ...page,uid:this.userInfo.id}).then(res=>{
-                this.state0list = res.data.data.records.filter(item=>item.state===0)
-                this.state1list = res.data.data.records.filter(item=>item.state===1)
+			getPlannerProd({uid:this.userInfo.id}).then(res=>{
+
+        let list = []
+        res.data.data.records.forEach((item) => {
+          const { userDtm = [] } = item
+          userDtm.forEach((user) => {
+            if ((user.puserId == this.userInfo.id)) {
+              list.push({ ...item, ...user })
+            }
+          })
+        })
+                this.state0list = list.filter(item=>item.state===0)
+                this.state1list = list.filter(item=>item.state===1)
                 this.prodList = this.state0list;
-                this.page.total = res.data.data.total;
             });
 		},
         setCat(cat){
@@ -301,6 +313,7 @@ font-size: 0.24rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #9A9A9C;
+				margin: 0.1rem 0;
 			}
             .descCon{
                 display: flex;
@@ -422,5 +435,22 @@ position: absolute;
 .scrollList{
     height:calc(100% - 3rem);
     overflow-y: scroll;
+}
+
+.duration {width: 6.3rem;
+height: 0.45rem;
+background: linear-gradient(90deg, #F8FAFB, #FFFFFF);
+color: #9A9A9C;
+box-sizing: border-box;
+padding-left:0.1rem;
+span{
+    float:right;
+font-size: 0.24rem;
+font-family: PingFang SC;
+font-weight: 400;
+    &:first-child{
+        float:left;
+    }
+}
 }
 </style>

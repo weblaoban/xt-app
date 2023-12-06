@@ -113,3 +113,11 @@ export const checkCode = (data) => {
         data: { ...data }
     })
 }
+
+
+export const getPlannerProd = () => {
+    return request({
+        url: baseUrl + '/p/prodTagReference/findByPuser',
+        method: 'get',
+    })
+}

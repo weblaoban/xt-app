@@ -208,7 +208,7 @@ mounted(){
             })
         },
         onYuyue(){
-            if(!this.userInfo.userId){
+            if(!this.userInfo.id){
                 this.$router.push('/login')
                 return;
             }
@@ -229,7 +229,7 @@ mounted(){
 const cur = this.detail;
 const userInfo = this.userInfo
 if(cur.id){
-    yuyue({prodId:cur.id,userId:userInfo.userId}).then(res=>{
+    yuyue({prodId:cur.id,userId:userInfo.id}).then(res=>{
         if(res && res.data && res.data.success){
             this.$message.success('预约成功')
             this.showYuyue = false

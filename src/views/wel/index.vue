@@ -110,7 +110,7 @@
 
         <div class="phonel">客服电话：400-0000-000</div>
 
-        <div class="loginBtn" v-if="!userInfo.userId"><div class="button" @click="goLogin">登录</div><div class="button" @click="goRegister">注册</div></div>
+        <div class="loginBtn" v-if="!userInfo.id"><div class="button" @click="goLogin">登录</div><div class="button" @click="goRegister">注册</div></div>
 	</div>
 </template>
 

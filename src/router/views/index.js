@@ -162,7 +162,18 @@ export default [
                 },
                 component: () =>
                     import(/* webpackChunkName: "views" */ "@/views/wel/buyDetailInfo.vue"),
+            },{
+                path: 'plannerDetail',
+                name: "客户购买详情",
+                meta: {
+                    title: "客户购买详情",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/plannerDetail.vue"
+                    ),
             },
+            
         ],
     },
 ];

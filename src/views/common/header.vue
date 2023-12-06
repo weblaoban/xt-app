@@ -3,7 +3,7 @@
         <div class="menuHeader">
             <div class="buger" @click="toggleMenu"><img src="/img/h5/burger.png" alt=""></div>
             <div class="title">{{ title }}</div>
-            <div class="logout" v-if="userInfo.userId" @click="logout">退出</div>
+            <div class="logout" v-if="userInfo.id" @click="logout">退出</div>
         </div>
         <div class="menuMask" v-show="showMenu" @click="toggleMenu">
             <div class="menuContent">
@@ -11,7 +11,8 @@
                 <div class="logo"><img src="/img/logo.png" alt=""></div>
 				<div class="menuList">
 					<div @click.stop="onMenuClick(item)" :class="{'active':index==active}" v-for="(item,index) in menuList" :key="item" class="menuItem">{{item.name}}</div>
-                    <div v-if="userInfo.userId" class="menuItem" @click.stop="goBuyDetail">购买详情</div>
+                    <div v-if="userInfo.id && userInfo.score==0" class="menuItem" @click.stop="goBuyDetail">购买详情</div>
+                    <div v-if="userInfo.id && userInfo.score==1" class="menuItem" @click.stop="gopBuyDetail">购买详情</div>
 				</div>
 			</div>
 		</div>
@@ -109,6 +110,9 @@ export default {
         goBuyDetail(){
                 this.$router.push('/buyDetail')
         },
+        gopBuyDetail(){
+                this.$router.push('/plannerDetail')
+        },
         toggleMenu(){
             this.showMenu = !this.showMenu
         },
@@ -176,6 +180,7 @@ background: #EABA63;
 padding:0.5rem 0rem;
 box-sizing: border-box;
 
+overflow-y: scroll;
 .logo{
     img{
         width:100%;
