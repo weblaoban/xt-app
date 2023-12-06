@@ -150,7 +150,7 @@
                         <div class="label">手机号</div>
 						<input
 							autocomplete="off"
-							v-model="phone"
+							v-model="userName"
 							class="input"
 							id="phone"
 							type="text"
