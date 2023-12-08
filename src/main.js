@@ -43,4 +43,9 @@ app.use(Avue, {
     axios,
     locale: messages[language]
 })
+
+router.afterEach(to => {
+    let title = router.$avueRouter.generateTitle(to)
+    router.$avueRouter.setTitle(title);
+});
 app.mount('#app')
