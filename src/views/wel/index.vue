@@ -25,9 +25,6 @@
 			</el-carousel>
 		</div>
 		<div class="cardContainer">
-			<div class="customer" @click="showContact = true">
-				<img src="/img/message.png" alt="" />
-			</div>
 			<div class="container">
 				<div class="cardContent">
 					<div class="cardItem" v-for="item in cardItem" :key="item.id">
@@ -87,45 +84,6 @@
 			</div>
 			<div class="more" @click="goMore">查看更多</div>
 		</div>
-		<!-- 客户咨询 -->
-		<div class="contentMask" v-if="showContact">
-			<div class="contact">
-				<div class="contactTitle">客户咨询</div>
-				<img
-					class="close el-icon-close"
-					@click="showContact = false"
-					src="/img/close.png"
-					alt=""
-				/>
-
-				<div class="contactCon">
-					<div class="contactTips">
-						您好，请务必留下您的联系方式，客服会 根据您的问题及时回电
-					</div>
-					<div class="contactItem">
-						<p class="label">姓名</p>
-						<input v-model="contact.name" type="text" />
-					</div>
-					<div class="contactItem">
-						<p class="label">手机号</p>
-						<input v-model="contact.tel" type="text" />
-					</div>
-					<div class="contactItem">
-						<p class="label">咨询内容</p>
-						<textarea
-							resize="none"
-							v-model="contact.content"
-							name=""
-							class="textarea"
-							id=""
-							cols="30"
-							rows="4"
-						></textarea>
-					</div>
-					<div class="button" @click="sendComm">提交</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="phonel">客服电话：400-0000-000</div>
 
@@ -133,6 +91,7 @@
 			<div class="button" @click="goLogin">登录</div>
 			<div class="button" @click="goRegister">注册</div>
 		</div>
+        <contact></contact>
 	</div>
 </template>
 
@@ -140,13 +99,15 @@
 import { mapGetters } from "vuex";
 import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
-import { addComment, getAmount } from "@/api/index.js";
+import contact from "../common/contact.vue";
+import { getAmount } from "@/api/index.js";
 import { zxlist, list } from "@/api/prod.js";
 export default {
 	name: "wel",
 	components: {
 		mainFooter,
 		mainHeader,
+        contact
 	},
 	data() {
 		return {
@@ -297,33 +258,6 @@ export default {
 		onForgetPassword() {
 			this.$router.push("/forgetPassword");
 		},
-		sendComm() {
-			if (this.loading) {
-				return;
-			}
-			const { name, tel, content } = this.contact;
-			if (!name || !tel || !content) {
-				return;
-			}
-			this.loading = true;
-			addComment({ ...this.contact })
-				.then((res) => {
-					const data = res.data;
-					if (data && data.success) {
-						this.$message.success("提交成功");
-						this.contact = {
-							name: "",
-							tel: "",
-							content: "",
-						};
-						this.showContact = false;
-						this.loading = false;
-					}
-				})
-				.catch(() => {
-					this.loading = false;
-				});
-		},
 		goMore() {
 			this.$router.push("/xtcombine");
 		},
@@ -366,32 +300,11 @@ export default {
 	height: 4.8rem;
 	background: #f8fafb;
 	box-sizing: border-box;
-	padding: 0.3rem 0.2rem;
+	padding: 0.3rem 0.3rem;
 	position: relative;
-
-	.customer {
-		width: 0.76rem;
-		height: 0.76rem;
-		background: #ec5e2a;
-		box-shadow: 0px 3px 5px 0px rgba(115, 89, 41, 0.5);
-		border-radius: 0.12rem;
-
-		font-family: Heiti SC;
-		font-weight: 500;
-		color: #ffffff;
-		position: absolute;
-		right: 0;
-		top: 1.3rem;
-		padding-left: 0.1rem;
-		display: flex;
-		align-items: center;
-		line-height: 1;
-		box-sizing: border-box;
-		img {
-			width: 0.56rem;
-			height: 0.56rem;
-		}
-	}
+.container{
+    padding:0;
+}
 
 	.cardContent {
 		height: 2.7rem;
@@ -407,8 +320,10 @@ export default {
 				display: flex;
 				align-items: center;
 				background: #ffffff;
-				box-shadow: 0rem 0rem 0rem 0rem rgba(48, 51, 59, 0.1);
+				box-shadow: 0rem 0rem 0.1rem 0rem rgba(48, 51, 59, 0.1);
 				border-radius: 0.06rem;
+                padding-left:0.2rem;
+                box-sizing: border-box;
 			}
 			img {
 				width: 0.64rem;
@@ -519,7 +434,7 @@ export default {
 	.products {
 		.productItem {
 			width: 100%;
-			height: 2.74rem;
+			// height: 2.74rem;
 			background: #ffffff;
 			box-shadow: 0rem 0rem 0.1rem 0rem rgba(48, 51, 59, 0.2);
 			border-radius: 0.06rem;
@@ -734,6 +649,10 @@ export default {
 		&:nth-child(1) {
 			margin-left: 0.5rem;
 		}
+        &:nth-child(2){
+            float:right;
+			margin-right: 0.5rem;
+        }
 	}
 }
 .button {
