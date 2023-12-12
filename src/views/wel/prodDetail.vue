@@ -436,7 +436,8 @@ export default {
 		}
 		.button {
 			height: 0.76rem;
-			background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
+	background: linear-gradient(163deg, #e1ad4f, 
+		rgba(234, 186, 99, 0.7), #e0af56);
 			box-shadow: 0px 0.05rem 0px 0px #dea949;
 
 			border-radius: 0.12rem;
@@ -713,7 +714,8 @@ export default {
 		.button {
 			width: 100%;
 			height: 0.76rem;
-			background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
+	background: linear-gradient(163deg, #e1ad4f, 
+		rgba(234, 186, 99, 0.7), #e0af56);
 			box-shadow: 0px 0.03rem 0px 0px #dea949;
 			border-radius: 0.12rem;
 			margin: 0 auto;

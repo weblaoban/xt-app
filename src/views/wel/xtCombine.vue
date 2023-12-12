@@ -520,7 +520,7 @@ export default {
 .products {
 	.productItem {
 		width: 100%;
-		height: 2.74rem;
+		min-height: 2.74rem;
 		background: #ffffff;
 		box-shadow: 0rem 0rem 0.1rem 0rem rgba(48, 51, 59, 0.2);
 		border-radius: 0.06rem;
@@ -591,6 +591,7 @@ export default {
 		.duration {
 			width: 6.3rem;
 			height: 0.45rem;
+			line-height: 0.45rem;
 			background: linear-gradient(90deg, #f8fafb, #ffffff);
 			font-size: 0.24rem;
 			font-family: PingFang SC;

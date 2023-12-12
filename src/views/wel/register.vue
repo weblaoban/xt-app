@@ -659,22 +659,24 @@ margin:0.4rem 0 0.21rem 0;
 	}
 .button {
 	width: 100%;
-	height: 44px;
-	background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
-	box-shadow: 0px 3px 0px 0px #dea949;
-	border-radius: 8px;
+	background: linear-gradient(163deg, #e1ad4f, 
+		rgba(234, 186, 99, 0.7), #e0af56);
+	border-radius: 0.08rem;
+    
+		line-height: 0.58rem;
+		height: 0.58rem;
+		box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
+		font-size: 0.3rem;
 
 	margin: 0 auto;
-	font-size: 18px;
 	font-family: Heiti SC;
 	font-weight: 500;
 	color: #ffffff;
 	text-align: center;
-	line-height: 44px;
 	cursor: pointer;
 	&.gray {
 		background: linear-gradient(163deg, #d5d5d5, #efefef);
-		box-shadow: 0px 3px 0px 0px #cbcbcb;
+		box-shadow: 0px 0.03rem 0px 0px #cbcbcb;
 		color: #9a9a9c;
 		margin-top: 0;
 	}

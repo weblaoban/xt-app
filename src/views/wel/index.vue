@@ -267,6 +267,9 @@ export default {
 </script>
 
 <style lang="scss">
+.index-container{
+    background:#fff;
+}
 .bannerContent {
 	.el-carousel__button {
 		width: 0.5rem;
@@ -365,7 +368,7 @@ export default {
 			box-sizing: border-box;
 			color: #fff;
 			&:first-child {
-				border-right: 1px solid RGBA(237, 194, 117, 1);
+				border-right: 2px dashed RGBA(237, 194, 117, 1);
 			}
 			span {
 				font-size: 0.36rem;
@@ -408,21 +411,26 @@ export default {
 		color: #30333b;
 		text-align: center;
 		margin-bottom: 0.48rem;
-		line-height: 1.5;
+		line-height: 1;
 		&:after {
 			content: "";
 			display: block;
 			width: 1.5rem;
 			height: 0.1rem;
+
 			background: #eaba63;
 			opacity: 0.5;
 			left: 0;
 			right: 0;
-			bottom: 30px;
+			bottom: 0;
 			margin: auto;
-			transform: translateY(-10px);
+			transform: translateY(-0.1rem);
 			z-index: 0;
 		}
+        span{
+            position:relative;
+            z-index:1;
+        }
 	}
 	.products {
 		.productItem {
@@ -498,6 +506,7 @@ export default {
 			.duration {
 				width: 6.3rem;
 				height: 0.45rem;
+			line-height: 0.45rem;
 				background: linear-gradient(90deg, #f8fafb, #ffffff);
 				font-size: 0.24rem;
 				font-family: PingFang SC;
@@ -649,25 +658,28 @@ export default {
 	}
 }
 .button {
-	width: 280px;
-	height: 44px;
-	background: linear-gradient(
-		163deg,
-		#e1ad4f,
-		rgba(234, 186, 99, 0.8),
-		#e0af56
-	);
-	box-shadow: 0px 3px 0px 0px #dea949;
-	border-radius: 8px;
+	width: 100%;
+	background: linear-gradient(163deg, #e1ad4f, 
+		rgba(234, 186, 99, 0.7), #e0af56);
+	border-radius: 0.08rem;
+    
+		line-height: 0.58rem;
+		height: 0.58rem;
+		box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
+		font-size: 0.3rem;
 
 	margin: 0 auto;
-	font-size: 0.3rem;
 	font-family: Heiti SC;
 	font-weight: 500;
 	color: #ffffff;
 	text-align: center;
-	line-height: 44px;
 	cursor: pointer;
+	&.gray {
+		background: linear-gradient(163deg, #d5d5d5, #efefef);
+		box-shadow: 0px 0.03rem 0px 0px #cbcbcb;
+		color: #9a9a9c;
+		margin-top: 0;
+	}
 }
 
 .bannerContent .el-carousel__indicators--vertical {

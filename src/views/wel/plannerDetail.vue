@@ -16,14 +16,15 @@
                     <div class="products" ref="scrollList">
 						<div :class="{productItem:true,finish:item.status==3}" v-for="item in prodList" :key="item.id">
 							<div :class="'title '+'title'+item.state">{{ item.name }}</div>
-                            <div class="descCon">
-							<p class="count">{{ item.amount || 0 }} <span>元</span></p>
-							<p class="count"></p></div>
+
                             <div class="descCon">
 
-                                <div class="desc">持有金额（元）</div>
-                                <div class="desc">客户：{{ item.nickName }}</div>
-                            </div>
+<div class="desc">持有金额（元）</div>
+<div class="desc"></div>
+</div>
+                            <div class="descCon">
+							<p class="count">{{ item.amount || 0 }} <span>元</span></p>
+							<p class="count kehu"> <span>客户：{{ item.nickName }}</span></p></div>
 							<div class="line"></div>
 
 							<div class="duration">
@@ -334,6 +335,9 @@ text-overflow: ellipsis;
 				}
                 &:nth-child(1){
                     
+color: #30333B;
+                }
+                &.kehu{
 color: #30333B;
                 }
 			}
