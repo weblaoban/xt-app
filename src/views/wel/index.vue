@@ -638,7 +638,7 @@ export default {
 		font-size: 0.3rem;
 		font-family: PingFang SC;
 		font-weight: 400;
-		margin-left: 0.39rem;
+		// margin-left: 0.39rem;
 		&:nth-child(1) {
 			margin-left: 0.5rem;
 		}
