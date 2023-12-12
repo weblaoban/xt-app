@@ -91,7 +91,7 @@
 			<div class="button" @click="goLogin">登录</div>
 			<div class="button" @click="goRegister">注册</div>
 		</div>
-        <contact></contact>
+		<contact></contact>
 	</div>
 </template>
 
@@ -107,7 +107,7 @@ export default {
 	components: {
 		mainFooter,
 		mainHeader,
-        contact
+		contact,
 	},
 	data() {
 		return {
@@ -193,7 +193,7 @@ export default {
 			getAmount().then((res) => {
 				if (res && res.status === 200) {
 					this.amount = res.data.data.pcount || 0;
-					this.pmount = res.data.data.mcount|| 0;
+					this.pmount = res.data.data.mcount || 0;
 				}
 			});
 		},
@@ -210,20 +210,13 @@ export default {
 			});
 		},
 		getProdList() {
-			list({ categoryId: 97, soldNum: 1, status: -1 }).then((res) => {
+			list({ tpy: 1 }).then((res) => {
 				if (res && res.status === 200) {
-					console.log(res.data.data.records);
-					this.product = this.product.concat(res.data.data.records);
-				}
-			});
-			list({ categoryId: 98, soldNum: 1, status: -1 }).then((res) => {
-				if (res && res.status === 200) {
-					this.product = this.product.concat(res.data.data.records);
-				}
-			});
-			list({ categoryId: 99, soldNum: 1, status: -1 }).then((res) => {
-				if (res && res.status === 200) {
-					this.product = this.product.concat(res.data.data.records);
+					let data = res.data.data.records;
+					data = data.sort((a, b) => {
+						return a.tpy - b.tpy;
+					});
+					this.product = data;
 				}
 			});
 		},
@@ -302,9 +295,9 @@ export default {
 	box-sizing: border-box;
 	padding: 0.3rem 0.3rem;
 	position: relative;
-.container{
-    padding:0;
-}
+	.container {
+		padding: 0;
+	}
 
 	.cardContent {
 		height: 2.7rem;
@@ -322,8 +315,8 @@ export default {
 				background: #ffffff;
 				box-shadow: 0rem 0rem 0.1rem 0rem rgba(48, 51, 59, 0.1);
 				border-radius: 0.06rem;
-                padding-left:0.2rem;
-                box-sizing: border-box;
+				padding-left: 0.2rem;
+				box-sizing: border-box;
 			}
 			img {
 				width: 0.64rem;
@@ -649,21 +642,26 @@ export default {
 		&:nth-child(1) {
 			margin-left: 0.5rem;
 		}
-        &:nth-child(2){
-            float:right;
+		&:nth-child(2) {
+			float: right;
 			margin-right: 0.5rem;
-        }
+		}
 	}
 }
 .button {
 	width: 280px;
 	height: 44px;
-	background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
+	background: linear-gradient(
+		163deg,
+		#e1ad4f,
+		rgba(234, 186, 99, 0.8),
+		#e0af56
+	);
 	box-shadow: 0px 3px 0px 0px #dea949;
 	border-radius: 8px;
 
 	margin: 0 auto;
-	font-size: 18px;
+	font-size: 0.3rem;
 	font-family: Heiti SC;
 	font-weight: 500;
 	color: #ffffff;
