@@ -319,12 +319,10 @@ export default {
 	methods: {
 		fetchList() {
 			const { selected, page, currentCat } = this;
-			list({ ...page, status: -1, categoryId: currentCat, soldNum: -1 }).then(
-				(res) => {
-					this.prodList = this.prodList.concat(res.data.data.records);
-					this.page.total = res.data.data.total;
-				}
-			);
+			list({ ...page, categoryId: currentCat }).then((res) => {
+				this.prodList = this.prodList.concat(res.data.data.records);
+				this.page.total = res.data.data.total;
+			});
 		},
 		setCat(cat) {
 			this.currentCat = cat;
