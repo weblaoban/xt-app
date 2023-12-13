@@ -255,6 +255,10 @@ export default {
 			this.$router.push("/xtcombine");
 		},
 		goDetail(row, type) {
+			if (!this.userInfo.id) {
+				this.$router.push("/login");
+				return;
+			}
 			this.$router.push({
 				path: "/prodDetail/" + row.id,
 				query: {
@@ -267,8 +271,8 @@ export default {
 </script>
 
 <style lang="scss">
-.index-container{
-    background:#fff;
+.index-container {
+	background: #fff;
 }
 .bannerContent {
 	.el-carousel__button {
@@ -427,10 +431,10 @@ export default {
 			transform: translateY(-0.1rem);
 			z-index: 0;
 		}
-        span{
-            position:relative;
-            z-index:1;
-        }
+		span {
+			position: relative;
+			z-index: 1;
+		}
 	}
 	.products {
 		.productItem {
@@ -506,7 +510,7 @@ export default {
 			.duration {
 				width: 6.3rem;
 				height: 0.45rem;
-			line-height: 0.45rem;
+				line-height: 0.45rem;
 				background: linear-gradient(90deg, #f8fafb, #ffffff);
 				font-size: 0.24rem;
 				font-family: PingFang SC;
@@ -659,14 +663,18 @@ export default {
 }
 .button {
 	width: 100%;
-	background: linear-gradient(163deg, #e1ad4f, 
-		rgba(234, 186, 99, 0.7), #e0af56);
+	background: linear-gradient(
+		163deg,
+		#e1ad4f,
+		rgba(234, 186, 99, 0.7),
+		#e0af56
+	);
 	border-radius: 0.08rem;
-    
-		line-height: 0.58rem;
-		height: 0.58rem;
-		box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
-		font-size: 0.3rem;
+
+	line-height: 0.58rem;
+	height: 0.58rem;
+	box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
+	font-size: 0.3rem;
 
 	margin: 0 auto;
 	font-family: Heiti SC;

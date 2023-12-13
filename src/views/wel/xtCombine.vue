@@ -365,6 +365,10 @@ export default {
 			}
 		},
 		goDetail(row) {
+			if (!this.userInfo.id) {
+				this.$router.push("/login");
+				return;
+			}
 			this.$router.push({
 				path: "/prodDetail/" + row.id,
 				query: {
