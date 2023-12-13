@@ -64,7 +64,7 @@ a{
     flex:1;
     box-sizing: border-box;
     overflow: hidden;
-    background: #F8FAFB;
+    background: #fff;
 }
 #avue-view{
   flex:1;
@@ -78,6 +78,7 @@ a{
 }
 
 .avue-footer {
+  background-color: #fff;
   width: 100%;
   position: absolute;
   bottom:0;
