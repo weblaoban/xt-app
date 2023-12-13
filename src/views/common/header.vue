@@ -477,13 +477,13 @@ export default {
 			width: 280px;
 			margin: 0 auto;
 			p {
-				font-size: 14px;
+font-size: 0.24rem;
 				font-family: Heiti SC;
 				font-weight: 500;
 				color: #9a9a9c;
 				cursor: pointer;
 				span {
-					font-size: 14px;
+font-size: 0.24rem;
 					font-family: Heiti SC;
 					font-weight: 500;
 					color: #eaba63;
@@ -572,12 +572,12 @@ export default {
 		rgba(234, 186, 99, 0.7),
 		#e0af56
 	);
-	border-radius: 0.08rem;
+	border-radius: 0.12rem;
 
-	line-height: 0.58rem;
-	height: 0.58rem;
+	line-height: 0.76rem;
+	height: 0.76rem;
 	box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
-	font-size: 0.3rem;
+	font-size: 0.32rem;
 
 	margin: 0 auto;
 	font-family: Heiti SC;

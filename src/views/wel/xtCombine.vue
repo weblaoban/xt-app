@@ -89,12 +89,16 @@ import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
 import { list, keylist } from "@/api/prod.js";
 import contact from "../common/contact.vue";
+import { mapGetters } from "vuex";
 export default {
 	name: "jeZi",
 	components: {
 		mainFooter,
 		mainHeader,
 		contact,
+	},
+	computed: {
+		...mapGetters(["userInfo"]),
 	},
 	data() {
 		return {
@@ -389,7 +393,6 @@ export default {
 	.input {
 		width: 100%;
 		height: 0.72rem;
-		background: rgba(234, 186, 99, 0.5);
 		border: 1px solid rgba(165, 135, 84, 0.1);
 		// opacity: 0.3;
 		border-radius: 0.12rem;
@@ -398,6 +401,7 @@ export default {
 			width: 100%;
 			height: 0.72rem;
 			box-sizing: border-box;
+		background: rgba(234, 186, 99, 0.1);
 			padding: 0 0.3rem;
 			border: 1px solid rgba(131, 108, 76, 0.3);
 			// opacity: 0.3;

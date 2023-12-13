@@ -117,7 +117,7 @@
 					</el-row>
 
 					<div class="title">产品进度</div>
-					<div class="progress">
+					<div class="progress" v-show="detail.porder && detail.porder.length">
 						<div class="progressItem" v-for="item in detail.porder" :key="item">
 							{{ item.detail }}
 						</div>
@@ -134,7 +134,7 @@
 				<div class="yuyue">
 					<img
 						class="close el-icon-close"
-						@click="showAgreement = false"
+						@click="hiddenYuyue"
 						src="/img/close.png"
 						alt=""
 					/>
@@ -175,9 +175,11 @@
 							2.承诺符合最近三年个人平均收入不低于50万元人民币；
 						</p>
 						<h1 style="margin-top: 50px">《免责条款》</h1>
-						<p>
-							一、本网致力于提供完整、准确的产品信息，信息内容绝大部份来自于本网的授权机构，本网尽谨慎注意和一致描述义务。尽
-						</p>
+						<p>一、本网致力于提供完整、准确的产品信息，信息内容绝大部份来自于本网的授权机构，本网尽谨慎注意和一致描述义务。尽管如此，本网不能保证信息的绝对正确，投资者据此交易、服务、投资的，请务必向交易主体核实相关信息，风险自负。</p>
+                        <p>二、对于部分非上述来源的信息内容本网将特别注明类似“信息未证实，仅供参考”字样，请投资者务必注意甄别。</p>
+                        <p>三、本网所提供的产品统计数据及其相关分析，投资者教育的内容来源于权威媒体机构，仅供投资者参考，不作为交易、服务、投资使用的依据，亦不代表本网的观点或主张。</p>
+                        <p>四、凡以任何方式登录本网站或直接、间接使用本网站资料者，视为自愿接受本网站声明的约束。</p>
+                        <p>五、引用本网的研究报告等须注明来源，同时，引用的报告仅能作为自身的学术参考用，不能用于商业目的，否则我们有权追究版权责任.</p>
 					</div>
 					<div class="checkBox">
 						<img
@@ -322,6 +324,9 @@ export default {
 				});
 			}
 		},
+        hiddenYuyue(){
+						this.showYuyue = false;
+        }
 	},
 };
 </script>
@@ -563,6 +568,9 @@ export default {
 		color: #30333b;
 		width: 100%;
 		padding: 0.22rem 0;
+        &:last-child{
+            border-bottom:none;
+        }
 	}
 }
 

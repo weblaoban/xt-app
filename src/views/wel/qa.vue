@@ -132,20 +132,22 @@ height:1.82rem;
 		background-position: left top;
 		background-repeat: no-repeat;
     }
+.el-col{
 
-    .qaItem{
-        width: 100%;
-background: #FFFFFF;
-border-bottom: 1px dashed #9A9A9C;
-padding:0.3rem 0;
-height:1.75rem;
-box-sizing: border-box;
+    border-bottom: 1px dashed rgba(154, 154, 156, 0.4);
 &:last-child{
     border-bottom:none;
 }
+}
+    .qaItem{
+        width: 100%;
+background: #FFFFFF;
+padding:0.3rem 0;
+height:1.75rem;
+box-sizing: border-box;
 
         .time{
-font-size: 14px;
+font-size: 0.24rem;
 font-family: Heiti SC;
 font-weight: 500;
 color: #9A9A9C;

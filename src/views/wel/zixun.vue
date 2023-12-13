@@ -118,11 +118,18 @@ if(scrollCon){
 width:100%;
 height:1.82rem;
 		background-image: url(/img/zixunbanner.png);
-		background-size: 100% 3rem;
+		background-size: calc(100% + 0.3rem) 3rem;
 		background-position: left top;
 		background-repeat: no-repeat;
     }
 
+    .el-col{
+
+border-bottom: 1px dashed rgba(154, 154, 156, 0.4);
+&:last-child{
+border-bottom:none;
+}
+}
     .zixunItem{
         height:1.74rem;
         border-bottom: 1px dashed rgba(154, 154, 156, 0.2);
@@ -133,7 +140,7 @@ height:1.82rem;
     border-bottom:none;
 }
         .time{
-font-size: 0.2rem;
+font-size: 0.24rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #9A9A9C;

@@ -53,6 +53,7 @@ export default {
 <style lang="scss" scoped>
 .aboutus{
     background: #fff;
+font-size: 0.28rem;
     h4{
         margin:0.81rem auto 0.4rem;
 
@@ -79,12 +80,20 @@ text-indent: 0.6rem;
     .intro2{
         padding: 0.48rem 0;
 background: #F8FAFB;
-font-size: 24px;
+font-size: 0.28rem;
 font-family: Heiti SC;
 font-weight: 500;
 color: #30333B;
 text-indent: 48px;
 line-height: 1.5;
+.container{
+
+    font-size: 0.28rem;
+font-family: PingFang SC;
+font-weight: 400;
+color: #30333B;
+text-indent: 0.6rem;
+}
     }
     .intro3{
         padding:0.5rem 0;

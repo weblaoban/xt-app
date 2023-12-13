@@ -68,7 +68,7 @@ margin-bottom:0.3rem;
 .time{
 text-align: center;
 
-font-size: 0.28rem;
+font-size: 0.26rem;
 font-family: PingFang SC;
 font-weight: 400;
 color: #9A9A9C;

@@ -131,7 +131,7 @@ export default {
 }
 .contact {
 	width: 6.5rem;
-	height: 9.28rem;
+	height: 9.48rem;
 	background: #ffffff;
 	box-shadow: 0rem 0rem 0rem 0rem rgba(105, 105, 105, 0.5);
 	border-radius: 0.12rem;
@@ -179,6 +179,7 @@ export default {
 		margin-bottom: 0.3rem;
 	}
 	.contactItem {
+        margin-bottom:0.4rem;
 		.label {
 			font-size: 0.28rem;
 			font-family: PingFang SC;
