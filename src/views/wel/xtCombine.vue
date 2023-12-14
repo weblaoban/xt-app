@@ -56,11 +56,11 @@
 					<div class="descCon">
 						<p class="count">{{ item.brief || 0 }} <span>%</span></p>
 						<p class="count">
-							<span>{{ item.pmStand }}</span>
+							<span>{{ item.pmStandCnt }}</span>
 						</p>
 					</div>
 					<div class="line"></div>
-					<div class="duration">产品期限：{{ item.investLimitId }}</div>
+					<div class="duration">产品期限：{{ item.investLimitCnt }}</div>
 					<div class="tag" v-if="item.status == 1 || item.status == 3">
 						<img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
 					</div>
@@ -278,7 +278,7 @@ export default {
 				},
 				{
 					label: "期限",
-					value: "investLimitId",
+					value: "investLimitCnt",
 				},
 				{
 					label: "业绩比较基准",
@@ -286,15 +286,15 @@ export default {
 				},
 				{
 					label: "投资门槛",
-					value: "pmStand",
+					value: "pmStandCnt",
 				},
 				{
 					label: "付息方式",
-					value: "inrestMethodId",
+					value: "inrestMethodCnt",
 				},
 				{
 					label: "投资领域",
-					value: "prodEffid",
+					value: "prodEffCnt",
 				},
 				{
 					label: "防控评级",

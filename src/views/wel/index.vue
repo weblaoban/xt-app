@@ -70,11 +70,11 @@
 							<div class="descCon">
 								<p class="count">{{ item.brief || 0 }} <span>%</span></p>
 								<p class="count">
-									<span>{{ item.pmStand }}</span>
+									<span>{{ item.pmStandCnt }}</span>
 								</p>
 							</div>
 							<div class="line"></div>
-							<div class="duration">产品期限：{{ item.investLimitId }}</div>
+							<div class="duration">产品期限：{{ item.investLimitCnt }}</div>
 							<div class="tag" v-if="item.status == 1 || item.status == 3">
 								<img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
 							</div>
