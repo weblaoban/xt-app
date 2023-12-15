@@ -401,7 +401,7 @@ export default {
 			width: 100%;
 			height: 0.72rem;
 			box-sizing: border-box;
-		background: rgba(234, 186, 99, 0.1);
+			background: rgba(234, 186, 99, 0.1);
 			padding: 0 0.3rem;
 			border: 1px solid rgba(131, 108, 76, 0.3);
 			// opacity: 0.3;
@@ -664,6 +664,7 @@ export default {
 		position: relative;
 		float: left;
 		margin-right: 0.34rem;
+		line-height: 0.6rem;
 		&.active {
 			font-size: 0.32rem;
 			font-family: PingFang SC;

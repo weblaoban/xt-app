@@ -85,7 +85,7 @@
 			<div class="more" @click="goMore">查看更多</div>
 		</div>
 
-		<div class="phonel">客服电话：400-0000-000</div>
+		<div class="phonel">客服电话：0571-86012055</div>
 
 		<div class="loginBtn" v-if="!userInfo.id">
 			<div class="button" @click="goLogin">登录</div>
@@ -358,21 +358,28 @@ export default {
 		border-radius: 0.06rem;
 		margin: 0 auto 0.5rem;
 		box-sizing: border-box;
-		padding: 0.05rem 0;
+		padding: 0.1rem 0;
 		position: relative;
 		.amountItem {
 			width: 50%;
 			text-align: center;
 			float: left;
+			height: 1.09rem;
 
 			font-size: 0.2rem;
 			font-family: Heiti SC;
 			font-weight: 500;
-			padding: 0.27rem 0;
+			padding: 0.23rem 0;
 			box-sizing: border-box;
 			color: #fff;
 			&:first-child {
 				border-right: 2px dashed RGBA(237, 194, 117, 1);
+				padding-left: 1rem;
+				text-align: left;
+			}
+			&:nth-child(2) {
+				padding-left: 1rem;
+				text-align: left;
 			}
 			span {
 				font-size: 0.36rem;
@@ -645,12 +652,12 @@ export default {
 	.button {
 		float: left;
 		width: 3rem;
-	border-radius: 0.12rem;
+		border-radius: 0.12rem;
 
-	line-height: 0.76rem;
-	height: 0.76rem;
-	box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
-	font-size: 0.32rem;
+		line-height: 0.76rem;
+		height: 0.76rem;
+		box-shadow: 0rem 0.1rem 0rem 0rem #dea949;
+		font-size: 0.32rem;
 		font-family: PingFang SC;
 		font-weight: 400;
 		// margin-left: 0.39rem;
@@ -904,13 +911,13 @@ export default {
 			width: 280px;
 			margin: 0 auto;
 			p {
-font-size: 0.24rem;
+				font-size: 0.24rem;
 				font-family: Heiti SC;
 				font-weight: 500;
 				color: #9a9a9c;
 				cursor: pointer;
 				span {
-font-size: 0.24rem;
+					font-size: 0.24rem;
 					font-family: Heiti SC;
 					font-weight: 500;
 					color: #eaba63;

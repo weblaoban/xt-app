@@ -345,6 +345,7 @@ export default {
 .prodDetail {
 	padding-bottom: 0.5rem;
 	box-sizing: border-box;
+	background: #f8fafb;
 	.banner {
 		width: 100%;
 		height: 3.3rem;
@@ -356,6 +357,8 @@ export default {
 	}
 	.prodDetailCon {
 		margin-top: -3rem;
+		.container {
+		}
 	}
 	.section1 {
 		margin-bottom: 0.2rem;
@@ -469,6 +472,10 @@ export default {
 			font-weight: 500;
 			color: #ffffff;
 			cursor: pointer;
+			&.gray {
+				background: #9a9a9c;
+				box-shadow: none;
+			}
 		}
 	}
 	.section2 {
@@ -701,7 +708,7 @@ export default {
 		}
 		.yuyue {
 			width: 6.5rem;
-			height: 4rem;
+			height: 4.2rem;
 			background-image: url(/img/yuyuebg.png);
 			background-repeat: no-repeat;
 			background-position: center center;
