@@ -3,7 +3,7 @@ import { baseUrl } from "@/config/env";
 // 产品列表 根据分类id来
 export const list = (data) => {
     return request({
-        url: baseUrl + "/prod/pageProd",
+        url: baseUrl + "/p/prod/pageProd",
         method: "get",
         meta: {
             isSerialize: true,
