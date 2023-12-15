@@ -49,7 +49,7 @@ export const zxdetail = (id) => {
 
 export const proddetail = (params) => {
     return request({
-        url: baseUrl + '/prod/prodInfo/',
+        url: baseUrl + '/p/prod/prodInfo/',
         method: 'get',
         params: { ...params }
     })

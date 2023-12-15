@@ -45,13 +45,13 @@
 						<el-col :span="24"
 							><div class="infoItem">
 								<div class="infoLabel">产品类别</div>
-								<div class="infoDesc">{{ type[active] }}</div>
+								<div class="infoDesc">{{ detail.categoryCnt }}</div>
 							</div></el-col
 						>
 						<el-col :span="24"
 							><div class="infoItem">
 								<div class="infoLabel">发行机构</div>
-								<div class="infoDesc">{{ detail.organid }}</div>
+								<div class="infoDesc">{{ detail.organCnt }}</div>
 							</div></el-col
 						>
 						<el-col :span="24"
