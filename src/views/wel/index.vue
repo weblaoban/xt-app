@@ -1,5 +1,5 @@
 <template>
-	<div class="index-container">
+	<div class="index-container" :style="`padding-bottom:${userInfo.id?'0':'0.88rem'}`">
 		<main-header title="瑔石信托网" :active="0"></main-header>
 		<div class="bannerContent">
 			<el-carousel
@@ -649,6 +649,9 @@ export default {
 	background-image: url(/img/h5/btnbg.png);
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
+    position:fixed;
+    bottom:0;
+    left:0;
 	.button {
 		float: left;
 		width: 3rem;
