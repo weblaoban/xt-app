@@ -414,6 +414,7 @@ color: #9A9A9C;
 position:relative;
 float:left;
 margin-right:0.34rem;
+		line-height: 0.6rem;
 &.active{
 
 font-size: 0.32rem;

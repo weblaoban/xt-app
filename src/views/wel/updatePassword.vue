@@ -4,9 +4,9 @@
 		<mainHeader title="修改密码"></mainHeader>
 		<div class="container">
 			<div class="phoneInfo">
-				<span>{{ userInfo.nickName.slice(0, 3) }} </span
-				><span>{{ userInfo.nickName.slice(3, 7) }} </span
-				><span>{{ userInfo.nickName.slice(7, 11) }} </span>
+				<span>{{ userInfo.userMobile.slice(0, 3) }} </span
+				><span>{{ userInfo.userMobile.slice(3, 7) }} </span
+				><span>{{ userInfo.userMobile.slice(7, 11) }} </span>
 				<p>登录手机号</p>
 			</div>
 			<div class="loginContent register">

@@ -287,6 +287,7 @@ this.active = active
 if(active==2){
     this.refershCode()
 }
+this.userName="";
 				this.errInfo = "";
         },
 		onRegister() {

@@ -1,5 +1,5 @@
 <template>
-	<div class="index-container" :style="`padding-bottom:${userInfo.id?'0':'0.88rem'}`">
+	<div class="index-container" :style="`padding-bottom:${userInfo.id?'0':'1.08rem'}`">
 		<main-header title="瑔石信托网" :active="0"></main-header>
 		<div class="bannerContent">
 			<el-carousel
@@ -652,6 +652,9 @@ export default {
     position:fixed;
     bottom:0;
     left:0;
+    padding-bottom:0.2rem;
+    background-color:#fff;
+    z-index:2;
 	.button {
 		float: left;
 		width: 3rem;
