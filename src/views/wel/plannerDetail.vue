@@ -28,8 +28,8 @@
 							<div class="line"></div>
 
 							<div class="duration">
-                                <span>成立时间：{{item.otime}}</span>
-                                <span>到期时间：{{item.dtime}}</span>
+                                <span>成立时间：{{item.otime?item.otime.split(' ')[0]:''}}</span>
+                                <span>到期时间：{{item.dtime?item.dtime.split(' ')[0]:''}}</span>
                                 </div>
 						</div>
 					</div>
