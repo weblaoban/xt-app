@@ -188,7 +188,7 @@ export default {
 		},
 		sendSms() {
 			debugger;
-			sendSmsCode({ mobile: this.phone }).then((res) => {
+			sendSmsCode({ mobile: this.userInfo.userMobile }).then((res) => {
 				if (res && res.data && res.data.success) {
 					this.timeDownfn();
 				}
