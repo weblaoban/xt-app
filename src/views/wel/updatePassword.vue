@@ -246,8 +246,8 @@ export default {
 			modifyPassword({
 				code: smsCode,
 				passWord: encrypt(passWord),
-				mobile: phone,
-				userMobile: phone,
+				mobile: this.userInfo.userMobile,
+				userMobile: this.userInfo.userMobile,
 				time: this.time,
 			}).then((res) => {
 				if (res.data.success) {
@@ -268,7 +268,7 @@ export default {
 			}
 		},
 		twoPasswordChange(value) {
-			if (this.twopassWord && this.passWord && value !== this.passWord) {
+			if (this.twopassWord && this.passWord && this.twopassWord !== this.passWord) {
 				this.errInfo = "两次密码不一致，请检查";
 			} else {
 				this.errInfo = "";
