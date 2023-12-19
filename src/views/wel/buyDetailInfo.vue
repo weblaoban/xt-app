@@ -1,445 +1,440 @@
 <template>
-    <div class="prodDetail">
-        <main-header title="产品购买详情"></main-header>
-        <div class="banner"></div>
-        <div class="prodDetailCon">
-
-            <div class="container">
-            <div class="section1">
-                <div :class="{productItem:true,finish:detail.status==3}">
-                    <div :class="'title '+'title'+item.state">{{ detail.name }}</div>
-                            <div class="descCon">
-
-                                <div class="desc">持有金额</div>
-                                <div class="desc">业绩比较基准</div>
-                            </div>
-                            <div class="descCon">
-							<p class="count">{{ detail.zmount || 0 }} <span>元</span></p>
-							<p class="count">{{ detail.brief }}<span>%</span></p></div>
-							<div class="line"></div>
-							<div class="duration">
-                                <span>成立时间：{{detail.otime}}</span>
-                                <span>到期时间：{{detail.dtime}}</span>
-                                </div>
+	<div class="prodDetail">
+		<main-header title="产品购买详情"></main-header>
+		<div class="banner"></div>
+		<div class="prodDetailCon">
+			<div class="container">
+				<div class="section1">
+					<div :class="{ productItem: true, finish: detail.status == 3 }">
+						<div :class="'title ' + 'title' + detail.state">
+							{{ detail.name }}
 						</div>
-            </div>
+						<div class="descCon">
+							<div class="desc">持有金额</div>
+							<div class="desc">业绩比较基准</div>
+						</div>
+						<div class="descCon">
+							<p class="count">{{ detail.amount || 0 }} <span>元</span></p>
+							<p class="count">{{ detail.brief }}<span>%</span></p>
+						</div>
+						<div class="line"></div>
+						<div class="duration">
+							<span
+								>成立时间：{{
+									detail.otime ? detail.otime.split(" ")[0] : ""
+								}}</span
+							>
+							<span
+								>到期时间：{{
+									detail.dtime ? detail.dtime.split(" ")[0] : ""
+								}}</span
+							>
+						</div>
+					</div>
+				</div>
 
-            <div class="section2">
-                <div class="title">回款计划</div>
-                <div class="progress">
-                    <div class="progressItem" v-for="(item,index) in detail.qlist" :key="item">
-                        {{ index+1 }}
-                        {{ item.desc }}
+				<div class="section2">
+					<div class="title">回款计划</div>
+					<div class="progress">
+						<div
+							class="progressItem"
+							v-for="(item, index) in detail.qlist"
+							:key="item"
+						>
+							{{ index + 1 }}
+							{{ item.desc }}
 
-                        <span v-if="item.finish" class="state finish">已兑付</span>
-                        <span v-if="!item.finish"  class="state">未开始</span>
-                        </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
+							<span v-if="item.finish" class="state finish">已兑付</span>
+							<span v-if="!item.finish" class="state">未开始</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import mainHeader from '../common/header.vue'
+import mainHeader from "../common/header.vue";
 import { getBuyDetail } from "@/api/user.js";
 export default {
 	name: "jeZi",
 	components: {
-        mainHeader
+		mainHeader,
 	},
 	data() {
 		return {
-            detail:{},
-            loading:false,
+			detail: {},
+			loading: false,
 		};
 	},
 	computed: {
 		...mapGetters(["userInfo"]),
 	},
 	created() {
-        this.getDetail();
-},
-mounted(){
-
-},
+		this.getDetail();
+	},
+	mounted() {},
 	methods: {
-        getDetail(){
-            const id = this.$route.params.id
-            getBuyDetail(id).then(({data})=>{
-          data.qlist = data.qlist ? JSON.parse(data.qlist) : []
-                this.detail = data
-            })
-        },
-    },
+		getDetail() {
+			const id = this.$route.params.id;
+			getBuyDetail(id).then(({ data }) => {
+				data.data.qlist = data.data.qlist ? JSON.parse(data.data.qlist) : [];
+				this.detail = data.data;
+			});
+		},
+	},
 };
 </script>
 
-<style lang="scss" >
-.prodDetail{
-    padding-bottom:0.5rem;
-    box-sizing: border-box;
-    background: #F8FAFB;
-    .banner{width: 100%;
-height: 3.3rem;
-background: linear-gradient(0deg, rgba(161,196,253,0.5), rgba(194,233,251,0.5));
+<style lang="scss">
+.prodDetail {
+	padding-bottom: 0.5rem;
+	box-sizing: border-box;
+	background: #f8fafb;
+	.banner {
+		width: 100%;
+		height: 3.3rem;
+		background: linear-gradient(
+			0deg,
+			rgba(161, 196, 253, 0.5),
+			rgba(194, 233, 251, 0.5)
+		);
+	}
+	.prodDetailCon {
+		margin-top: -3rem;
+	}
+	.section1 {
+		margin-bottom: 0.2rem;
 
+		.baseInfo {
+			float: left;
+			width: 740px;
+			height: 366px;
+			background-image: url(/img/prod2.png);
+			background-size: 653px 249px;
+			background-position: left bottom;
+			background-repeat: no-repeat;
+			padding: 40px;
+			box-sizing: border-box;
+			font-size: 30px;
+			font-family: Heiti SC;
+			font-weight: 500;
+			color: #30333b;
+			h4 {
+				margin: 0;
+				margin-bottom: 100px;
+			}
+			ul,
+			li {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul {
+				height: 70px;
+			}
+			li {
+				width: 25%;
+				height: 70px;
+				float: left;
+				border-right: 1px solid #ebebeb;
+				box-sizing: border-box;
+				padding-left: 30px;
+				&:last-child {
+					border: none;
+				}
+				.label {
+					font-size: 18px;
+					font-family: Heiti SC;
+					font-weight: 500;
+					color: #9a9a9c;
+					margin-bottom: 20px;
+				}
+				.con {
+					font-size: 24px;
+					font-family: Heiti SC;
+					font-weight: 500;
+					color: #eaba63;
+				}
+			}
+		}
+		.zixun {
+			width: 460px;
+			height: 366px;
+			float: right;
+			background-image: url(/img/prod1.png);
+			background-size: 460px 366px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			box-sizing: border-box;
+			padding: 40px;
+			h5 {
+				font-size: 18px;
+				font-family: Heiti SC;
+				font-weight: 500;
+				color: #30333b;
+				margin: 0;
+				margin-bottom: 20px;
+			}
+			p {
+				font-size: 18px;
+				font-family: Heiti SC;
+				font-weight: 500;
+				color: #30333b;
+				margin: 0;
+				margin-bottom: 20px;
+			}
+		}
 
-    }
-    .prodDetailCon{
-        margin-top:-3rem;
-    }
-    .section1{
-margin-bottom:0.2rem;
-
-        .baseInfo{
-            float: left;
-            width:740px;
-            height:366px;
-		background-image: url(/img/prod2.png);
-		background-size:  653px 249px;
-		background-position: left bottom;
-		background-repeat: no-repeat;
-        padding:40px;
-        box-sizing: border-box;
-font-size: 30px;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
-h4{
-    margin:0;
-    margin-bottom:100px;
-}
-ul,li{
-    list-style: none;
-    margin:0;
-    padding:0;
-}
-ul{
-    height:70px;
-}
-li{
-    width:25%;
-    height:70px;
-    float:left;
-    border-right:1px solid #EBEBEB;
-    box-sizing: border-box;
-    padding-left:30px;
-    &:last-child{
-        border:none;
-    }
-    .label{
-
-font-size: 18px;
-font-family: Heiti SC;
-font-weight: 500;
-color: #9A9A9C;
-margin-bottom:20px;
-    }
-    .con{
-
-font-size: 24px;
-font-family: Heiti SC;
-font-weight: 500;
-color: #EABA63;
-    }
-}
-        }
-        .zixun{
-            width:460px;
-            height:366px;
-            float:right;
-		background-image: url(/img/prod1.png);
-		background-size:  460px 366px;
-		background-position: center center;
-		background-repeat: no-repeat;
-        box-sizing: border-box;
-        padding:40px;
-        h5{
-
-font-size: 18px;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
-margin:0;
-margin-bottom:20px;
-        }
-        p{
-
-font-size: 18px;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
-margin:0;
-margin-bottom:20px;
-        }
-        }
-
-.el-textarea{
-
-box-shadow: 0px 2px 1px 0px rgba(0,0,0,0.09);
-border-radius: 12px;
-    border:none;
-textarea{
-    border:none;
-    box-shadow: none !important;
-    outline: none;
-}
-}
+		.el-textarea {
+			box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.09);
+			border-radius: 12px;
+			border: none;
+			textarea {
+				border: none;
+				box-shadow: none !important;
+				outline: none;
+			}
+		}
 		.button {
 			height: 0.76rem;
 			background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
 			box-shadow: 0px 0.05rem 0px 0px #dea949;
-			
-border-radius: 0.12rem;
+
+			border-radius: 0.12rem;
 			margin: 0.3rem auto 0;
 			text-align: center;
 			line-height: 0.76rem;
-font-size: 0.32rem;
+			font-size: 0.32rem;
 			font-family: Heiti SC;
 			font-weight: 500;
 			color: #ffffff;
 			cursor: pointer;
 		}
-    }
-    .section2{
-        padding:0.2rem 0.1rem 0.82rem;
-        box-sizing: border-box;
-background: #FFFFFF;
-border-radius: 0.12rem;
-        .title{
-
-
-            font-size: 0.3rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #EABA63;
-line-height: 0.64rem;
-border-bottom:1px solid rgba(234, 186, 99, 0.2);
-position:relative;
-padding-left:0.11rem;
-box-sizing: border-box;
-margin-bottom:0.2rem;
-&::after{
-    content:'';
-    display: block;width: 1.4rem;
-height: 0.04rem;
-background: #EABA63;
-position:absolute;
-bottom:0;
-left:0.11rem;
-}
-        }
-
-.el-col{
-    margin:0;
-            &:first-child{
-                .infoDesc{
-
-font-weight: 500;
-                }
-            }
-            &:nth-child(10){
-                .infoDesc{
-
-color:#EABA63;
-                }
-            }
-}
-.el-row{
-    width:100%;
-    margin:0 auto 0.8rem;
-border: 1px solid #EBEBEB;
-border-bottom:none;
-}
-        .infoItem{
-            border-bottom:1px solid rgba(235, 235, 235, 1);
-            height:0.5rem;
-
-            .infoLabel{
-                width: 1.5rem;
-height: 0.5rem;
-line-height: 0.5rem;
-background: rgba(173, 181, 193,.1);
-
-font-size: 0.2rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
-text-align: center;
-float:left;
-
-            }
-            .infoDesc{
-padding-right:0.24rem;
-box-sizing: border-box;
-font-size: 0.2rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
-float:left;
-text-align: right;
-line-height: 0.5rem;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-width:calc(100% - 1.5rem);
-            }
-        }
-    }
-}
-
-.detailCon{
-    img{
-        max-width:100%;
-    }
-}
-
-.progress{
-    width: 100%;
-background: rgba(234,186,99,0.1);
-border: 1px solid #EABA63;
-border-radius: 0.12rem;
-box-sizing: border-box;
-margin-bottom:0.8rem;
-
-padding:0 0.25rem ;
-.progressItem{
-line-height: 1.5;
-    border: 1px dashed rgba(235, 235, 235, 1);;
-font-size: 0.2rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #30333B;
-width:100%;
-padding:0.14rem 1rem 0.14rem;
-box-sizing: border-box;
-.state{
-    float:right;
-font-size: 0.18rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #80C269;
-opacity: 0.5;
-&.finish{
-
-color: #9A9A9C;
-}
-}
-}
-
-}
-
-
-.productItem {
-			width: 100%;
-background: #FFFFFF;
-box-shadow: 0rem 0rem 0.1rem 0rem rgba(234,186,99,0.15);
-border-radius: 0.06rem;
-padding:0.2rem 0.3rem 0.5rem;
-box-sizing: border-box;
-position:relative;
-margin-bottom:0.2rem;
-.tag{
-position:absolute;
-width:0.83rem;
-height:0.73rem;
-top:0;
-right:0;
-img{
-    width:100%;
-    height:100%;
-}
-}
-			.title {width: 4.71rem;
-font-size: 0.32rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #30333B;
-margin-bottom:0.1rem;
-box-sizing: border-box;
-padding-left:1rem;
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
-
-background-image: url(/img/h5/title1.png);
-background-repeat: no-repeat;
-background-size: 0.92rem 0.3rem;
-background-position: left center;
-&.title98{
-    
-background-image: url(/img/h5/title2.png);
-}
-&.title99{
-    
-background-image: url(/img/h5/title3.png);
-}
-
-
+	}
+	.section2 {
+		padding: 0.2rem 0.1rem 0.82rem;
+		box-sizing: border-box;
+		background: #ffffff;
+		border-radius: 0.12rem;
+		.title {
+			font-size: 0.3rem;
+			font-family: Heiti SC;
+			font-weight: 500;
+			color: #eaba63;
+			line-height: 0.64rem;
+			border-bottom: 1px solid rgba(234, 186, 99, 0.2);
+			position: relative;
+			padding-left: 0.11rem;
+			box-sizing: border-box;
+			margin-bottom: 0.2rem;
+			&::after {
+				content: "";
+				display: block;
+				width: 1.4rem;
+				height: 0.04rem;
+				background: #eaba63;
+				position: absolute;
+				bottom: 0;
+				left: 0.11rem;
 			}
-			.desc {
-                width:50%;
-font-size: 0.24rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #9A9A9C;
-			}
-            .descCon{
-                display: flex;
-            }
-			.count {
-                width:50%;
-font-size: 0.36rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #EABA63;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-				margin: 0.1rem 0;
-				span {
-					font-size: 0.24rem;
-					font-weight: 400;
-				}
-                &:nth-child(2){
-                    
-color: #30333B;
-                }
-			}
-			.duration {width: 6.3rem;
-height: 0.45rem;
-background: linear-gradient(90deg, #F8FAFB, #FFFFFF);
-color: #9A9A9C;
-box-sizing: border-box;
-padding-left:0.1rem;
-span{
-    float:right;
-font-size: 0.24rem;
-font-family: PingFang SC;
-font-weight: 400;
-    &:first-child{
-        float:left;
-    }
-}
-
-			}
-            &:last-child{
-                margin:0;
-            }
-
-            &.finish{
-color: #9A9A9C !important;
-            }
-
-
-
 		}
 
+		.el-col {
+			margin: 0;
+			&:first-child {
+				.infoDesc {
+					font-weight: 500;
+				}
+			}
+			&:nth-child(10) {
+				.infoDesc {
+					color: #eaba63;
+				}
+			}
+		}
+		.el-row {
+			width: 100%;
+			margin: 0 auto 0.8rem;
+			border: 1px solid #ebebeb;
+			border-bottom: none;
+		}
+		.infoItem {
+			border-bottom: 1px solid rgba(235, 235, 235, 1);
+			height: 0.5rem;
 
-        .model {
+			.infoLabel {
+				width: 1.5rem;
+				height: 0.5rem;
+				line-height: 0.5rem;
+				background: rgba(173, 181, 193, 0.1);
+
+				font-size: 0.2rem;
+				font-family: Heiti SC;
+				font-weight: 500;
+				color: #30333b;
+				text-align: center;
+				float: left;
+			}
+			.infoDesc {
+				padding-right: 0.24rem;
+				box-sizing: border-box;
+				font-size: 0.2rem;
+				font-family: Heiti SC;
+				font-weight: 500;
+				color: #30333b;
+				float: left;
+				text-align: right;
+				line-height: 0.5rem;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: calc(100% - 1.5rem);
+			}
+		}
+	}
+}
+
+.detailCon {
+	img {
+		max-width: 100%;
+	}
+}
+
+.progress {
+	width: 100%;
+	background: rgba(234, 186, 99, 0.1);
+	border: 1px solid #eaba63;
+	border-radius: 0.12rem;
+	box-sizing: border-box;
+	margin-bottom: 0.8rem;
+
+	padding: 0 0.25rem;
+	.progressItem {
+		line-height: 1.5;
+		border: 1px dashed rgba(235, 235, 235, 1);
+		font-size: 0.2rem;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #30333b;
+		width: 100%;
+		padding: 0.14rem 1rem 0.14rem;
+		box-sizing: border-box;
+		.state {
+			float: right;
+			font-size: 0.18rem;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #80c269;
+			opacity: 0.5;
+			&.finish {
+				color: #9a9a9c;
+			}
+		}
+	}
+}
+
+.productItem {
+	width: 100%;
+	background: #ffffff;
+	box-shadow: 0rem 0rem 0.1rem 0rem rgba(234, 186, 99, 0.15);
+	border-radius: 0.06rem;
+	padding: 0.2rem 0.3rem 0.5rem;
+	box-sizing: border-box;
+	position: relative;
+	margin-bottom: 0.2rem;
+	.tag {
+		position: absolute;
+		width: 0.83rem;
+		height: 0.73rem;
+		top: 0;
+		right: 0;
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+	.title {
+		width: 4.71rem;
+		font-size: 0.32rem;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #30333b;
+		margin-bottom: 0.1rem;
+		box-sizing: border-box;
+		padding-left: 1rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		background-image: url(/img/h5/title1.png);
+		background-repeat: no-repeat;
+		background-size: 0.92rem 0.3rem;
+		background-position: left center;
+		&.title98 {
+			background-image: url(/img/h5/title2.png);
+		}
+		&.title99 {
+			background-image: url(/img/h5/title3.png);
+		}
+	}
+	.desc {
+		width: 50%;
+		font-size: 0.24rem;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #9a9a9c;
+	}
+	.descCon {
+		display: flex;
+	}
+	.count {
+		width: 50%;
+		font-size: 0.36rem;
+		font-family: PingFang SC;
+		font-weight: 400;
+		color: #eaba63;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin: 0.1rem 0;
+		span {
+			font-size: 0.24rem;
+			font-weight: 400;
+		}
+		&:nth-child(2) {
+			color: #30333b;
+		}
+	}
+	.duration {
+		width: 6.3rem;
+		height: 0.45rem;
+		background: linear-gradient(90deg, #f8fafb, #ffffff);
+		color: #9a9a9c;
+		box-sizing: border-box;
+		padding-left: 0.1rem;
+		span {
+			float: right;
+			font-size: 0.24rem;
+			font-family: PingFang SC;
+			font-weight: 400;
+			&:first-child {
+				float: left;
+			}
+		}
+	}
+	&:last-child {
+		margin: 0;
+	}
+
+	&.finish {
+		color: #9a9a9c !important;
+	}
+}
+
+.model {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -455,15 +450,15 @@ color: #9A9A9C !important;
 		position: relative;
 		margin: 100px auto 0;
 		.close {
-		position: absolute;
-        left:0;
-        right:0;
-        margin:auto;
-        bottom:-1rem;
-		z-index: 2;
-		width: 0.64rem;
-		height: 0.64rem;
-		cursor: pointer;
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: auto;
+			bottom: -1rem;
+			z-index: 2;
+			width: 0.64rem;
+			height: 0.64rem;
+			cursor: pointer;
 		}
 		.yuyue {
 			width: 6.5rem;
@@ -474,9 +469,9 @@ color: #9A9A9C !important;
 			background-size: 100% 100%;
 			padding: 0.6rem;
 			box-sizing: border-box;
-            position:relative;
+			position: relative;
 			h3 {
-font-size: 0.34rem;
+				font-size: 0.34rem;
 				font-family: Heiti SC;
 				font-weight: 500;
 				color: #eaba63;
@@ -484,7 +479,7 @@ font-size: 0.34rem;
 				margin-top: 0;
 			}
 			p.desc {
-font-size: 0.24rem;
+				font-size: 0.24rem;
 				font-family: Heiti SC;
 				font-weight: 500;
 				color: #30333b;
@@ -492,7 +487,7 @@ font-size: 0.24rem;
 				margin-bottom: 0.2rem;
 			}
 			p.title {
-font-size: 0.24rem;
+				font-size: 0.24rem;
 				font-family: Heiti SC;
 				font-weight: 400;
 				color: #30333b;
@@ -502,17 +497,17 @@ font-size: 0.24rem;
 		}
 		.button {
 			width: 100%;
-height: 0.76rem;
+			height: 0.76rem;
 			background: linear-gradient(163deg, #e1ad4f, #eaba63, #e0af56);
 			box-shadow: 0px 0.03rem 0px 0px #dea949;
 			border-radius: 0.12rem;
 			margin: 0 auto;
 			text-align: center;
-			line-height:  0.76rem;
-font-size: 0.32rem;
-font-family: PingFang SC;
-font-weight: 400;
-color: #FFFFFF;
+			line-height: 0.76rem;
+			font-size: 0.32rem;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #ffffff;
 			cursor: pointer;
 		}
 		.agreement {
@@ -524,7 +519,7 @@ color: #FFFFFF;
 			background-size: 100% 100%;
 			padding: 0.3rem;
 			box-sizing: border-box;
-            position:relative;
+			position: relative;
 			.logo {
 				width: 1.78rem;
 				height: 0.52rem;
@@ -548,18 +543,18 @@ color: #FFFFFF;
 				h1 {
 					margin: 0 auto 0.2rem;
 					text-align: center;
-font-size: 0.24rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
+					font-size: 0.24rem;
+					font-family: Heiti SC;
+					font-weight: 500;
+					color: #30333b;
 				}
 				p {
 					margin: 0 auto 0.06rem;
 					text-indent: 0.32rem;
-font-size: 0.2rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #30333B;
+					font-size: 0.2rem;
+					font-family: Heiti SC;
+					font-weight: 500;
+					color: #30333b;
 					&.red {
 						color: #ec5e2a;
 					}
@@ -576,10 +571,10 @@ color: #30333B;
 				}
 				span {
 					line-height: 1.5;
-font-size: 0.2rem;
-font-family: Heiti SC;
-font-weight: 500;
-color: #9A9A9C;
+					font-size: 0.2rem;
+					font-family: Heiti SC;
+					font-weight: 500;
+					color: #9a9a9c;
 					&.yel {
 						color: #eaba63;
 					}

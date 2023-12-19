@@ -22,7 +22,7 @@
                                 <div class="desc">业绩比较基准</div>
                             </div>
                             <div class="descCon">
-							<p class="count">{{ item.zmount || 0 }} <span>元</span></p>
+							<p class="count">{{ item.amount || 0 }} <span>元</span></p>
 							<p class="count">{{ item.brief }}<span>%</span></p></div>
 							<div class="line"></div>
 							<div class="duration">到期日：{{item.dtime}}</div>
