@@ -2,6 +2,16 @@
 <template>
 	<div class="index-container prodListContainer">
 		<main-header title="客户购买详情"></main-header>
+
+        <div class="combineCon">
+			<div class="combineContent">
+                <div class="tabs">
+                    <div :class="{tabItem:true,active:currentCatbuy==0}" @click="setCatbuy(0)">我认购的</div>
+                    <div :class="{tabItem:true,active:currentCatbuy==1}" @click="setCatbuy(1)">我推荐的</div>
+                </div>
+			</div>
+		</div>
+
 		<div class="combineCon">
 			<div class="combineContent">
                 <div class="tabs">
@@ -20,11 +30,12 @@
                             <div class="descCon">
 
 <div class="desc">持有金额（元）</div>
-<div class="desc"></div>
+<div class="desc" v-if="currentCatbuy==0">业绩比较基准</div>
 </div>
                             <div class="descCon">
 							<p class="count">{{ item.amount || 0 }} <span>元</span></p>
-							<p class="count kehu"> <span>客户：{{ item.nickName }}</span></p></div>
+							<p class="count"  v-if="currentCatbuy==0">{{ item.brief || 0 }} <span>%</span></p>
+							<p class="count kehu"  v-if="currentCatbuy==1"> <span>客户：{{ item.nickName }}</span></p></div>
 							<div class="line"></div>
 
 							<div class="duration">
@@ -42,7 +53,7 @@
 <script>
 import mainFooter from "../common/footer.vue";
 import mainHeader from "../common/header.vue";
-import { getPlannerProd } from "@/api/user.js";
+import { getPlannerProd,getUserProd } from "@/api/user.js";
 import { mapGetters } from "vuex";
 export default {
 	components: {
@@ -51,8 +62,11 @@ export default {
 	},
 	data() {
 		return {
+            currentCatbuy:0,
             currentCat:0,
 			prodList: [],
+            buy0List:[],
+            buy1List:[],
             state0list:[],
             state1list:[],
             curList:[],
@@ -77,7 +91,7 @@ export default {
 			getPlannerProd({uid:this.userInfo.id}).then(res=>{
 
         let list = []
-        res.data.data.records.forEach((item) => {
+        res.data.data.forEach((item) => {
           const { userDtm = [] } = item
           userDtm.forEach((user) => {
             if ((user.puserId == this.userInfo.id)) {
@@ -87,17 +101,53 @@ export default {
         })
                 this.state0list = list.filter(item=>item.state===0)
                 this.state1list = list.filter(item=>item.state===1)
-                this.prodList = this.state0list;
+            });
+
+
+
+			getUserProd({ ...page,uid:this.userInfo.id}).then(res=>{ let list = []
+        res.data.data.records.forEach((item) => {
+          const { userDtm = [] } = item
+          userDtm.forEach((user) => {
+            if ((user.id == this.userInfo.id)) {
+              list.push({ ...item, ...user })
+            }
+          })
+        })
+                this.buy0List = list.filter(item=>item.state===0)
+                this.buy1List = list.filter(item=>item.state===1)
+                this.prodList = this.buy0List;
+                this.page.total = res.data.data.total;
             });
 		},
         setCat(cat){
+            if(this.currentCatbuy==0){
+                //我认购的
+              
+          if(cat==0){
+            this.prodList = this.buy0List
+          }
+          if(cat==1){
+            this.prodList = this.buy1List
+          }
+            }
+
+            if(this.currentCatbuy==1){
+                
           if(cat==0){
             this.prodList = this.state0list
           }
           if(cat==1){
             this.prodList = this.state1list
           }
+            }
           this.currentCat = cat
+        },
+        setCatbuy(cat){
+          this.currentCatbuy = cat
+          this.$nextTick(()=>{
+            this.setCat(0)
+          })
         },
         goDetail(row){
 this.$router.push({
