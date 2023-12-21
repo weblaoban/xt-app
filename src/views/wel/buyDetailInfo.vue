@@ -521,7 +521,7 @@ export default {
 			box-sizing: border-box;
 			position: relative;
 			.logo {
-				width: 1.78rem;
+				// width: 1.78rem;
 				height: 0.52rem;
 				margin-bottom: 0.32rem;
 			}
