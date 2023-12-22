@@ -180,7 +180,7 @@ export default {
 			this.$router.push({
 				path: "/buyDetailInfo/" + row.id,
 				query: {
-					type: 1,
+					type: row.rad,
 				},
 			});
 		},
@@ -363,7 +363,7 @@ export default {
 .products {
 	.productItem {
 		width: 100%;
-		height: 2.74rem;
+		// height: 2.74rem;
 		background: #ffffff;
 		box-shadow: 0rem 0rem 0.1rem 0rem rgba(48, 51, 59, 0.2);
 		border-radius: 0.06rem;

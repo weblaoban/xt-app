@@ -111,7 +111,7 @@ export default {
 			this.$router.push({
 				path: "/buyDetailInfo/" + row.id,
 				query: {
-					type: 1,
+					type: row.rad,
 				},
 			});
 		},

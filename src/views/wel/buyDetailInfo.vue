@@ -15,7 +15,9 @@
 							<div class="desc pd">业绩比较基准</div>
 						</div>
 						<div class="descCon">
-							<p class="count">{{ detail.amount || 0 }} <span>元</span></p>
+							<p class="count">
+								{{ detail.userInfo.amount || 0 }} <span>元</span>
+							</p>
 							<p class="count pd">{{ detail.brief || 0 }}<span>%</span></p>
 						</div>
 						<div class="line"></div>
@@ -66,7 +68,7 @@ export default {
 	},
 	data() {
 		return {
-			detail: {},
+			detail: { userInfo: {} },
 			loading: false,
 		};
 	},
@@ -80,10 +82,16 @@ export default {
 	methods: {
 		getDetail() {
 			const id = this.$route.params.id;
+			const type = this.$route.query.type;
+			console.log(type);
 			getBuyDetail(id).then(({ data }) => {
 				if (data.success) {
-					data.data.qlist = data.data.qlist ? JSON.parse(data.data.qlist) : [];
-					this.detail = data.data;
+					const detail = data.data;
+					detail.qlist = detail.qlist ? JSON.parse(detail.qlist) : [];
+					const userDtm = detail.userDtm || [];
+					const userInfo = userDtm.find((item) => item.rad === type);
+					detail.userInfo = userInfo || {};
+					this.detail = detail;
 				}
 			});
 		},
@@ -435,7 +443,7 @@ export default {
 			font-size: 0.24rem;
 			font-weight: 400;
 		}
-		&:nth-child(2) {
+		&:nth-child(1) {
 			color: #30333b;
 		}
 	}
