@@ -77,7 +77,7 @@
 					</div>
 				</div>
 				<div class="smscodeCon">
-					<div class="label">验证码</div>
+					<div class="label">验证码（短信由杭州泓林信息咨询发送）</div>
 					<div class="inputItem">
 						<input
 							autocomplete="off"
@@ -242,7 +242,12 @@ export default {
 			errInfo: "",
 		};
 	},
-	mounted() {},
+	mounted() {
+        console.log(this.$route.query)
+        if(this.$route.query.type==1){
+            this.setActive(2)
+        }
+    },
 	methods: {
 		getCaptcha() {
 			getCaptcha({ time: this.time }).then((res) => {

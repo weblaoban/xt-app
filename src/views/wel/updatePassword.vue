@@ -27,7 +27,7 @@
 					</div>
 				</div>
 				<div class="smscodeCon">
-					<div class="label">验证码</div>
+					<div class="label">验证码（短信由杭州泓林信息咨询发送）</div>
 					<div class="inputItem">
 						<input
 							autocomplete="off"

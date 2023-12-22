@@ -86,6 +86,16 @@
 		</div>
 
 		<div class="phonel">客服电话：0571-86012055</div>
+       
+        <div class="copy">
+            <p>
+                Copyright ©杭州泓林信息咨询有限公司All rights reserved|
+</p>
+<p>投资有风险，理财需谨慎。| <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank">浙ICP备2023043214</a>号</p>
+<p>以上项目皆真实，信息来自信托、基金、保险等金融机构，其对提供信息的真实可靠性和完整准确性负责。</p>
+<p>
+投资者应仔细阅读产品的法律文件，了解产品风险和收益特征(包括系统性风险和特定产品所特有的投资风险等)。</p>
+        </div>
 
 		<div class="loginBtn" v-if="!userInfo.id">
 			<div class="button" @click="goLogin">登录</div>
@@ -243,7 +253,12 @@ export default {
 			this.$store.dispatch("LogOut");
 		},
 		goRegister() {
-			this.$router.push("/register");
+			this.$router.push({
+                path:"/register",
+                query:{
+                    type:1
+                }
+            });
 		},
 		onModifyPassword() {
 			this.$router.push("/updatePassword");
@@ -1003,5 +1018,28 @@ export default {
 			z-index: 1;
 		}
 	}
+}
+
+.copy{
+
+background: #F8FAFB;
+padding:0.3rem 0.4rem 0.2rem;
+p{
+    margin:0;
+    font-size: 0.18rem;
+font-family: Heiti SC;
+font-weight: 500;
+color: #85878B;
+line-height: 0.24rem;
+text-align: center;
+a{
+    
+    font-size: 0.18rem;
+font-family: Heiti SC;
+font-weight: 500;
+color: #85878B;
+line-height: 0.24rem;
+}
+}
 }
 </style>
