@@ -6,16 +6,17 @@
 			<div class="container">
 				<div class="section1">
 					<div :class="{ productItem: true, finish: detail.status == 3 }">
+						<div class="linecenter"></div>
 						<div :class="'title ' + 'title' + detail.state">
 							{{ detail.name }}
 						</div>
 						<div class="descCon">
 							<div class="desc">持有金额</div>
-							<div class="desc">业绩比较基准</div>
+							<div class="desc pd">业绩比较基准</div>
 						</div>
 						<div class="descCon">
 							<p class="count">{{ detail.amount || 0 }} <span>元</span></p>
-							<p class="count">{{ detail.brief || 0 }}<span>%</span></p>
+							<p class="count pd">{{ detail.brief || 0 }}<span>%</span></p>
 						</div>
 						<div class="line"></div>
 						<div class="duration">
@@ -352,6 +353,7 @@ export default {
 }
 
 .productItem {
+	height: 3.17rem;
 	width: 100%;
 	background: #ffffff;
 	box-shadow: 0rem 0rem 0.1rem 0rem rgba(234, 186, 99, 0.15);
@@ -360,6 +362,20 @@ export default {
 	box-sizing: border-box;
 	position: relative;
 	margin-bottom: 0.2rem;
+	.linecenter {
+		position: absolute;
+		width: 0.02rem;
+		height: 0.68rem;
+		background: #ebebeb;
+		top: 1.04rem;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+	.pd {
+		padding-left: 0.4rem;
+		box-sizing: border-box;
+	}
 	.tag {
 		position: absolute;
 		width: 0.83rem;
@@ -377,7 +393,7 @@ export default {
 		font-family: PingFang SC;
 		font-weight: 400;
 		color: #30333b;
-		margin-bottom: 0.1rem;
+		margin-bottom: 0.33rem;
 		box-sizing: border-box;
 		padding-left: 1rem;
 		overflow: hidden;
@@ -430,6 +446,7 @@ export default {
 		color: #9a9a9c;
 		box-sizing: border-box;
 		padding-left: 0.1rem;
+		margin-top: 0.35rem;
 		span {
 			float: right;
 			font-size: 0.24rem;
