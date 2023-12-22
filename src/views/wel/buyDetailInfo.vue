@@ -307,8 +307,8 @@ export default {
 
 .progress {
 	width: 100%;
-	background: rgba(234, 186, 99, 0.1);
-	border: 1px solid #eaba63;
+	// background: rgba(234, 186, 99, 0.1);
+	// border: 1px solid #eaba63;
 	border-radius: 0.12rem;
 	box-sizing: border-box;
 	margin-bottom: 0.8rem;
@@ -316,16 +316,26 @@ export default {
 	padding: 0 0.25rem;
 	.progressItem {
 		line-height: 1.5;
-		border: 1px dashed rgba(235, 235, 235, 1);
+		border-bottom: 1px dashed rgba(235, 235, 235, 1);
 		font-size: 0.2rem;
 		font-family: PingFang SC;
 		font-weight: 400;
 		color: #30333b;
 		width: 100%;
-		padding: 0.14rem 1rem 0.14rem;
+		padding: 0.14rem 1rem 0.14rem 0;
 		box-sizing: border-box;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		position: relative;
 		.state {
-			float: right;
+			display: block;
+			height: 0.3rem;
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
 			font-size: 0.18rem;
 			font-family: PingFang SC;
 			font-weight: 400;
@@ -334,6 +344,9 @@ export default {
 			&.finish {
 				color: #9a9a9c;
 			}
+		}
+		&:last-child {
+			border: none;
 		}
 	}
 }
