@@ -15,7 +15,7 @@
 						</div>
 						<div class="descCon">
 							<p class="count">{{ detail.amount || 0 }} <span>元</span></p>
-							<p class="count">{{ detail.brief }}<span>%</span></p>
+							<p class="count">{{ detail.brief || 0 }}<span>%</span></p>
 						</div>
 						<div class="line"></div>
 						<div class="duration">
@@ -80,8 +80,10 @@ export default {
 		getDetail() {
 			const id = this.$route.params.id;
 			getBuyDetail(id).then(({ data }) => {
-				data.data.qlist = data.data.qlist ? JSON.parse(data.data.qlist) : [];
-				this.detail = data.data;
+				if (data.success) {
+					data.data.qlist = data.data.qlist ? JSON.parse(data.data.qlist) : [];
+					this.detail = data.data;
+				}
 			});
 		},
 	},
