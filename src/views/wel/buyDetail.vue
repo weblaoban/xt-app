@@ -82,6 +82,9 @@ export default {
 	methods: {
 		fetchList() {
 			const { page } = this;
+            if(!this.userInfo.id){
+                this.$router.push('/login')
+            }
 			getUserProd({ ...page, uid: this.userInfo.id }).then((res) => {
 				let list = [];
 				res.data.data.records.forEach((item) => {

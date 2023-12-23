@@ -325,6 +325,7 @@ export default {
 			register({
 				mobile: phone,
 				nickName: userName,
+				userName: userName,
 				userMobile: phone,
 				passWord: encrypt(passWord),
 				code: smsCode,
