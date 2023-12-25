@@ -58,7 +58,7 @@
 					<div class="descCon">
 						<p class="count">{{ item.amount || 0 }} <span>元</span></p>
 						<p class="count" v-if="currentCatbuy == 0">
-							{{ item.brief || 0 }} <span>%</span>
+							{{ item.brief || 0 }} <span></span>
 						</p>
 						<p class="count kehu" v-if="currentCatbuy == 1">
 							<span>客户：{{ item.nickName }}</span>

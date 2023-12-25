@@ -18,7 +18,7 @@
 							<p class="count">
 								{{ detail.userInfo.amount || 0 }} <span>元</span>
 							</p>
-							<p class="count pd">{{ detail.brief || 0 }}<span>%</span></p>
+							<p class="count pd">{{ detail.brief || 0 }}<span></span></p>
 						</div>
 						<div class="line"></div>
 						<div class="duration">

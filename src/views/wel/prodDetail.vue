@@ -14,7 +14,7 @@
 							<div class="desc">投资门槛</div>
 						</div>
 						<div class="descCon">
-							<p class="count">{{ detail.brief || 0 }} <span>%</span></p>
+							<p class="count">{{ detail.brief || 0 }} <span></span></p>
 							<p class="count">
 								<span>{{ detail.pmStandCnt }}</span>
 							</p>
