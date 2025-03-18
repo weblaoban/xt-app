@@ -9,7 +9,7 @@
 							<li>客服电话：400—0000—000
 </li>
 							<li>客服邮箱：xxxxxxxxx@xx.com</li>
-							<li>服务时间：9:00-12:00</li>
+							<li>服务时间：9:00-17:00</li>
 							<li>公司地址：xxxx省xxx市xxx区xxx街xxx号</li>
 						</ul>
 					</div>

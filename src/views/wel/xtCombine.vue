@@ -54,7 +54,7 @@
 						<div class="desc">投资门槛</div>
 					</div>
 					<div class="descCon">
-						<p class="count">{{ item.brief || 0 }} <span>%</span></p>
+						<p class="count">{{ item.brief || 0 }} <span></span></p>
 						<p class="count">
 							<span>{{ item.pmStandCnt }}</span>
 						</p>
@@ -303,7 +303,7 @@ export default {
 			],
 
 			page: {
-				pageSize: 15,
+				pageSize: 10,
 				total: 0,
 				current: 1,
 			},
@@ -332,7 +332,7 @@ export default {
 			this.currentCat = cat;
 			this.prodList = [];
 			this.page = {
-				pageSize: 15,
+				pageSize: 10,
 				total: 0,
 				current: 1,
 			};
@@ -356,7 +356,8 @@ export default {
 			const scrollList = this.$refs.scrollList;
 			const scrollCon = this.$refs.scrollCon;
 			const toBottom =
-				scrollCon.scrollTop + scrollCon.clientHeight >= scrollList.clientHeight;
+				Math.ceil(scrollCon.scrollTop + scrollCon.clientHeight + 4) >=
+				Math.floor(scrollList.clientHeight);
 			const { pageSize, total, current } = this.page;
 			const unfinish = pageSize * current < total;
 			if (unfinish && toBottom) {

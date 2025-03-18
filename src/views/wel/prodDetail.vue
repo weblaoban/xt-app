@@ -14,7 +14,7 @@
 							<div class="desc">投资门槛</div>
 						</div>
 						<div class="descCon">
-							<p class="count">{{ detail.brief || 0 }} <span>%</span></p>
+							<p class="count">{{ detail.brief || 0 }} <span></span></p>
 							<p class="count">
 								<span>{{ detail.pmStandCnt }}</span>
 							</p>
@@ -69,7 +69,7 @@
 						<el-col :span="24"
 							><div class="infoItem">
 								<div class="infoLabel">规模</div>
-								<div class="infoDesc">{{ detail.name }}</div>
+								<div class="infoDesc">{{ detail.totalStocks }}</div>
 							</div></el-col
 						>
 						<el-col :span="24"
