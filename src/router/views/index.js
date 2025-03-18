@@ -144,6 +144,16 @@ export default [
 						/* webpackChunkName: "views" */ "@/views/wel/linkus.vue"
                     ),
             }, {
+                path: 'account',
+                name: "我的账户",
+                meta: {
+                    title: "我的账户",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/account.vue"
+                    ),
+            }, {
                 path: 'buyDetail',
                 name: "购买详情",
                 meta: {
@@ -152,6 +162,16 @@ export default [
                 component: () =>
                     import(
 						/* webpackChunkName: "views" */ "@/views/wel/buyDetail.vue"
+                    ),
+            }, {
+                path: 'customList',
+                name: "客户列表",
+                meta: {
+                    title: "客户列表",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/customList.vue"
                     ),
             },
             {
@@ -162,7 +182,7 @@ export default [
                 },
                 component: () =>
                     import(/* webpackChunkName: "views" */ "@/views/wel/buyDetailInfo.vue"),
-            },{
+            }, {
                 path: 'plannerDetail',
                 name: "客户购买详情",
                 meta: {
@@ -173,7 +193,7 @@ export default [
 						/* webpackChunkName: "views" */ "@/views/wel/plannerDetail.vue"
                     ),
             },
-            
+
         ],
     },
 ];
