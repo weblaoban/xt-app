@@ -7,6 +7,18 @@ export default ({ mode, command }) => {
   const { VITE_APP_BASE } = env
   return defineConfig({
     base: VITE_APP_BASE,
+    devServer: {
+      port: 8080,
+      proxy: {
+        "/apis": {
+          target: "https://app.quanshixintuo.com/",
+          ws: true,
+          pathRewrite: {
+            "^/apis": "/apis",
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         '~': resolve(__dirname, './'),
