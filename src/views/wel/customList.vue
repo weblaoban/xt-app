@@ -4,10 +4,14 @@
     <main-header title="客户列表"></main-header>
     <div class="container customCon">
       <div class="searchCon">
-        <input type="text" placeholder="请输入客户姓名或手机号" />
-        <div class="button">
+        <div class="input">
+          <input
+            v-model="key"
+            @blur="fetchListBykey"
+            type="text"
+            placeholder="请输入客户姓名或手机号"
+          />
           <img src="/img/search.png" alt="" class="search" />
-          <span>查询</span>
         </div>
       </div>
 
@@ -18,38 +22,26 @@
           :key="item.id"
           @click="goDetail(item)"
         >
-          <el-row>
-            <el-col :span="12" :gutter="10">
-              <div class="desc">
-                <div class="span">用户姓名：</div>
-                <div class="value">111111111111111111111111</div>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="desc">
-                <div class="span">用户手机号码：</div>
-                <div class="value">1111</div>
-              </div></el-col
-            >
-            <el-col :span="24">
-              <div class="desc">
-                <div class="span">持有产品数量：</div>
-                <div class="value">1111</div>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <div class="desc">
-                <div class="span">持有产品本金（元）：</div>
-                <div class="value">1111</div>
-              </div></el-col
-            >
-            <el-col :span="12">
-              <div class="desc">
-                <div class="span">待收收益：</div>
-                <div class="value">1111</div>
-              </div></el-col
-            >
-          </el-row>
+          <div class="userInfo">
+            <img src="/img/user1.png" alt="" />
+            &nbsp;
+            <span class="name">涂图图</span>
+            &nbsp;&nbsp;
+            <span class="phone">11111111111</span>
+          </div>
+
+          <div class="subCon">
+            <div class="subItem sub1">
+              <p>持有产品本金</p>
+              <p>11111&nbsp;<span>元</span></p>
+            </div>
+            <div class="line"></div>
+            <div class="subItem sub2">
+              <p>待收收益</p>
+              <p>11111&nbsp;<span>元</span></p>
+            </div>
+          </div>
+          <div class="cNum">持有数量： <span>3</span></div>
         </div>
       </div>
     </div>
@@ -69,15 +61,23 @@
     },
     data() {
       return {
+        key: "",
         customList: [1, 2, 3],
       };
     },
     created() {
-      this.getMyCustom();
+      this.fetchList();
     },
     methods: {
-      getMyCustom() {
+      fetchList() {
         console.log(this.userInfo.id);
+      },
+
+      fetchListBykey() {
+        if (!this.key) {
+          this.fetchList();
+          return;
+        }
       },
       goDetail(data) {
         this.$router.push({
@@ -93,25 +93,50 @@
   
   <style lang="scss" scoped>
   .customCon {
-    padding: 0.2rem 0;
+    padding: 0.2rem 0.4rem;
     box-sizing: border-box;
   }
   .searchCon {
-    display: flex;
+    margin-bottom: 0.38rem;
   }
-  .searchCon input {
-    flex: 1;
+  .searchCon .input {
+    width: 100%;
     height: 0.72rem;
-    box-sizing: border-box;
-    background: rgba(234, 186, 99, 0.1);
-    padding: 0 0.3rem;
-    border: 1px solid rgba(131, 108, 76, 0.3);
+    border: 1px solid rgba(165, 135, 84, 0.1);
+    // opacity: 0.3;
     border-radius: 0.12rem;
-    font-size: 0.2rem;
-    font-family: PingFang SC;
-    font-weight: 400;
-    color: #836c4c;
-    margin-right: 0.2rem;
+    position: relative;
+    input {
+      width: 100%;
+      height: 0.72rem;
+      box-sizing: border-box;
+      background: rgba(234, 186, 99, 0.1);
+      padding: 0 0.3rem;
+      border: 1px solid rgba(131, 108, 76, 0.3);
+      // opacity: 0.3;
+      border-radius: 0.12rem;
+      font-size: 0.2rem;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #836c4c;
+
+      &::placeholder {
+        font-size: 0.2rem;
+        font-family: Heiti SC;
+        font-weight: 500;
+        color: #836c4c;
+        opacity: 0.8;
+      }
+    }
+    .search {
+      position: absolute;
+      width: 0.4rem;
+      height: 0.4rem;
+      top: 0;
+      bottom: 0;
+      right: 0.3rem;
+      margin: auto;
+    }
   }
   .searchCon .button {
     width: 1.2rem;
@@ -134,25 +159,88 @@
     height: 0.3rem;
   }
   .customList {
-    height: calc(100vh - 2rem);
+    height: calc(100vh - 2.35rem);
     overflow-y: scroll;
+    padding: 0.02rem;
   }
   .customItem {
-    padding: 0.2rem 0.32rem;
+    padding: 0.32rem;
     box-sizing: border-box;
-    border-bottom: 1px solid #efefef;
-
-    .desc {
+    background: #ffffff;
+    box-shadow: 0px 0px 0.09rem 2px rgba(48, 51, 59, 0.1);
+    border-radius: 6px;
+    min-height: 3.17rem;
+    margin-bottom: 0.2rem;
+    .userInfo {
       display: flex;
-      font-size: 0.22rem;
-      .span {
-        flex-shrink: 0;
-        font-size: 0.22rem;
+      align-items: center;
+      margin-bottom: 0.32rem;
+      img {
+        width: 0.32rem;
+        height: 0.32rem;
       }
-      .value {
-        overflow: hidden;
-        font-size: 0.22rem;
-        word-break: break-all;
+      .name {
+        font-weight: 400;
+        font-size: 0.32rem;
+        color: #30333b;
+      }
+      .phone {
+        padding-top: 0.1rem;
+        font-weight: 400;
+        font-size: 0.24rem;
+        color: #eaba63;
+        line-height: 0.24rem;
+      }
+    }
+    .cNum {
+      background: linear-gradient(90deg, #f8fafb, #ffffff);
+      line-height: 0.45rem;
+      font-weight: 400;
+      font-size: 0.24rem;
+      color: #9a9a9c;
+      box-sizing: border-box;
+      padding: 0 0.12rem;
+      span {
+        font-weight: 400;
+        font-size: 0.24rem;
+        color: #9a9a9c;
+      }
+    }
+
+    .subCon {
+      margin-top: 0.2rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      background: #ffffff;
+      border-radius: 6px;
+      box-sizing: border-box;
+      align-items: center;
+      .line {
+        height: 0.67rem;
+        border-left: 2px dashed #999;
+      }
+    }
+    .subItem {
+      flex: 1;
+      &.sub2 {
+        padding-left: 0.34rem;
+      }
+      p {
+        font-weight: 400;
+        font-size: 0.24rem;
+        color: #9a9a9c;
+        margin: 0;
+        margin-bottom: 0.3rem;
+        &:nth-child(2) {
+          font-weight: 400;
+          font-size: 0.36rem;
+          color: #30333b;
+          margin-bottom: 0rem;
+          span {
+            font-size: 0.24rem;
+            color: #30333b;
+          }
+        }
       }
     }
   }
