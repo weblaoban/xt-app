@@ -139,7 +139,7 @@
         let result = 0;
         list.forEach((item) => {
           if (item.days) {
-            result += (item.amount * item.days) / 365;
+            result += (((item.amount * item.days) / 365) * item.brief) / 100;
           }
         });
         return result ? result.toFixed(2) : "-";

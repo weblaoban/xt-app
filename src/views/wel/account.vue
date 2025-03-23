@@ -10,7 +10,7 @@
         </div>
         <div class="muNumCon">
           <div class="myNumLabel">持有资产（元）</div>
-          <div class="myNum">{{ amount + ben * 1 }} <span>元</span></div>
+          <div class="myNum">{{ amount * 1 + ben * 1 }} <span>元</span></div>
         </div>
         <div class="subCon">
           <div class="subItem sub1">
@@ -70,37 +70,47 @@
     },
     methods: {
       getMyAccountInfo() {
-        getUserProd({ current: 1, pageSize: 10000, uid: this.userInfo.id }).then(
-          (res) => {
-            let list = [];
-            res.data.data.records.forEach((item) => {
-              const { userDtm = [] } = item;
-              userDtm.forEach((user) => {
-                if (user.id == this.userInfo.id) {
-                  list.push({ ...user, ...item });
-                }
-              });
-            });
-
-            let amount = 0;
-            let ben = 0;
-            list.forEach((item) => {
-              const pList = JSON.parse(item.qlist);
-              let days = 0;
-              pList.forEach((item) => {
-                if (!item.finish) {
-                  days += item.days;
-                }
-              });
-              amount += item.amount;
-              if (days) {
-                ben = ((item.amount * days) / 365).toFixed(2);
+        getUserProd({
+          current: 1,
+          pageSize: 10000,
+          uid: this.userInfo.id,
+        }).then((res) => {
+          let list = [];
+          res.data.data.records.forEach((item) => {
+            const { userDtm = [] } = item;
+            userDtm.forEach((user) => {
+              if (user.id == this.userInfo.id) {
+                list.push({ ...user, ...item });
               }
             });
-            this.amount = amount;
-            this.ben = ben;
-          }
-        );
+          });
+
+          let amount = 0;
+          let ben = 0;
+          list.forEach((item) => {
+            const pList = JSON.parse(item.qlist);
+            let days = 0;
+            pList.forEach((pitem) => {
+              if (!pitem.finish) {
+                if (pitem.days) {
+                  days += pitem.days * 1;
+                }
+              }
+            });
+            if (pList.find((pitem) => !pitem.finish)) {
+              amount += item.amount * 1;
+            }
+            if (days) {
+              if (!isNaN(item.brief * 1)) {
+                ben = ((((item.amount * days) / 365) * item.brief) / 100).toFixed(
+                  2
+                );
+              }
+            }
+          });
+          this.amount = amount;
+          this.ben = ben;
+        });
       },
       go(link) {
         this.$router.push(link);

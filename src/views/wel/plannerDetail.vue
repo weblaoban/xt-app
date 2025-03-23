@@ -56,7 +56,7 @@
           <div class="descCon">
             <div class="desc">持有金额（元）</div>
             <!-- <div class="desc" v-if="currentCatbuy == 0">业绩比较基准</div> -->
-            <div class="desc">待收收益（元）</div>
+            <div class="desc" v-if="currentCat !== 1">待收收益（元）</div>
           </div>
 
           <div class="descCon">
@@ -64,7 +64,9 @@
             <!-- <p class="count" v-if="currentCatbuy == 0">
               {{ item.brief || 0 }} <span>%</span>
             </p> -->
-            <p class="count">{{ getBen(item) || "0" }} <span>元</span></p>
+            <p class="count" v-if="currentCat !== 1">
+              {{ getBen(item) || "0" }} <span>元</span>
+            </p>
           </div>
           <div class="line"></div>
 
@@ -188,7 +190,7 @@
           }
         });
         if (days) {
-          ben = ((item.amount * days) / 365).toFixed(2);
+          ben = ((((item.amount * days) / 365) * item.brief) / 100).toFixed(2);
         }
         return ben;
       },

@@ -111,7 +111,10 @@
           }
         });
         if (days) {
-          ben = ((item.userInfo.amount * days) / 365).toFixed(2);
+          ben = (
+            (((item.userInfo.amount * days) / 365) * item.brief) /
+            100
+          ).toFixed(2);
         }
         return ben;
       },
