@@ -21,6 +21,14 @@
             >
               {{ item.name }}
             </div>
+
+            <div
+              v-if="userInfo.id"
+              class="menuItem"
+              @click.stop="goAccountDetail"
+            >
+              我的账户
+            </div>
             <div
               v-if="userInfo.id && userInfo.score == 0"
               class="menuItem"
@@ -106,17 +114,13 @@
             name: "联系我们",
             link: "/linkus",
           },
-          {
-            name: "我的账户",
-            link: "/account",
-          },
           /*{
-                      name:'',
-                      link:'/privateFund'
-                  },{
-                      name:'集合保险',
-                      notOpen:true
-                  }*/
+                            name:'',
+                            link:'/privateFund'
+                        },{
+                            name:'集合保险',
+                            notOpen:true
+                        }*/
         ],
         userName: "",
         passWord: "",
@@ -159,6 +163,9 @@
         if (menu.link) {
           this.$router.push(menu.link);
         }
+      },
+      goAccountDetail() {
+        this.$router.push("/account");
       },
       goBuyDetail() {
         this.$router.push("/buyDetail");

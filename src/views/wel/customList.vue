@@ -25,23 +25,25 @@
           <div class="userInfo">
             <img src="/img/user1.png" alt="" />
             &nbsp;
-            <span class="name">涂图图</span>
+            <span class="name">{{ item[0] && item[0].nickName }}</span>
             &nbsp;&nbsp;
-            <span class="phone">11111111111</span>
+            <span class="phone">{{ item[0] && item[0].userMobile }}</span>
           </div>
 
           <div class="subCon">
             <div class="subItem sub1">
               <p>持有产品本金</p>
-              <p>11111&nbsp;<span>元</span></p>
+              <p>{{ getAmount(item) }}&nbsp;<span>元</span></p>
             </div>
             <div class="line"></div>
             <div class="subItem sub2">
               <p>待收收益</p>
-              <p>11111&nbsp;<span>元</span></p>
+              <p>{{ getBen(item) || "-" }}&nbsp;<span>元</span></p>
             </div>
           </div>
-          <div class="cNum">持有数量： <span>3</span></div>
+          <div class="cNum">
+            持有数量： <span>{{ item.length }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -51,6 +53,7 @@
   <script>
   import mainHeader from "../common/header.vue";
   import { mapGetters } from "vuex";
+  import { getPlannerProd } from "@/api/user.js";
   export default {
     name: "account",
     components: {
@@ -62,7 +65,8 @@
     data() {
       return {
         key: "",
-        customList: [1, 2, 3],
+        customList: [],
+        oList: [],
       };
     },
     created() {
@@ -70,7 +74,27 @@
     },
     methods: {
       fetchList() {
-        console.log(this.userInfo.id);
+        getPlannerProd({ uid: this.userInfo.id }).then((res) => {
+          let list = [];
+          res.data.data.forEach((item) => {
+            const { userDtm = [] } = item;
+            userDtm.forEach((user) => {
+              if (user.puserId == this.userInfo.id) {
+                list.push({ ...user, ...item, uid: user.id });
+              }
+            });
+          });
+          this.oList = res.data.data;
+          let result = {};
+          list.forEach((item) => {
+            if (result[item.userMobile]) {
+              result[item.userMobile].push(item);
+            } else {
+              result[item.userMobile] = [item];
+            }
+          });
+          this.customList = result;
+        });
       },
 
       fetchListBykey() {
@@ -78,12 +102,58 @@
           this.fetchList();
           return;
         }
+        let oList = JSON.parse(JSON.stringify(this.oList));
+        let list = [];
+        oList.forEach((item) => {
+          const { userDtm = [] } = item;
+          userDtm.forEach((user) => {
+            if (user.puserId == this.userInfo.id) {
+              list.push({ ...user, ...item, uid: user.id });
+            }
+          });
+        });
+        let result = {};
+        list = list.filter((item) => {
+          return (
+            (item.nickName && item.nickName.indexOf(this.key) > -1) ||
+            (item.idcard && item.idcard.indexOf(this.key) > -1)
+          );
+        });
+        list.forEach((item) => {
+          if (result[item.userMobile]) {
+            result[item.userMobile].push(item);
+          } else {
+            result[item.userMobile] = [item];
+          }
+        });
+        this.customList = result;
+      },
+      getAmount(list) {
+        let result = 0;
+        list.forEach((item) => {
+          result += item.amount;
+        });
+        return result;
+      },
+      getBen(list) {
+        let result = 0;
+        list.forEach((item) => {
+          if (item.days) {
+            result += (item.amount * item.days) / 365;
+          }
+        });
+        return result ? result.toFixed(2) : "-";
       },
       goDetail(data) {
+        console.log(data);
+        let userId = "";
+        if (data.length) {
+          userId = data[0].uid;
+        }
         this.$router.push({
           path: "/buyDetail",
           query: {
-            userId: data.userId,
+            userId: userId,
           },
         });
       },

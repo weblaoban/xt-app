@@ -10,29 +10,34 @@
         </div>
         <div class="muNumCon">
           <div class="myNumLabel">持有资产（元）</div>
-          <div class="myNum">1111111 <span>元</span></div>
+          <div class="myNum">{{ amount + ben * 1 }} <span>元</span></div>
         </div>
         <div class="subCon">
           <div class="subItem sub1">
             <p>持有本金（元）</p>
-            <p>11111&nbsp;<span>元</span></p>
+            <p>{{ amount }}&nbsp;<span>元</span></p>
           </div>
           <div class="line"></div>
           <div class="subItem sub2">
             <p>持有收益（元）</p>
-            <p>11111&nbsp;<span>元</span></p>
+            <p>{{ ben }}&nbsp;<span>元</span></p>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
       <ul class="accountList">
-        <li @click="go('/buyDetail')">
+        <li v-if="userInfo.score === 1" @click="go('/plannerDetail')">
           <img src="/img/account1.png" alt="" />
           <div>份额管理</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
         </li>
-        <li @click="go('/customList')">
+        <li v-else @click="go('/buyDetail')">
+          <img src="/img/account1.png" alt="" />
+          <div>份额管理</div>
+          <img class="arrow" src="/img/arrow.png" alt="" />
+        </li>
+        <li v-if="userInfo.score === 1" @click="go('/customList')">
           <img src="/img/account2.png" alt="" />
           <div>客户列表</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
@@ -45,6 +50,7 @@
 <script>
   import mainHeader from "../common/header.vue";
   import { mapGetters } from "vuex";
+  import { getUserProd } from "@/api/user.js";
   export default {
     name: "account",
     components: {
@@ -54,14 +60,47 @@
       ...mapGetters(["userInfo"]),
     },
     data() {
-      return {};
+      return {
+        amount: 0,
+        ben: 0,
+      };
     },
     created() {
       this.getMyAccountInfo();
     },
     methods: {
       getMyAccountInfo() {
-        console.log(this.userInfo.id);
+        getUserProd({ current: 1, pageSize: 10000, uid: this.userInfo.id }).then(
+          (res) => {
+            let list = [];
+            res.data.data.records.forEach((item) => {
+              const { userDtm = [] } = item;
+              userDtm.forEach((user) => {
+                if (user.id == this.userInfo.id) {
+                  list.push({ ...user, ...item });
+                }
+              });
+            });
+
+            let amount = 0;
+            let ben = 0;
+            list.forEach((item) => {
+              const pList = JSON.parse(item.qlist);
+              let days = 0;
+              pList.forEach((item) => {
+                if (!item.finish) {
+                  days += item.days;
+                }
+              });
+              amount += item.amount;
+              if (days) {
+                ben = ((item.amount * days) / 365).toFixed(2);
+              }
+            });
+            this.amount = amount;
+            this.ben = ben;
+          }
+        );
       },
       go(link) {
         this.$router.push(link);

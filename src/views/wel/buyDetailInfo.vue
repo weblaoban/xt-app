@@ -12,44 +12,45 @@
             </div>
             <div class="descCon">
               <div class="desc">持有金额</div>
-              <div class="desc pd">业绩比较基准</div>
+              <div class="desc pd">待收收益</div>
             </div>
             <div class="descCon">
               <p class="count">
                 {{ detail.userInfo.amount || 0 }} <span>元</span>
               </p>
-              <p class="count pd">{{ detail.brief || 0 }}<span>%</span></p>
+              <p class="count pd">{{ getBen(detail) || 0 }}<span>元</span></p>
             </div>
             <div class="line"></div>
-          </div>
-        </div>
-        <div style="height: 0.1rem"></div>
-        <div class="container">
-          <div class="duration" v-if="userInfo.score == 1">
-            <span>客户名称：{{ detail.nickName }}</span>
-          </div>
-          <div class="duration">
-            <span
-              >成立时间：{{
-                detail.otime ? detail.otime.split(" ")[0] : ""
-              }}</span
-            >
-          </div>
 
-          <div class="duration">
-            <span
-              >计息时间：{{
-                detail.otime ? detail.otime.split(" ")[0] : ""
-              }}</span
-            >
-          </div>
+            <div style="height: 0.1rem"></div>
+            <div class="">
+              <div class="duration" v-if="name">
+                <span>客户名称：{{ name }}</span>
+              </div>
+              <div class="duration">
+                <span
+                  >成立时间：{{
+                    detail.otime ? detail.otime.split(" ")[0] : ""
+                  }}</span
+                >
+              </div>
 
-          <div class="duration">
-            <span
-              >到期时间：{{
-                detail.dtime ? detail.dtime.split(" ")[0] : ""
-              }}</span
-            >
+              <div class="duration">
+                <span
+                  >计息时间：{{
+                    detail.periods ? detail.periods.split(" ")[0] : ""
+                  }}</span
+                >
+              </div>
+
+              <div class="duration">
+                <span
+                  >到期时间：{{
+                    detail.dtime ? detail.dtime.split(" ")[0] : ""
+                  }}</span
+                >
+              </div>
+            </div>
           </div>
         </div>
 
@@ -88,6 +89,7 @@
       return {
         detail: { userInfo: {} },
         loading: false,
+        name: "",
       };
     },
     computed: {
@@ -98,9 +100,26 @@
     },
     mounted() {},
     methods: {
+      getBen(item) {
+        console.log(item);
+        let ben = 0;
+        const pList = item.qlist;
+        let days = 0;
+        pList.forEach((item) => {
+          if (!item.finish) {
+            days += item.days;
+          }
+        });
+        if (days) {
+          ben = ((item.userInfo.amount * days) / 365).toFixed(2);
+        }
+        return ben;
+      },
       getDetail() {
         const id = this.$route.params.id;
         const type = this.$route.query.type;
+        const name = this.$route.query.name || null;
+        this.name = name;
         console.log(type);
         getBuyDetail(id).then(({ data }) => {
           if (data.success) {
@@ -379,7 +398,7 @@
   }
 
   .productItem {
-    height: 3.17rem;
+    min-height: 3.17rem;
     width: 100%;
     background: #ffffff;
     box-shadow: 0rem 0rem 0.1rem 0rem rgba(234, 186, 99, 0.15);
@@ -467,12 +486,12 @@
     }
     .duration {
       width: 6.3rem;
-      height: 0.45rem;
+      min-height: 0.45rem;
       background: linear-gradient(90deg, #f8fafb, #ffffff);
       color: #9a9a9c;
       box-sizing: border-box;
       padding-left: 0.1rem;
-      margin-top: 0.35rem;
+      margin-top: 0.15rem;
       span {
         float: right;
         font-size: 0.24rem;

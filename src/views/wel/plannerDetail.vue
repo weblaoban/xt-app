@@ -50,24 +50,28 @@
           :key="item.id"
         >
           <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>
-
+          <p class="count kehu" v-if="currentCatbuy == 1">
+            <span>客户姓名：{{ item.nickName }}</span>
+          </p>
           <div class="descCon">
             <div class="desc">持有金额（元）</div>
-            <div class="desc" v-if="currentCatbuy == 0">业绩比较基准</div>
+            <!-- <div class="desc" v-if="currentCatbuy == 0">业绩比较基准</div> -->
+            <div class="desc">待收收益（元）</div>
           </div>
+
           <div class="descCon">
             <p class="count">{{ item.amount || 0 }} <span>元</span></p>
-            <p class="count" v-if="currentCatbuy == 0">
+            <!-- <p class="count" v-if="currentCatbuy == 0">
               {{ item.brief || 0 }} <span>%</span>
-            </p>
-            <p class="count kehu" v-if="currentCatbuy == 1">
-              <span>客户姓名：{{ item.nickName }}</span>
-            </p>
+            </p> -->
+            <p class="count">{{ getBen(item) || "0" }} <span>元</span></p>
           </div>
           <div class="line"></div>
 
           <div class="duration">
-            <span>计息日{{ item.otime ? item.otime.split(" ")[0] : "" }}</span>
+            <span
+              >计息日{{ item.periods ? item.periods.split(" ")[0] : "" }}</span
+            >
             <span
               >到期日：{{ item.dtime ? item.dtime.split(" ")[0] : "" }}</span
             >
@@ -174,11 +178,27 @@
           this.setCat(0);
         });
       },
+      getBen(item) {
+        let ben = 0;
+        const pList = JSON.parse(item.qlist);
+        let days = 0;
+        pList.forEach((item) => {
+          if (!item.finish) {
+            days += item.days;
+          }
+        });
+        if (days) {
+          ben = ((item.amount * days) / 365).toFixed(2);
+        }
+        return ben;
+      },
       goDetail(row) {
+        let path = "/buyDetailInfo/" + row.id;
         this.$router.push({
-          path: "/buyDetailInfo/" + row.id,
+          path: path,
           query: {
             type: row.rad,
+            name: this.currentCatbuy === 1 ? row.nickName : "",
           },
         });
       },
@@ -437,7 +457,7 @@
       }
       .duration {
         width: 6.3rem;
-        height: 0.45rem;
+        min-height: 0.45rem;
         background: linear-gradient(90deg, #f8fafb, #ffffff);
         font-size: 0.24rem;
         font-family: PingFang SC;
