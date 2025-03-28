@@ -11,7 +11,7 @@ export default ({ mode, command }) => {
             port: 8080,
             proxy: {
                 "/apis": {
-                    target: "https://app.quanshixintuo.com/",
+                    target: "https://app.quanshizixun.com",
                     pathRewrite: {
                         "^/apis": "/",
                     },
