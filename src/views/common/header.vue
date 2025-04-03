@@ -102,10 +102,10 @@
             name: "信托资讯",
             link: "/information",
           },
-          {
-            name: "关于我们",
-            link: "/aboutUs",
-          },
+          //   {
+          //     name: "关于我们",
+          //     link: "/aboutUs",
+          //   },
           {
             name: "修改密码",
             link: "/updatePassword",
@@ -115,12 +115,12 @@
             link: "/linkus",
           },
           /*{
-                            name:'',
-                            link:'/privateFund'
-                        },{
-                            name:'集合保险',
-                            notOpen:true
-                        }*/
+                              name:'',
+                              link:'/privateFund'
+                          },{
+                              name:'集合保险',
+                              notOpen:true
+                          }*/
         ],
         userName: "",
         passWord: "",

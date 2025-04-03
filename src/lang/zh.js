@@ -1,6 +1,6 @@
 export default {
   tip: '提示',
-  title: '瑔石信托网',
+  title: '瑔石家办',
   logoutTip: '退出系统, 是否继续?',
   submitText: '确定',
   cancelText: '取消',
