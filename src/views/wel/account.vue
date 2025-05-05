@@ -2,7 +2,87 @@
 <template>
   <div class="index-container account">
     <main-header title="我的账户"></main-header>
-    <div class="accountBgContainer">
+    <div class="accountC container">
+      <div class="accountContainer"></div>
+      <div class="accContainer">
+        <div class="username" style="padding: 0 0.3rem">
+          <img src="/img/user.png" alt="" />&nbsp;
+          <span> {{ userInfo.realName || userInfo.userMobile || 11111 }}</span>
+        </div>
+        <div class="sectionList">
+          <div
+            :class="{
+              section: true,
+              section1: true,
+              active: section === 1,
+            }"
+            @click="setSection(1)"
+          >
+            理财
+          </div>
+          <div
+            class="section"
+            :class="{
+              section: true,
+              section2: true,
+              active: section === 2,
+            }"
+            @click="setSection(2)"
+          >
+            保险
+          </div>
+        </div>
+        <div
+          :class="{
+            sectionCon: true,
+            active: section === 1,
+          }"
+        >
+          <div class="muNumCon">
+            <div class="myNumLabel">持有资产（元）</div>
+            <div class="myNum">{{ amount * 1 + ben * 1 }} <span>元</span></div>
+          </div>
+          <div class="subCon">
+            <div class="subItem sub1">
+              <p>持有本金（元）</p>
+              <p>{{ amount }}&nbsp;<span>元</span></p>
+            </div>
+            <div class="line"></div>
+            <div class="subItem sub2">
+              <p>待收收益（元）</p>
+              <p>{{ ben }}&nbsp;<span>元</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          :class="{
+            sectionCon: true,
+            active: section === 2,
+          }"
+        >
+          <div class="muNumCon">
+            <div class="myNumLabel">
+              总缴费金额
+              <div class="total">当前已有 {{ 3 }}份保单保障中</div>
+            </div>
+            <div class="myNum">{{ amount * 1 + ben * 1 }} <span>元</span></div>
+          </div>
+          <div class="subCon">
+            <div class="subItem sub1">
+              <p>待缴金额</p>
+              <p>{{ amount }}&nbsp;<span>元</span></p>
+            </div>
+            <div class="line"></div>
+            <div class="subItem sub2">
+              <p>下一个缴费日</p>
+              <p>{{ ben }}&nbsp;<span>元</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="accountBgContainer">
       <div class="container accountBg">
         <div class="username" style="padding: 0 0.3rem">
           <img src="/img/user.png" alt="" />&nbsp;
@@ -24,7 +104,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="container">
       <ul class="accountList">
         <li v-if="userInfo.score === 1" @click="go('/plannerDetail')">
@@ -35,6 +115,11 @@
         <li v-else @click="go('/buyDetail')">
           <img src="/img/account1.png" alt="" />
           <div>份额管理</div>
+          <img class="arrow" src="/img/arrow.png" alt="" />
+        </li>
+        <li @click="go('/bDetail')">
+          <img src="/img/account3.png" alt="" />
+          <div>保单详情</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
         </li>
         <li v-if="userInfo.score === 1" @click="go('/customList')">
@@ -63,12 +148,17 @@
       return {
         amount: 0,
         ben: 0,
+        section: 1,
       };
     },
     created() {
       this.getMyAccountInfo();
     },
     methods: {
+      setSection(section) {
+        this.section = section;
+        getMyAccountInfo();
+      },
       getMyAccountInfo() {
         getUserProd({
           current: 1,
@@ -120,48 +210,50 @@
 </script>
 
 <style lang="scss" scoped>
-  .accountBg {
-    padding: 0.32rem 0.1rem 0.1rem;
-    box-sizing: border-box;
-    background-color: #3b2b0d;
-    background-image: linear-gradient(
-      64deg,
-      rgba(234, 186, 99, 0.3),
-      rgba(59, 43, 13, 0.3)
-    );
-    border-radius: 6px;
-    box-sizing: border-box;
-    .username {
-      font-weight: 400;
-      font-size: 0.32rem;
-      color: #eaba63;
-      img {
-        width: 0.3rem;
-        height: 0.3rem;
-      }
+  .username {
+    font-weight: 400;
+    font-size: 0.32rem;
+    color: #eaba63;
+    position: absolute;
+    top: 0;
+    right: 0;
+    img {
+      width: 0.3rem;
+      height: 0.3rem;
     }
   }
   .muNumCon {
     .myNumLabel {
-      margin: 0.2rem;
+      margin: 0.16rem;
+      margin-top: 0.26rem;
       font-weight: 400;
       font-size: 0.24rem;
-      color: #eaba63;
-      opacity: 0.5;
+      color: rgba(154, 154, 156, 0.5);
+
+      position: relative;
+      .total {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        font-weight: 400;
+        font-size: 0.24rem;
+        color: #a58754;
+      }
     }
     .myNum {
       margin: 0 0.3rem;
       font-weight: 400;
-      font-size: 0.36rem;
+      font-size: 0.24rem;
       color: #eaba63;
       span {
         font-size: 0.24rem;
-        color: #eaba63;
+        color: #9a9a9c;
       }
     }
   }
   .subCon {
-    margin-top: 0.2rem;
     display: flex;
     background: #ffffff;
     border-radius: 6px;
@@ -242,5 +334,87 @@
     height: 3.2rem;
     box-sizing: border-box;
     margin-bottom: 1rem;
+  }
+  .accountC {
+    position: relative;
+  }
+  .accountContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3.2rem;
+    background-color: #3b2b0d;
+    background-image: linear-gradient(
+      64deg,
+      rgba(234, 186, 99, 0.3),
+      rgba(59, 43, 13, 0.3)
+    );
+    padding: 0.4rem 0.3rem 0;
+    box-sizing: border-box;
+  }
+  .accountC {
+    padding-top: 0.3rem;
+  }
+  .accContainer {
+    background-image: url(/img/accountBg.png);
+    background-size: 100% 3.17rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px 0px 9px 1px rgba(48, 51, 59, 0.1);
+  }
+
+  .sectionCon {
+    display: none;
+    &.active {
+      display: block;
+    }
+    margin-bottom: 0.2rem;
+  }
+
+  .sectionList {
+    display: flex;
+    align-items: center;
+    .section {
+      line-height: 0.64rem;
+      font-weight: 400;
+      font-size: 0.28rem;
+      color: #9a9a9c;
+      width: 1.5rem;
+      text-align: center;
+      position: relative;
+      &.section1.active {
+        &:before {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 0.64rem;
+          box-shadow: 0px -5px 10px 0px rgba(48, 51, 59, 0.15);
+          border-radius: 12px 12px 0px 0px;
+          transform: skewX(20deg);
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+      &.section2.active {
+        &:before {
+          content: "";
+          display: block;
+          width: 100%;
+          height: 0.64rem;
+          box-shadow: 0px -5px 10px 0px rgba(48, 51, 59, 0.15);
+          border-radius: 12px 12px 0px 0px;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+      &.active {
+        font-weight: 400;
+        font-size: 0.32rem;
+        color: #a58754;
+      }
+    }
   }
 </style>

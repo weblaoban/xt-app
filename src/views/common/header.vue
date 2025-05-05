@@ -95,11 +95,11 @@
             link: "/xtcombine",
           },
           {
-            name: "信托问答",
+            name: "资讯问答",
             link: "/trustQa",
           },
           {
-            name: "信托资讯",
+            name: "财经资讯",
             link: "/information",
           },
           //   {
@@ -115,12 +115,12 @@
             link: "/linkus",
           },
           /*{
-                              name:'',
-                              link:'/privateFund'
-                          },{
-                              name:'集合保险',
-                              notOpen:true
-                          }*/
+                                name:'',
+                                link:'/privateFund'
+                            },{
+                                name:'集合保险',
+                                notOpen:true
+                            }*/
         ],
         userName: "",
         passWord: "",
