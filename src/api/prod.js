@@ -11,6 +11,16 @@ export const list = (data) => {
         params: data,
     });
 };
+export const blist = (data) => {
+    return request({
+        url: baseUrl + "/p/prod/pageProd",
+        method: "get",
+        meta: {
+            isSerialize: true,
+        },
+        params: data,
+    });
+};
 
 
 // 产品列表 根据关键字查询
