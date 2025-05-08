@@ -58,79 +58,86 @@
           <div class="productTitle"><span>产品推荐</span></div>
           <div class="products">
             <div
-              @click="goDetail(item)"
-              :class="{ productItem: true, finish: item.status == 3 }"
               v-for="item in product"
               :key="item.id"
+              style="margin-bottom: 0.2rem"
             >
-              <div :class="'title ' + 'title' + item.categoryId">
-                <div class="titlePrefixCon" v-if="item.categoryId === 97">
-                  <div class="titlePrefix">
-                    集<span></span>合<span></span>信<span></span>托
+              <div
+                @click="goDetail(item)"
+                :class="{ productItem: true, finish: item.status == 3 }"
+                v-if="item.categoryId !== 100"
+              >
+                <div :class="'title ' + 'title' + item.categoryId">
+                  <div class="titlePrefixCon" v-if="item.categoryId === 97">
+                    <div class="titlePrefix">
+                      集<span></span>合<span></span>信<span></span>托
+                    </div>
                   </div>
-                </div>
-                <div class="titlePrefixCon" v-if="item.categoryId === 98">
-                  <div class="titlePrefix">
-                    直<span></span>融<span></span>资<span></span>产
+                  <div class="titlePrefixCon" v-if="item.categoryId === 98">
+                    <div class="titlePrefix">
+                      直<span></span>融<span></span>资<span></span>产
+                    </div>
                   </div>
-                </div>
-                <div class="titlePrefixCon" v-if="item.categoryId === 99">
-                  <div class="titlePrefix">
-                    私<span></span>募<span></span>基<span></span>金
+                  <div class="titlePrefixCon" v-if="item.categoryId === 99">
+                    <div class="titlePrefix">
+                      私<span></span>募<span></span>基<span></span>金
+                    </div>
                   </div>
+                  {{ item.name }}
                 </div>
-                {{ item.name }}
+                <div class="descCon">
+                  <div class="desc">业绩比较基准</div>
+                  <div class="desc">投资门槛</div>
+                </div>
+                <div class="descCon">
+                  <p class="count">{{ item.brief || 0 }} <span></span></p>
+                  <p class="count">
+                    <span>{{ item.pmStandCnt }}</span>
+                  </p>
+                </div>
+                <div class="line"></div>
+                <div class="duration">产品期限：{{ item.investLimitCnt }}</div>
+                <div class="tag" v-if="item.status == 1 || item.status == 3">
+                  <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
+                </div>
               </div>
-              <div class="descCon">
-                <div class="desc">业绩比较基准</div>
-                <div class="desc">投资门槛</div>
-              </div>
-              <div class="descCon">
-                <p class="count">{{ item.brief || 0 }} <span></span></p>
-                <p class="count">
-                  <span>{{ item.pmStandCnt }}</span>
-                </p>
-              </div>
-              <div class="line"></div>
-              <div class="duration">产品期限：{{ item.investLimitCnt }}</div>
-              <div class="tag" v-if="item.status == 1 || item.status == 3">
-                <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
-              </div>
-            </div>
 
-            <div
-              @click="goBDetail(item)"
-              :class="{ productItem: true, finish: item.status == 3 }"
-              v-for="item in bProduct"
-              :key="item.id"
-            >
-              <div :class="'title ' + 'title100'">
-                <div class="titlePrefixCon">
-                  <div class="titlePrefix">保<span></span>险</div>
+              <div
+                @click="goBDetail(item)"
+                :class="{ productItem: true, finish: item.status == 3 }"
+                v-if="item.categoryId == 100"
+              >
+                <div :class="'title ' + 'title100'">
+                  <div class="titlePrefixCon">
+                    <div class="titlePrefix">保<span></span>险</div>
+                  </div>
+                  <img
+                    v-if="item.tpe == 0"
+                    class="bao"
+                    src="/img/chu.png"
+                    alt=""
+                  />
+                  <img v-else class="bao" src="/img/zhong.png" alt="" />
+                  {{ item.name }}
                 </div>
-                <img
-                  v-if="item.tpe == 0"
-                  class="bao"
-                  src="/img/chu.png"
-                  alt=""
-                />
-                <img v-else class="bao" src="/img/zhong.png" alt="" />
-                {{ item.name }}
-              </div>
-              <div class="descCon">
-                <div class="desc">IRR高达</div>
-                <!-- <div class="desc">投资门槛</div> -->
-              </div>
-              <div class="descCon">
-                <p class="count">{{ item.irr || 0 }} <span></span></p>
-                <!-- <p class="count">
-                  <span>{{ item.investmentThreshold }}</span>
-                </p> -->
-              </div>
-              <div class="line"></div>
-              <div class="duration">缴费灵活：{{ item.paymentMode }}</div>
-              <div class="tag" v-if="item.status == 1 || item.status == 3">
-                <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
+                <div class="descCon">
+                  <div class="desc">IRR高达</div>
+                  <div class="desc">投资门槛</div>
+                </div>
+                <div class="descCon">
+                  <p class="count">{{ item.irr || 0 }}% <span></span></p>
+                  <p class="count">
+                    {{ item.investmentThreshold }}<span>万（美元）</span>
+                  </p>
+                </div>
+                <div class="line"></div>
+                <div class="duration duration1">
+                  <div>缴费灵活：{{ item.phasesc }}</div>
+                  <span>中长期收益可观</span>
+                </div>
+                <div class="tag" v-if="item.status == 1 || item.status == 3">
+                  <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
+                </div>
               </div>
             </div>
           </div>
@@ -283,19 +290,26 @@
       async getProdList() {
         const blist = await bList({ recommended: 1 });
         console.log(blist);
+
         let result = blist.data.data || [];
-        result = result.map((item) => {
-          item.categoryId = 100;
-          return item;
-        });
-        this.bProduct = [...result];
+        result = result
+          .map((item) => {
+            item.categoryId = 100;
+            return item;
+          })
+          .filter((item) => item.orders > 0);
+        // this.bProduct = [...result];
         list({ tpy: 1 }).then((res) => {
           if (res && res.status === 200) {
             let data = res.data.data.records;
             data = data.sort((a, b) => {
               return a.tpy - b.tpy;
             });
-            this.product = data;
+            const totalList = [...result, ...data];
+            const resultList = totalList.sort((a, b) => {
+              return a.orders - b.orders;
+            });
+            this.product = resultList;
           }
         });
       },
@@ -626,6 +640,25 @@
           color: #9a9a9c;
           box-sizing: border-box;
           padding-left: 0.1rem;
+          &.duration1 {
+            display: flex;
+            justify-content: space-between;
+          }
+          div {
+            font-size: 0.24rem;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #9a9a9c;
+            box-sizing: border-box;
+          }
+          span {
+            font-size: 0.22rem;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #9a9a9c;
+            text-align: right;
+            margin-right: 0.25rem;
+          }
         }
         &:last-child {
           margin: 0;

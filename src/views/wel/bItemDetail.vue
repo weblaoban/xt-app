@@ -23,7 +23,7 @@
 
             <div class="descCon">
               <div class="desc">已缴金额</div>
-              <div class="desc active">已缴年限：{{ item.info.hasDate }}年</div>
+              <div class="desc active">已缴期数：{{ item.info.hasDate }}期</div>
             </div>
 
             <div class="descCon">
@@ -52,7 +52,7 @@
 
             <div class="duration">
               <span>缴费模式：{{ item.paymentMode }}</span>
-              <span>剩余缴费年限：{{ item.info.lastDate }}年</span>
+              <span>剩余缴费期数：{{ item.info.lastDate }}期</span>
             </div>
             <p class="count kehu">
               <span
@@ -180,17 +180,19 @@
             }
             user.hasDate = 0;
             if (has && has.length) {
-              user.hasDate = this.calculateYearsBetweenDates(
-                new Date(),
-                new Date(has[0].value)
-              );
+              //   user.hasDate = this.calculateYearsBetweenDates(
+              //     new Date(),
+              //     new Date(has[0].value)
+              //   );
+              user.hasDate = has.length;
             }
             user.lastDate = 0;
             if (limit && limit.length) {
-              user.lastDate = this.calculateYearsBetweenDates(
-                new Date(),
-                new Date(limit[limit.length - 1].value)
-              );
+              //   user.lastDate = this.calculateYearsBetweenDates(
+              //     new Date(),
+              //     new Date(limit[limit.length - 1].value)
+              //   );
+              user.lastDate = limit.length;
             }
             if (userId === cuserId) {
               result.push({ ...item, info: user });

@@ -24,9 +24,9 @@
               <div class="desc">缴费灵活</div>
             </div>
             <div class="descCon">
-              <p class="count">{{ detail.irr || 0 }} <span></span></p>
+              <p class="count">{{ detail.irr || 0 }}% <span></span></p>
               <p class="count">
-                <span>{{ detail.paymentMode }}</span>
+                <span>{{ detail.phasesc }}</span>
               </p>
             </div>
             <div class="line"></div>
