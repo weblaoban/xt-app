@@ -64,17 +64,17 @@
               :key="item.id"
             >
               <div :class="'title ' + 'title' + item.categoryId">
-                <div class="titlePrefixCon" v-if="currentCat === 97">
+                <div class="titlePrefixCon" v-if="item.categoryId === 97">
                   <div class="titlePrefix">
                     集<span></span>合<span></span>信<span></span>托
                   </div>
                 </div>
-                <div class="titlePrefixCon" v-if="currentCat === 98">
+                <div class="titlePrefixCon" v-if="item.categoryId === 98">
                   <div class="titlePrefix">
                     直<span></span>融<span></span>资<span></span>产
                   </div>
                 </div>
-                <div class="titlePrefixCon" v-if="currentCat === 99">
+                <div class="titlePrefixCon" v-if="item.categoryId === 99">
                   <div class="titlePrefix">
                     私<span></span>募<span></span>基<span></span>金
                   </div>
@@ -366,7 +366,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .index-container {
     background: #fff;
   }

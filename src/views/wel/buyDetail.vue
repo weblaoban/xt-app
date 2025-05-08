@@ -333,7 +333,7 @@
         color: #30333b;
         margin-bottom: 0.1rem;
         box-sizing: border-box;
-        padding-left: 0.82rem;
+        // padding-left: 0.82rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -341,12 +341,12 @@
         background-repeat: no-repeat;
         background-size: 0.72rem 0.3rem;
         background-position: left center;
-        &.title0 {
-          background-image: url(/img/h5/detailstate0.png);
-        }
-        &.title1 {
-          background-image: url(/img/h5/detailstate1.png);
-        }
+        // &.title0 {
+        //   background-image: url(/img/h5/detailstate0.png);
+        // }
+        // &.title1 {
+        //   background-image: url(/img/h5/detailstate1.png);
+        // }
       }
       .desc {
         width: 50%;

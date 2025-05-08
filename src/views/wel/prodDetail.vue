@@ -7,6 +7,21 @@
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
             <div :class="'title ' + 'title' + detail.categoryId">
+              <div class="titlePrefixCon" v-if="detail.categoryId === 97">
+                <div class="titlePrefix">
+                  集<span></span>合<span></span>信<span></span>托
+                </div>
+              </div>
+              <div class="titlePrefixCon" v-if="detail.categoryId === 98">
+                <div class="titlePrefix">
+                  直<span></span>融<span></span>资<span></span>产
+                </div>
+              </div>
+              <div class="titlePrefixCon" v-if="detail.categoryId === 99">
+                <div class="titlePrefix">
+                  私<span></span>募<span></span>基<span></span>金
+                </div>
+              </div>
               {{ detail.name }}
             </div>
             <div class="descCon">
@@ -620,21 +635,23 @@
       color: #30333b;
       margin-bottom: 0.1rem;
       box-sizing: border-box;
-      padding-left: 1rem;
+      //   padding-left: 1rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
 
-      background-image: url(/img/h5/title1.png);
-      background-repeat: no-repeat;
-      background-size: 0.92rem 0.3rem;
-      background-position: left center;
-      &.title98 {
-        background-image: url(/img/h5/title2.png);
-      }
-      &.title99 {
-        background-image: url(/img/h5/title3.png);
-      }
+      //   background-image: url(/img/h5/title1.png);
+      //   background-repeat: no-repeat;
+      //   background-size: 0.92rem 0.3rem;
+      //   background-position: left center;
+      //   &.title98 {
+      //     background-image: url(/img/h5/title2.png);
+      //   }
+      //   &.title99 {
+      //     background-image: url(/img/h5/title3.png);
+      //   }
     }
     .desc {
       width: 50%;
@@ -834,5 +851,39 @@
         }
       }
     }
+  }
+
+  .titlePrefixCon {
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-right: 4px;
+  }
+  .titlePrefix {
+    background-image: -webkit-linear-gradient(right, #89f7fe, #66a6ff);
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    border: 1.5px solid;
+    content: attr(data-content);
+    font-weight: 400;
+    font-size: 0.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.04rem;
+    align-items: center;
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+  }
+
+  .bao {
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-left: 0.05rem;
   }
 </style>

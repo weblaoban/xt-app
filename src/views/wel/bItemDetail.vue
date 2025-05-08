@@ -15,11 +15,11 @@
               <div class="titlePrefixCon">
                 <div class="titlePrefix">保<span></span>险</div>
               </div>
-<!--              <img class="bao" src="/img/chu.png" alt="" />-->
-<!--              <img class="bao" src="/img/zhong.png" alt="" />-->
+              <!--              <img class="bao" src="/img/chu.png" alt="" />-->
+              <!--              <img class="bao" src="/img/zhong.png" alt="" />-->
               {{ item.name }}
             </div>
-<!--            <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>-->
+            <!--            <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>-->
 
             <div class="descCon">
               <div class="desc">已缴金额</div>
@@ -27,7 +27,10 @@
             </div>
 
             <div class="descCon">
-              <p class="count">{{ item.info.totalAmount - item.info.toAmount || 0 }} <span>元</span></p>
+              <p class="count">
+                {{ item.info.totalAmount - item.info.toAmount || 0 }}
+                <span>元</span>
+              </p>
             </div>
             <div class="line"></div>
             <div class="descCon">
@@ -37,28 +40,26 @@
 
             <div class="descCon">
               <p class="count">
-                {{ item.info.nextBItem && item.info.nextBItem.amount }} <span>元</span>
+                {{ item.info.nextBItem && item.info.nextBItem.amount }}
+                <span>元</span>
               </p>
               <p class="count">
-                {{ item.info.nextBItem && item.info.nextBItem.value }} <span></span>
+                {{ item.info.nextBItem && item.info.nextBItem.value }}
+                <span></span>
               </p>
             </div>
             <div class="line"></div>
 
             <div class="duration">
-              <span
-                >缴费模式：{{
-                  item.paymentMode
-                }}</span
-              >
-              <span
-                >剩余缴费年限：{{
-                  item.info.lastDate
-                }}年</span
-              >
+              <span>缴费模式：{{ item.paymentMode }}</span>
+              <span>剩余缴费年限：{{ item.info.lastDate }}年</span>
             </div>
             <p class="count kehu">
-							<span>客户：{{ item.info.userDtm?item.info.userDtm.nickName:'' }}</span>
+              <span
+                >客户：{{
+                  item.info.userDtm ? item.info.userDtm.nickName : ""
+                }}</span
+              >
             </p>
           </div>
         </div>
@@ -71,10 +72,11 @@
           >
             <div class="title">
               <div class="titlePrefixCon">
-                <div class="titlePrefix">保<span></span>险</div>&nbsp;
+                <div class="titlePrefix">保<span></span>险</div>
+                &nbsp;
               </div>
-<!--              <img class="bao" src="/img/chu.png" alt="" />-->
-<!--              <img class="bao" src="/img/zhong.png" alt="" />-->
+              <!--              <img class="bao" src="/img/chu.png" alt="" />-->
+              <!--              <img class="bao" src="/img/zhong.png" alt="" />-->
               {{ item.name }}
             </div>
 
@@ -83,31 +85,37 @@
             </div>
 
             <div class="descCon">
-              <p class="count">{{ item.info && item.info.totalAmount || 0 }} <span>元</span></p>
+              <p class="count">
+                {{ (item.info && item.info.totalAmount) || 0 }} <span>元</span>
+              </p>
             </div>
             <p class="count kehu">
-              <span>客户：{{ item.info.userDtm?item.info.userDtm.nickName:'' }}</span>
+              <span
+                >客户：{{
+                  item.info.userDtm ? item.info.userDtm.nickName : ""
+                }}</span
+              >
             </p>
           </div>
         </div>
-				
-				<div style="height: 0.1rem"></div>
-				<div class="section2">
-					<div class="title">缴费计划</div>
-					<div class="progress">
-						<div
-								class="progressItem"
-								v-for="(paid, index) in item.info.paidList"
-								:key="item"
-						>
-							{{ index + 1 }}
-							{{ paid.value }}
-							
-							<span v-if="paid.status" class="state finish">已缴费</span>
-							<span v-if="!paid.status" class="state">未缴费</span>
-						</div>
-					</div>
-				</div>
+
+        <div style="height: 0.1rem"></div>
+        <div class="section2">
+          <div class="title">缴费计划</div>
+          <div class="progress">
+            <div
+              class="progressItem"
+              v-for="(paid, index) in item.info.paidList"
+              :key="item"
+            >
+              {{ index + 1 }}
+              {{ paid.value }}
+
+              <span v-if="paid.status" class="state finish">已缴费</span>
+              <span v-if="!paid.status" class="state">未缴费</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -116,7 +124,7 @@
 <script>
   import mainFooter from "../common/footer.vue";
   import mainHeader from "../common/header.vue";
-	import {getBUserProd, getPlannerProd, getUserProd} from "@/api/user.js";
+  import { getBUserProd, getPlannerProd, getUserProd } from "@/api/user.js";
   import { mapGetters } from "vuex";
   export default {
     components: {
@@ -125,11 +133,11 @@
     },
     data() {
       return {
-				item:{
-					info:{}
-				},
-        currentCat: '',
-				prodList:[]
+        item: {
+          info: {},
+        },
+        currentCat: "",
+        prodList: [],
       };
     },
     computed: {
@@ -139,75 +147,81 @@
       this.getBInfo();
     },
     methods: {
-			getBInfo(){
-				getBUserProd().then(res=>{
-					console.log(res)
-					this.getAllList(res.data.data)
-				})
-			},
-			getAllList(list){
-				const cuserId = this.userInfo.id
-				const result = [];
-				list.forEach(item=>{
-					const {userInsurances=[]} = item
-					userInsurances.forEach(user=>{
-						let {userId, paidList,remainingAmount} = user
-						const amount = remainingAmount?remainingAmount:0
-						try {
-							paidList = JSON.parse(paidList)
-						} catch (error) {
-							paidList = []
-						}
-						if(!paidList){
-							paidList = []
-						}
-						user.paidList = paidList
-						user.totalAmount = paidList.length * amount;
-						const limit = paidList.filter(item=>item.status===0)
-						const has = paidList.filter(item=>item.status===1)
-						user.toAmount = limit.length*amount
-						user.nextBItem = paidList.find(item => item.status === 0);
-						if(user.nextBItem){
-							user.nextBItem.amount = amount
-						}
-						user.hasDate = 0
-						if(has && has.length){
-							user.hasDate =this.calculateYearsBetweenDates (new Date(),new Date(has[0].value))
-						}
-						user.lastDate = 0
-						if(limit && limit.length){
-							user.lastDate =this.calculateYearsBetweenDates (new Date(),new Date(limit[limit.length-1].value))
-						}
-						if(userId === cuserId){
-							result.push({ ...item,info:user })
-						}
-					})
-				})
-				// this.state0list = result.filter(item => item.info.nextBItem);
-				// this.state1list = result.filter(item => !item.info.nextBItem);
-				this.prodList = result
-				this.getDetail()
-			},
-			 calculateYearsBetweenDates(date1, date2) {
-		     // 将两个日期转换为毫秒
-		     const millisecondsPerDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
-		     const millisecondsPerYear = 365.25 * millisecondsPerDay; // 考虑闰年的平均年天数
-		     
-		     const diffInMilliseconds = Math.abs(date2 - date1); // 计算两个日期之间的差值
-		     const diffInYears = diffInMilliseconds / millisecondsPerYear; // 计算年数差
-		     
-		     return Math.ceil(diffInYears);
-	   },
-			getDetail(){
-				const id = this.$route.query.id
-				this.item = this.prodList.find(item=>item.info.id===id)
-				console.log(this.item)
-				if(this.item.info.nextBItem){
-					this.currentCat = 0
-				}else{
-					this.currentCat = 1
-				}
-			}
+      getBInfo() {
+        getBUserProd().then((res) => {
+          console.log(res);
+          this.getAllList(res.data.data);
+        });
+      },
+      getAllList(list) {
+        const cuserId = this.userInfo.id;
+        const result = [];
+        list.forEach((item) => {
+          const { userInsurances = [] } = item;
+          userInsurances.forEach((user) => {
+            let { userId, paidList, remainingAmount } = user;
+            const amount = remainingAmount ? remainingAmount : 0;
+            try {
+              paidList = JSON.parse(paidList);
+            } catch (error) {
+              paidList = [];
+            }
+            if (!paidList) {
+              paidList = [];
+            }
+            user.paidList = paidList;
+            user.totalAmount = paidList.length * amount;
+            const limit = paidList.filter((item) => item.status === 0);
+            const has = paidList.filter((item) => item.status === 1);
+            user.toAmount = limit.length * amount;
+            user.nextBItem = paidList.find((item) => item.status === 0);
+            if (user.nextBItem) {
+              user.nextBItem.amount = amount;
+            }
+            user.hasDate = 0;
+            if (has && has.length) {
+              user.hasDate = this.calculateYearsBetweenDates(
+                new Date(),
+                new Date(has[0].value)
+              );
+            }
+            user.lastDate = 0;
+            if (limit && limit.length) {
+              user.lastDate = this.calculateYearsBetweenDates(
+                new Date(),
+                new Date(limit[limit.length - 1].value)
+              );
+            }
+            if (userId === cuserId) {
+              result.push({ ...item, info: user });
+            }
+          });
+        });
+        // this.state0list = result.filter(item => item.info.nextBItem);
+        // this.state1list = result.filter(item => !item.info.nextBItem);
+        this.prodList = result;
+        this.getDetail();
+      },
+      calculateYearsBetweenDates(date1, date2) {
+        // 将两个日期转换为毫秒
+        const millisecondsPerDay = 24 * 60 * 60 * 1000; // 一天的毫秒数
+        const millisecondsPerYear = 365.25 * millisecondsPerDay; // 考虑闰年的平均年天数
+
+        const diffInMilliseconds = Math.abs(date2 - date1); // 计算两个日期之间的差值
+        const diffInYears = diffInMilliseconds / millisecondsPerYear; // 计算年数差
+
+        return Math.ceil(diffInYears);
+      },
+      getDetail() {
+        const id = this.$route.query.id;
+        this.item = this.prodList.find((item) => item.info.id === id);
+        console.log(this.item);
+        if (this.item.info.nextBItem) {
+          this.currentCat = 0;
+        } else {
+          this.currentCat = 1;
+        }
+      },
     },
     beforeUnmount() {
       const scrollCon = this.$refs.scrollCon;
@@ -610,134 +624,167 @@
     height: 0.3rem;
     border-radius: 2px;
     overflow: hidden;
-		margin-right:3px;
+    margin-right: 3px;
   }
-	
-	.progress {
-		width: 100%;
-		// background: rgba(234, 186, 99, 0.1);
-		// border: 1px solid #eaba63;
-		border-radius: 0.12rem;
-		box-sizing: border-box;
-		margin-bottom: 0.8rem;
-		
-		padding: 0 0.25rem;
-		.progressItem {
-			line-height: 1.5;
-			border-bottom: 1px dashed rgba(235, 235, 235, 1);
-			font-size: 0.2rem;
-			font-family: PingFang SC;
-			font-weight: 400;
-			color: #30333b;
-			width: 100%;
-			padding: 0.14rem 1rem 0.14rem 0;
-			box-sizing: border-box;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			position: relative;
-			.state {
-				display: block;
-				height: 0.3rem;
-				position: absolute;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				margin: auto;
-				font-size: 0.18rem;
-				font-family: PingFang SC;
-				font-weight: 400;
-				color: #80c269;
-				opacity: 0.5;
-				&.finish {
-					color: #9a9a9c;
-				}
-			}
-			&:last-child {
-				border: none;
-			}
-		}
-	}
-	
-	.section2 {
-		padding: 0.2rem 0.1rem 0.82rem;
-		box-sizing: border-box;
-		background: #ffffff;
-		border-radius: 0.12rem;
-		.title {
-			font-size: 0.3rem;
-			font-family: Heiti SC;
-			font-weight: 500;
-			color: #eaba63;
-			line-height: 0.64rem;
-			border-bottom: 1px solid rgba(234, 186, 99, 0.2);
-			position: relative;
-			padding-left: 0.11rem;
-			box-sizing: border-box;
-			margin-bottom: 0.2rem;
-			&::after {
-				content: "";
-				display: block;
-				width: 1.4rem;
-				height: 0.04rem;
-				background: #eaba63;
-				position: absolute;
-				bottom: 0;
-				left: 0.11rem;
-			}
-		}
-		
-		.el-col {
-			margin: 0;
-			&:first-child {
-				.infoDesc {
-					font-weight: 500;
-				}
-			}
-			&:nth-child(10) {
-				.infoDesc {
-					color: #eaba63;
-				}
-			}
-		}
-		.el-row {
-			width: 100%;
-			margin: 0 auto 0.8rem;
-			border: 1px solid #ebebeb;
-			border-bottom: none;
-		}
-		.infoItem {
-			border-bottom: 1px solid rgba(235, 235, 235, 1);
-			height: 0.5rem;
-			
-			.infoLabel {
-				width: 1.5rem;
-				height: 0.5rem;
-				line-height: 0.5rem;
-				background: rgba(173, 181, 193, 0.1);
-				
-				font-size: 0.2rem;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #30333b;
-				text-align: center;
-				float: left;
-			}
-			.infoDesc {
-				padding-right: 0.24rem;
-				box-sizing: border-box;
-				font-size: 0.2rem;
-				font-family: Heiti SC;
-				font-weight: 500;
-				color: #30333b;
-				float: left;
-				text-align: right;
-				line-height: 0.5rem;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				width: calc(100% - 1.5rem);
-			}
-		}
-	}
+
+  .progress {
+    width: 100%;
+    // background: rgba(234, 186, 99, 0.1);
+    // border: 1px solid #eaba63;
+    border-radius: 0.12rem;
+    box-sizing: border-box;
+    margin-bottom: 0.8rem;
+
+    padding: 0 0.25rem;
+    .progressItem {
+      line-height: 1.5;
+      border-bottom: 1px dashed rgba(235, 235, 235, 1);
+      font-size: 0.2rem;
+      font-family: PingFang SC;
+      font-weight: 400;
+      color: #30333b;
+      width: 100%;
+      padding: 0.14rem 1rem 0.14rem 0;
+      box-sizing: border-box;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      .state {
+        display: block;
+        height: 0.3rem;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        font-size: 0.18rem;
+        font-family: PingFang SC;
+        font-weight: 400;
+        color: #80c269;
+        opacity: 0.5;
+        &.finish {
+          color: #9a9a9c;
+        }
+      }
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+
+  .section2 {
+    padding: 0.2rem 0.1rem 0.82rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-radius: 0.12rem;
+    .title {
+      font-size: 0.3rem;
+      font-family: Heiti SC;
+      font-weight: 500;
+      color: #eaba63;
+      line-height: 0.64rem;
+      border-bottom: 1px solid rgba(234, 186, 99, 0.2);
+      position: relative;
+      padding-left: 0.11rem;
+      box-sizing: border-box;
+      margin-bottom: 0.2rem;
+      &::after {
+        content: "";
+        display: block;
+        width: 1.4rem;
+        height: 0.04rem;
+        background: #eaba63;
+        position: absolute;
+        bottom: 0;
+        left: 0.11rem;
+      }
+    }
+
+    .el-col {
+      margin: 0;
+      &:first-child {
+        .infoDesc {
+          font-weight: 500;
+        }
+      }
+      &:nth-child(10) {
+        .infoDesc {
+          color: #eaba63;
+        }
+      }
+    }
+    .el-row {
+      width: 100%;
+      margin: 0 auto 0.8rem;
+      border: 1px solid #ebebeb;
+      border-bottom: none;
+    }
+    .infoItem {
+      border-bottom: 1px solid rgba(235, 235, 235, 1);
+      height: 0.5rem;
+
+      .infoLabel {
+        width: 1.5rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        background: rgba(173, 181, 193, 0.1);
+
+        font-size: 0.2rem;
+        font-family: Heiti SC;
+        font-weight: 500;
+        color: #30333b;
+        text-align: center;
+        float: left;
+      }
+      .infoDesc {
+        padding-right: 0.24rem;
+        box-sizing: border-box;
+        font-size: 0.2rem;
+        font-family: Heiti SC;
+        font-weight: 500;
+        color: #30333b;
+        float: left;
+        text-align: right;
+        line-height: 0.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 1.5rem);
+      }
+    }
+  }
+
+  .titlePrefixCon {
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .titlePrefix {
+    background-image: -webkit-linear-gradient(right, #89f7fe, #66a6ff);
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    border: 1.5px solid;
+    content: attr(data-content);
+    font-weight: 400;
+    font-size: 0.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.04rem;
+    align-items: center;
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+  }
+
+  .bao {
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-left: 0.05rem;
+  }
 </style>
