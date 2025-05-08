@@ -24,9 +24,9 @@
               <div class="desc">缴费灵活</div>
             </div>
             <div class="descCon">
-              <p class="count">{{ detail.brief || 0 }} <span></span></p>
+              <p class="count">{{ detail.irr || 0 }} <span></span></p>
               <p class="count">
-                <span>24个月</span>
+                <span>{{ detail.paymentMode }}</span>
               </p>
             </div>
             <div class="line"></div>
@@ -334,7 +334,7 @@
         const cur = this.detail;
         const userInfo = this.userInfo;
         if (cur.id) {
-          yuyue({ prodId: cur.id, userId: userInfo.id }).then((res) => {
+          yuyue({ prodId: cur.id }).then((res) => {
             if (res && res.data && res.data.success) {
               this.$message.success("预约成功");
               this.showYuyue = false;

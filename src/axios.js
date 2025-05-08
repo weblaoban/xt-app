@@ -57,6 +57,13 @@ axios.interceptors.response.use(res => {
         location.href = '/#/login';
         return false
     }
+    if (res.data.code === '400') {
+        ElMessage({
+            message:res.data.msg,
+            type: 'error'
+        });
+        return Promise.reject(new Error(message))
+    }
     // 如果请求为非200否者默认统一处理
     if (status !== 200) {
         if (!res.data.success) {

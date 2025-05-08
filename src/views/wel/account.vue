@@ -64,19 +64,19 @@
           <div class="muNumCon">
             <div class="myNumLabel">
               总缴费金额
-              <div class="total">当前已有 {{ 3 }}份保单保障中</div>
+              <div class="total">当前已有 {{ bList.length }}份保单保障中</div>
             </div>
-            <div class="myNum">{{ amount * 1 + ben * 1 }} <span>元</span></div>
+            <div class="myNum">{{ bAmount*1 }} <span>元</span></div>
           </div>
           <div class="subCon">
             <div class="subItem sub1">
               <p>待缴金额</p>
-              <p>{{ amount }}&nbsp;<span>元</span></p>
+              <p>{{ toAmount }}&nbsp;<span>元</span></p>
             </div>
             <div class="line"></div>
             <div class="subItem sub2">
               <p>下一个缴费日</p>
-              <p>{{ ben }}&nbsp;<span>元</span></p>
+              <p>{{ nextBItem.value }}&nbsp;<span></span></p>
             </div>
           </div>
         </div>
@@ -133,10 +133,11 @@
 </template>
 
 <script>
-  import mainHeader from "../common/header.vue";
-  import { mapGetters } from "vuex";
-  import { getUserProd } from "@/api/user.js";
-  export default {
+import mainHeader from "../common/header.vue";
+import {mapGetters} from "vuex";
+import {getBUserProd, getUserProd} from "@/api/user.js";
+
+export default {
     name: "account",
     components: {
       mainHeader,
@@ -149,15 +150,20 @@
         amount: 0,
         ben: 0,
         section: 1,
+				bAmount:0,
+				toAmount:0,
+				bList:[],
+				nextBItem:{}
       };
     },
     created() {
       this.getMyAccountInfo();
+			this.getBInfo()
     },
     methods: {
       setSection(section) {
         this.section = section;
-        getMyAccountInfo();
+        // getMyAccountInfo();
       },
       getMyAccountInfo() {
         getUserProd({
@@ -205,6 +211,58 @@
       go(link) {
         this.$router.push(link);
       },
+			getBInfo(){
+				getBUserProd().then(res=>{
+					console.log(res)
+					this.getAllList(res.data.data)
+				})
+				
+			},
+			getAllList(list){
+				const cuserId = this.userInfo.id
+				const result = [];
+				list.forEach(item=>{
+					const {userInsurances=[]} = item
+					userInsurances.forEach(user=>{
+						let {userId, paidList,remainingAmount} = user
+						const amount = remainingAmount?remainingAmount:0
+						try {
+							paidList = JSON.parse(paidList)
+						} catch (error) {
+							paidList = []
+						}
+						if(!paidList){
+							paidList = []
+						}
+						user.paidList = paidList
+						user.totalAmount = paidList.length * amount;
+						user.toAmount = paidList.filter(item=>item.status===0).length*amount
+						user.nextBItem = paidList.find(item => item.status === 0);
+						if(user.nextBItem){
+							user.nextBItem.amount = amount
+						}
+						if(userId === cuserId){
+							result.push({ ...item,info:user })
+						}
+					})
+				})
+				console.log(result)
+				this.bList = result;
+				this.bAmount = result.reduce((acc, item) => {
+					return acc + (item.info.totalAmount || 0);
+				}, 0)
+				this.toAmount = result.reduce((acc, item) => {
+					return acc + (item.info.toAmount || 0);
+				}, 0)
+				const nextDate = result.filter(item => item.info.nextBItem);
+				if(nextDate && nextDate.length){
+					
+					const nextBItem = nextDate.sort((a,b)=>{
+						return new Date(a.info.nextBItem.value).getTime() - new Date(b.info.nextBItem.value).getTime()
+					})
+					this.nextBItem = nextBItem[0].info.nextBItem
+				}
+			}
     },
   };
 </script>

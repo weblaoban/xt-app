@@ -59,6 +59,15 @@ export default [
                     import(/* webpackChunkName: "views" */ "@/views/wel/bProdDetail.vue"),
             },
             {
+                path: "bItemDetail",
+                name: "产品购买详情（保险）",
+                meta: {
+                    title: "产品购买详情（保险）",
+                },
+                component: () =>
+                    import(/* webpackChunkName: "views" */ "@/views/wel/bItemDetail.vue"),
+            },
+            {
                 path: "trustQa",
                 name: "信托问答",
                 meta: {

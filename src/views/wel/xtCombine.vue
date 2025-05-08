@@ -71,7 +71,7 @@
           重疾产品
         </div>
       </div>
-      <div class="products" ref="scrollList">
+      <div class="products" ref="scrollList" v-if="currentCat!==100">
         <div
           @click="goDetail(item)"
           :class="{ productItem: true, finish: item.status == 3 }"
@@ -100,8 +100,8 @@
             <div class="titlePrefixCon" v-if="currentCat === 101">
               <div class="titlePrefix">境<span></span>外<span></span>债</div>
             </div>
-            <img class="bao" src="/img/chu.png" alt="" />
-            <img class="bao" src="/img/zhong.png" alt="" />
+            <img v-if="currentCat === 100 && item.tpe===0" class="bao" src="/img/chu.png" alt="" />
+            <img v-if="currentCat === 100 && item.tpe===1" class="bao" src="/img/zhong.png" alt="" />
             {{ item.name }}
           </div>
           <div class="descCon">
@@ -127,6 +127,62 @@
           />
         </div>
       </div>
+			<div class="products" ref="scrollList" v-else>
+				<div
+						@click="goBDetail(item)"
+						:class="{ productItem: true, finish: item.status == 3 }"
+						v-for="item in prodList"
+						:key="item.id"
+				>
+					<div :class="'title ' + 'title' + currentCat">
+						<div class="titlePrefixCon" v-if="currentCat === 97">
+							<div class="titlePrefix">
+								集<span></span>合<span></span>信<span></span>托
+							</div>
+						</div>
+						<div class="titlePrefixCon" v-if="currentCat === 98">
+							<div class="titlePrefix">
+								直<span></span>融<span></span>资<span></span>产
+							</div>
+						</div>
+						<div class="titlePrefixCon" v-if="currentCat === 99">
+							<div class="titlePrefix">
+								私<span></span>募<span></span>基<span></span>金
+							</div>
+						</div>
+						<div class="titlePrefixCon" v-if="currentCat === 100">
+							<div class="titlePrefix">保<span></span>险</div>
+						</div>
+						<div class="titlePrefixCon" v-if="currentCat === 101">
+							<div class="titlePrefix">境<span></span>外<span></span>债</div>
+						</div>
+						<img v-if="currentCat === 100 && item.tpe===0" class="bao" src="/img/chu.png" alt="" />
+						<img v-if="currentCat === 100 && item.tpe===1" class="bao" src="/img/zhong.png" alt="" />
+						{{ item.name }}
+					</div>
+					<div class="descCon">
+						<div class="desc">IRR高达</div>
+<!--						<div class="desc">投资门槛</div>-->
+					</div>
+					<div class="descCon">
+						<p class="count">{{ item.irr || 0 }} <span></span></p>
+<!--						<p class="count">-->
+<!--							<span>{{ item.pmStandCnt }}</span>-->
+<!--						</p>-->
+					</div>
+					<div class="line"></div>
+					<div class="duration">缴费灵活：{{ item.paymentMode }}</div>
+					<div class="tag" v-if="item.status == 1 || item.status == 3">
+						<img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
+					</div>
+					<img
+							v-if="item.imgs && userInfo.id"
+							src="/img/yuyue.png"
+							alt=""
+							class="yuyue"
+					/>
+				</div>
+			</div>
 
       <!-- <div class="paginationCon">
 						<el-pagination
@@ -148,7 +204,7 @@
 <script>
   import mainFooter from "../common/footer.vue";
   import mainHeader from "../common/header.vue";
-  import { list, keylist } from "@/api/prod.js";
+  import { list, keylist,bList } from "@/api/prod.js";
   import contact from "../common/contact.vue";
   import { mapGetters } from "vuex";
   export default {
@@ -386,24 +442,24 @@
       fetchList() {
         const { selected, page, currentCat } = this;
 				if(this.currentCat===100){
-					blist({ ...page, categoryId: currentCat,tpe:this.bType }).then((res) => {
-						this.prodList = this.prodList.concat(res.data.data.records);
-						this.prodList = [{ categoryId: 100 }];
-						this.page.total = res.data.data.total;
-					});
+					this.fetchBList()
 					return;
 				}
         list({ ...page, categoryId: currentCat }).then((res) => {
           this.prodList = this.prodList.concat(res.data.data.records);
-          this.prodList = [{ categoryId: 100 }];
           this.page.total = res.data.data.total;
         });
       },
       fetchBList() {
         const { selected, page, currentCat } = this;
-        list({ ...page, tpe: this.bType }).then((res) => {
-          this.prodList = this.prodList.concat(res.data.data.records);
-          this.prodList = [{ categoryId: 100 }];
+				let params = {
+					// ...page,
+				}
+				if(this.bType>-1){
+					params.tpe = this.bType
+				}
+				bList({ ...params }).then((res) => {
+          this.prodList = res.data.data;
           this.page.total = res.data.data.total;
         });
       },
@@ -455,20 +511,23 @@
           this.fetchList();
         }
       },
+			goBDetail(row){
+				if (!this.userInfo.id) {
+					this.$router.push("/login");
+					return;
+				}
+					this.$router.push({
+						path: "/bProdDetail/" + row.id,
+						query: {
+							type: 1,
+						},
+					});
+			},
       goDetail(row) {
         if (!this.userInfo.id) {
           this.$router.push("/login");
           return;
         }
-				if(this.currentCat===100){
-					this.$router.push({
-						path: "/prodDetail/" + row.id,
-						query: {
-							type: 1,
-						},
-					});
-					return
-				}
         this.$router.push({
           path: "/prodDetail/" + row.id,
           query: {
