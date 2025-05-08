@@ -40,12 +40,12 @@
           >
             保险
           </div>
-          <div
+          <!-- <div
             :class="{ tabItem: true, active: currentCat == 101 }"
             @click="setCat(101)"
           >
             境外债
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -55,18 +55,18 @@
         <div
           :class="{
             baoxianCItem: true,
-            active: bType === 1,
+            active: bType === 0,
           }"
-          @click="toggleBType(1)"
+          @click="toggleBType(0)"
         >
           储蓄产品
         </div>
         <div
           :class="{
             baoxianCItem: true,
-            active: bType === 2,
+            active: bType === 1,
           }"
-          @click="toggleBType(2)"
+          @click="toggleBType(1)"
         >
           重疾产品
         </div>
@@ -391,6 +391,14 @@
           this.page.total = res.data.data.total;
         });
       },
+      fetchBList() {
+        const { selected, page, currentCat } = this;
+        list({ ...page, tpe: this.bType }).then((res) => {
+          this.prodList = this.prodList.concat(res.data.data.records);
+          this.prodList = [{ categoryId: 100 }];
+          this.page.total = res.data.data.total;
+        });
+      },
       setCat(cat) {
         this.currentCat = cat;
         this.prodList = [];
@@ -399,10 +407,14 @@
           total: 0,
           current: 1,
         };
+        if (cat === 100) {
+          this.fetchBList();
+        }
         this.fetchList();
       },
       toggleBType(type) {
         this.bType = this.bType === type ? "" : type;
+        this.fetchBList();
       },
       fetchListBykey() {
         if (!this.key) {
