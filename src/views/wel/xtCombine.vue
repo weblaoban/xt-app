@@ -40,12 +40,12 @@
           >
             保险
           </div>
-          <!-- <div
-            :class="{ tabItem: true, active: currentCat == 101 }"
-            @click="setCat(101)"
-          >
-            境外债
-          </div> -->
+<!--          <div-->
+<!--            :class="{ tabItem: true, active: currentCat == 101 }"-->
+<!--            @click="setCat(101)"-->
+<!--          >-->
+<!--            境外债-->
+<!--          </div>-->
         </div>
       </div>
     </div>
@@ -385,6 +385,14 @@
     methods: {
       fetchList() {
         const { selected, page, currentCat } = this;
+				if(this.currentCat===100){
+					blist({ ...page, categoryId: currentCat,tpe:this.bType }).then((res) => {
+						this.prodList = this.prodList.concat(res.data.data.records);
+						this.prodList = [{ categoryId: 100 }];
+						this.page.total = res.data.data.total;
+					});
+					return;
+				}
         list({ ...page, categoryId: currentCat }).then((res) => {
           this.prodList = this.prodList.concat(res.data.data.records);
           this.prodList = [{ categoryId: 100 }];
@@ -452,6 +460,15 @@
           this.$router.push("/login");
           return;
         }
+				if(this.currentCat===100){
+					this.$router.push({
+						path: "/prodDetail/" + row.id,
+						query: {
+							type: 1,
+						},
+					});
+					return
+				}
         this.$router.push({
           path: "/prodDetail/" + row.id,
           query: {
