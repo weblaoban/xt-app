@@ -123,7 +123,7 @@
 <!--            </div>-->
 <!--          </div>-->
           <div class="title">产品详情</div>
-          <div class="detailCon" v-html="detail.content"></div>
+          <div class="detailCon" v-html="detail.description"></div>
         </div>
       </div>
     </div>
@@ -225,7 +225,7 @@
   import { mapGetters } from "vuex";
   import mainFooter from "../common/footer.vue";
   import mainHeader from "../common/header.vue";
-  import { proddetail, yuyue } from "@/api/prod.js";
+  import { bProddetail, yuyue } from "@/api/prod.js";
   import { addComment } from "@/api/index.js";
   import contact from "../common/contact.vue";
   import { setStore, getStore } from "utils/store";
@@ -268,13 +268,12 @@
       }
       this.getDetail();
     },
-    mounted() {},
     methods: {
       getDetail() {
         const id = this.$route.params.id;
         const active = this.$route.query.type || 1;
         this.active = active;
-        proddetail({ id }).then((res) => {
+				bProddetail({ id }).then((res) => {
           this.detail = res.data.data;
           this.detail.porder = JSON.parse(this.detail.porder);
         });

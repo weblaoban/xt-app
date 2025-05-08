@@ -386,7 +386,7 @@
       fetchList() {
         const { selected, page, currentCat } = this;
 				if(this.currentCat===100){
-					blist({ ...page, categoryId: currentCat }).then((res) => {
+					blist({ ...page, categoryId: currentCat,tpe:this.bType }).then((res) => {
 						this.prodList = this.prodList.concat(res.data.data.records);
 						this.prodList = [{ categoryId: 100 }];
 						this.page.total = res.data.data.total;

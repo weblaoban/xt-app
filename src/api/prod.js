@@ -13,7 +13,7 @@ export const list = (data) => {
 };
 export const blist = (data) => {
     return request({
-        url: baseUrl + "/p/prod/pageProd",
+        url: baseUrl + "/insurance/product/listByUnPaid",
         method: "get",
         meta: {
             isSerialize: true,
@@ -22,6 +22,13 @@ export const blist = (data) => {
     });
 };
 
+export const bProddetail = (params) => {
+    return request({
+        url: baseUrl + "/insurance/product/findUnPaidbyId",
+        method: "get",
+        params: { ...params },
+    });
+};
 
 // 产品列表 根据关键字查询
 export const keylist = (data) => {
