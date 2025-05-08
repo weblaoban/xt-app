@@ -83,7 +83,7 @@
             </div>
 
             <div class="descCon">
-              <p class="count">{{ item.totalAmount || 0 }} <span>元</span></p>
+              <p class="count">{{ item.info && item.info.totalAmount || 0 }} <span>元</span></p>
             </div>
             <p class="count kehu">
               <span>客户：{{ item.info.userDtm?item.info.userDtm.nickName:'' }}</span>
