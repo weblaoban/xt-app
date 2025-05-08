@@ -64,6 +64,21 @@
               :key="item.id"
             >
               <div :class="'title ' + 'title' + item.categoryId">
+                <div class="titlePrefixCon" v-if="currentCat === 97">
+                  <div class="titlePrefix">
+                    集<span></span>合<span></span>信<span></span>托
+                  </div>
+                </div>
+                <div class="titlePrefixCon" v-if="currentCat === 98">
+                  <div class="titlePrefix">
+                    直<span></span>融<span></span>资<span></span>产
+                  </div>
+                </div>
+                <div class="titlePrefixCon" v-if="currentCat === 99">
+                  <div class="titlePrefix">
+                    私<span></span>募<span></span>基<span></span>金
+                  </div>
+                </div>
                 {{ item.name }}
               </div>
               <div class="descCon">
@@ -78,6 +93,42 @@
               </div>
               <div class="line"></div>
               <div class="duration">产品期限：{{ item.investLimitCnt }}</div>
+              <div class="tag" v-if="item.status == 1 || item.status == 3">
+                <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
+              </div>
+            </div>
+
+            <div
+              @click="goBDetail(item)"
+              :class="{ productItem: true, finish: item.status == 3 }"
+              v-for="item in bProduct"
+              :key="item.id"
+            >
+              <div :class="'title ' + 'title100'">
+                <div class="titlePrefixCon">
+                  <div class="titlePrefix">保<span></span>险</div>
+                </div>
+                <img
+                  v-if="item.tpe == 0"
+                  class="bao"
+                  src="/img/chu.png"
+                  alt=""
+                />
+                <img v-else class="bao" src="/img/zhong.png" alt="" />
+                {{ item.name }}
+              </div>
+              <div class="descCon">
+                <div class="desc">IRR高达</div>
+                <!-- <div class="desc">投资门槛</div> -->
+              </div>
+              <div class="descCon">
+                <p class="count">{{ item.irr || 0 }} <span></span></p>
+                <!-- <p class="count">
+                  <span>{{ item.investmentThreshold }}</span>
+                </p> -->
+              </div>
+              <div class="line"></div>
+              <div class="duration">缴费灵活：{{ item.paymentMode }}</div>
               <div class="tag" v-if="item.status == 1 || item.status == 3">
                 <img :src="'/img/h5/tag' + item.status + '.png'" alt="" />
               </div>
@@ -120,7 +171,7 @@
   import mainHeader from "../common/header.vue";
   import contact from "../common/contact.vue";
   import { getAmount } from "@/api/index.js";
-  import { zxlist, list } from "@/api/prod.js";
+  import { zxlist, list, bList } from "@/api/prod.js";
   export default {
     name: "wel",
     components: {
@@ -196,6 +247,7 @@
         passWord: "",
         bannerList: [],
         product: [],
+        bProduct: [],
         loading: false,
       };
     },
@@ -228,7 +280,15 @@
           }
         });
       },
-      getProdList() {
+      async getProdList() {
+        const blist = await bList({ recommended: 1 });
+        console.log(blist);
+        let result = blist.data.data || [];
+        result = result.map((item) => {
+          item.categoryId = 100;
+          return item;
+        });
+        this.bProduct = [...result];
         list({ tpy: 1 }).then((res) => {
           if (res && res.status === 200) {
             let data = res.data.data.records;
@@ -285,6 +345,18 @@
         }
         this.$router.push({
           path: "/prodDetail/" + row.id,
+          query: {
+            type,
+          },
+        });
+      },
+      goBDetail(row, type) {
+        if (!this.userInfo.id) {
+          this.$router.push("/login");
+          return;
+        }
+        this.$router.push({
+          path: "/bProdDetail/" + row.id,
           query: {
             type,
           },
@@ -363,6 +435,8 @@
             color: #eaba63;
             margin: 0;
             margin-bottom: 0.1rem;
+            // display: flex;
+            // align-items: center;
           }
           .desc {
             margin: 0;
@@ -497,21 +571,24 @@
           color: #30333b;
           margin-bottom: 0.1rem;
           box-sizing: border-box;
-          padding-left: 1rem;
+          //   padding-left: 1rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
 
-          background-image: url(/img/h5/title1.png);
-          background-repeat: no-repeat;
-          background-size: 0.92rem 0.3rem;
-          background-position: left center;
-          &.title98 {
-            background-image: url(/img/h5/title2.png);
-          }
-          &.title99 {
-            background-image: url(/img/h5/title3.png);
-          }
+          //   background-image: url(/img/h5/title1.png);
+          //   background-repeat: no-repeat;
+          //   background-size: 0.92rem 0.3rem;
+          //   background-position: left center;
+
+          display: flex;
+          align-items: center;
+          //   &.title98 {
+          //     background-image: url(/img/h5/title2.png);
+          //   }
+          //   &.title99 {
+          //     background-image: url(/img/h5/title3.png);
+          //   }
         }
         .desc {
           width: 50%;
@@ -1047,6 +1124,63 @@
         color: #85878b;
         line-height: 0.24rem;
       }
+    }
+  }
+
+  .titlePrefixCon {
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .titlePrefix {
+    background-image: -webkit-linear-gradient(right, #89f7fe, #66a6ff);
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    border: 1.5px solid;
+    content: attr(data-content);
+    font-weight: 400;
+    font-size: 0.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.04rem;
+    align-items: center;
+    border-image: linear-gradient(-90deg, #89f7fe, #66a6ff) 1 1;
+  }
+
+  .bao {
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-left: 0.05rem;
+  }
+
+  .title100 {
+    //   background-image: url(/img/h5/title2.png);
+    .titlePrefix {
+      background-image: -webkit-linear-gradient(right, #7683d9, #d8a0fe);
+      border-image: linear-gradient(-90deg, #7683d9, #d8a0fe) 1 1;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      width: 0.92rem;
+      height: 0.3rem;
+      border-radius: 2px;
+      border: 1.5px solid;
+      content: attr(data-content);
+      font-weight: 400;
+      font-size: 0.2rem;
+      text-align: center;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.1rem;
+      align-items: center;
+      border-image: linear-gradient(-90deg, #7683d9, #d8a0fe) 1 1;
     }
   }
 </style>

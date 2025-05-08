@@ -7,6 +7,16 @@
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
             <div :class="'title ' + 'title' + detail.categoryId">
+              <div class="titlePrefixCon">
+                <div class="titlePrefix">保<span></span>险</div>
+              </div>
+              <img
+                v-if="detail.tpe == 0"
+                class="bao"
+                src="/img/chu.png"
+                alt=""
+              />
+              <img v-else class="bao" src="/img/zhong.png" alt="" />
               {{ detail.name }}
             </div>
             <div class="descCon">
@@ -21,9 +31,9 @@
             </div>
             <div class="line"></div>
             <div class="duration">优势：中长期收益客观</div>
-<!--            <div class="tag" v-if="detail.status == 1 || detail.status == 3">-->
-<!--              <img :src="'/img/h5/tag' + detail.status + '.png'" alt="" />-->
-<!--            </div>-->
+            <!--            <div class="tag" v-if="detail.status == 1 || detail.status == 3">-->
+            <!--              <img :src="'/img/h5/tag' + detail.status + '.png'" alt="" />-->
+            <!--            </div>-->
 
             <div class="button" v-if="!detail.imgs" @click="onYuyue(detail)">
               我要预约
@@ -33,95 +43,95 @@
         </div>
 
         <div class="section2">
-<!--          <div class="title">产品概况</div>-->
-<!--          <el-row>-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">产品名称</div>-->
-<!--                <div class="infoDesc">{{ detail.name }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
+          <!--          <div class="title">产品概况</div>-->
+          <!--          <el-row>-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">产品名称</div>-->
+          <!--                <div class="infoDesc">{{ detail.name }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
 
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">产品类别</div>-->
-<!--                <div class="infoDesc">{{ detail.categoryCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">发行机构</div>-->
-<!--                <div class="infoDesc">{{ detail.organCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">投资领域</div>-->
-<!--                <div class="infoDesc">{{ detail.prodEffCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">收益类型</div>-->
-<!--                <div class="infoDesc">{{ detail.investId }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">规模</div>-->
-<!--                <div class="infoDesc">{{ detail.totalStocks }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">投资门槛</div>-->
-<!--                <div class="infoDesc">{{ detail.pmStandCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">产品期限</div>-->
-<!--                <div class="infoDesc">{{ detail.investLimitCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">付息方式</div>-->
-<!--                <div class="infoDesc">{{ detail.inrestMethodCnt }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">所在地域</div>-->
-<!--                <div class="infoDesc">{{ detail.area }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">业绩比较基准</div>-->
-<!--                <div class="infoDesc">{{ detail.brief }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">大小配额比</div>-->
-<!--                <div class="infoDesc">{{ detail.investRatio }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--            <el-col :span="24"-->
-<!--              ><div class="infoItem">-->
-<!--                <div class="infoLabel">风控级别</div>-->
-<!--                <div class="infoDesc">{{ detail.lev }}</div>-->
-<!--              </div></el-col-->
-<!--            >-->
-<!--          </el-row>-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">产品类别</div>-->
+          <!--                <div class="infoDesc">{{ detail.categoryCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">发行机构</div>-->
+          <!--                <div class="infoDesc">{{ detail.organCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">投资领域</div>-->
+          <!--                <div class="infoDesc">{{ detail.prodEffCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">收益类型</div>-->
+          <!--                <div class="infoDesc">{{ detail.investId }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">规模</div>-->
+          <!--                <div class="infoDesc">{{ detail.totalStocks }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">投资门槛</div>-->
+          <!--                <div class="infoDesc">{{ detail.pmStandCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">产品期限</div>-->
+          <!--                <div class="infoDesc">{{ detail.investLimitCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">付息方式</div>-->
+          <!--                <div class="infoDesc">{{ detail.inrestMethodCnt }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">所在地域</div>-->
+          <!--                <div class="infoDesc">{{ detail.area }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">业绩比较基准</div>-->
+          <!--                <div class="infoDesc">{{ detail.brief }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">大小配额比</div>-->
+          <!--                <div class="infoDesc">{{ detail.investRatio }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--            <el-col :span="24"-->
+          <!--              ><div class="infoItem">-->
+          <!--                <div class="infoLabel">风控级别</div>-->
+          <!--                <div class="infoDesc">{{ detail.lev }}</div>-->
+          <!--              </div></el-col-->
+          <!--            >-->
+          <!--          </el-row>-->
 
-<!--          <div class="title">产品进度</div>-->
-<!--          <div class="progress" v-show="detail.porder && detail.porder.length">-->
-<!--            <div class="progressItem" v-for="item in detail.porder" :key="item">-->
-<!--              {{ item.detail }}-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="title">产品进度</div>-->
+          <!--          <div class="progress" v-show="detail.porder && detail.porder.length">-->
+          <!--            <div class="progressItem" v-for="item in detail.porder" :key="item">-->
+          <!--              {{ item.detail }}-->
+          <!--            </div>-->
+          <!--          </div>-->
           <div class="title">产品详情</div>
           <div class="detailCon" v-html="detail.description"></div>
         </div>
@@ -273,9 +283,9 @@
         const id = this.$route.params.id;
         const active = this.$route.query.type || 1;
         this.active = active;
-				bProddetail({ id }).then((res) => {
+        bProddetail({ id }).then((res) => {
           this.detail = res.data.data;
-          this.detail.porder = JSON.parse(this.detail.porder);
+          //   this.detail.porder = JSON.parse(this.detail.porder);
         });
       },
       sendComm() {
@@ -619,21 +629,23 @@
       color: #30333b;
       margin-bottom: 0.1rem;
       box-sizing: border-box;
-      padding-left: 1rem;
+      //   padding-left: 1rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
 
-      background-image: url(/img/h5/title1.png);
-      background-repeat: no-repeat;
-      background-size: 0.92rem 0.3rem;
-      background-position: left center;
-      &.title98 {
-        background-image: url(/img/h5/title2.png);
-      }
-      &.title99 {
-        background-image: url(/img/h5/title3.png);
-      }
+      //   background-image: url(/img/h5/title1.png);
+      //   background-repeat: no-repeat;
+      //   background-size: 0.92rem 0.3rem;
+      //   background-position: left center;
+      //   &.title98 {
+      //     background-image: url(/img/h5/title2.png);
+      //   }
+      //   &.title99 {
+      //     background-image: url(/img/h5/title3.png);
+      //   }
     }
     .desc {
       width: 50%;
@@ -832,6 +844,64 @@
           }
         }
       }
+    }
+  }
+
+  .titlePrefixCon {
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .titlePrefix {
+    background-image: -webkit-linear-gradient(right, #7683d9, #d8a0fe);
+    border-image: linear-gradient(-90deg, #7683d9, #d8a0fe) 1 1;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 0.92rem;
+    height: 0.3rem;
+    border-radius: 2px;
+    border: 1.5px solid;
+    content: attr(data-content);
+    font-weight: 400;
+    font-size: 0.2rem;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.1rem;
+    align-items: center;
+    border-image: linear-gradient(-90deg, #7683d9, #d8a0fe) 1 1;
+  }
+
+  .bao {
+    width: 0.3rem;
+    height: 0.3rem;
+    margin-left: 0.05rem;
+  }
+
+  .button {
+    height: 0.76rem;
+    background: linear-gradient(
+      163deg,
+      #e1ad4f,
+      rgba(234, 186, 99, 0.7),
+      #e0af56
+    );
+    box-shadow: 0px 0.05rem 0px 0px #dea949;
+
+    border-radius: 0.12rem;
+    margin: 0.3rem auto 0;
+    text-align: center;
+    line-height: 0.76rem;
+    font-size: 0.32rem;
+    font-family: Heiti SC;
+    font-weight: 500;
+    color: #ffffff;
+    cursor: pointer;
+    &.gray {
+      background: #9a9a9c;
+      box-shadow: none;
     }
   }
 </style>

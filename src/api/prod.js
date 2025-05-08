@@ -3,7 +3,7 @@ import { baseUrl } from "@/config/env";
 // 产品列表 根据分类id来
 export const list = (data) => {
     return request({
-        url: baseUrl + "/p/prod/pageProd",
+        url: baseUrl + "/prod/pageProd",
         method: "get",
         meta: {
             isSerialize: true,
@@ -11,7 +11,7 @@ export const list = (data) => {
         params: data,
     });
 };
-export const blist = (data) => {
+export const bList = (data) => {
     return request({
         url: baseUrl + "/insurance/product/listByUnPaid",
         method: "get",
@@ -66,7 +66,7 @@ export const zxdetail = (id) => {
 
 export const proddetail = (params) => {
     return request({
-        url: baseUrl + '/p/prod/prodInfo/',
+        url: baseUrl + '/prod/prodInfo/',
         method: 'get',
         params: { ...params }
     })
@@ -75,7 +75,7 @@ export const proddetail = (params) => {
 
 export const yuyue = (data) => {
     return request({
-        url: baseUrl + '/p/collection/addOrCancel',
+        url: baseUrl + '/collection/addOrCancel',
         method: 'post',
         data: { ...data }
     })

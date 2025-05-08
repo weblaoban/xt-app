@@ -61,7 +61,7 @@ export const register = (data) =>
 // 获取用户信息
 export const getUserInfo = () =>
     request({
-        url: baseUrl + "/p/user/userInfo",
+        url: baseUrl + "/user/userInfo",
         method: "get",
     });
 // 修改密码
@@ -74,7 +74,7 @@ export const modifyPassword = (data) =>
 // 用户购买详情 参数 uid
 export const getUserProd = (params) => {
     return request({
-        url: baseUrl + '/p/prodTagReference/find',
+        url: baseUrl + '/prodTagReference/find',
         method: 'get',
         params: { ...params }
     })
@@ -83,7 +83,7 @@ export const getUserProd = (params) => {
 
 export const getBuyDetail = (id) => {
     return request({
-        url: baseUrl + '/p/prodTagReference/info/' + id,
+        url: baseUrl + '/prodTagReference/info/' + id,
         method: 'get',
     })
 }
@@ -117,7 +117,7 @@ export const checkCode = (data) => {
 
 export const getPlannerProd = (params) => {
     return request({
-        url: baseUrl + '/p/prodTagReference/findByPuser',
+        url: baseUrl + '/prodTagReference/findByPuser',
         method: 'get',
         params: { ...params }
     })
