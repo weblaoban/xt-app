@@ -17,7 +17,7 @@
                 alt=""
               />
               <img v-else class="bao" src="/img/zhong.png" alt="" />
-              <div class="titleDesc">{{ item.name }}</div>
+              <div class="titleDesc">{{ detail.name }}</div>
             </div>
             <div class="descCon">
               <div class="desc">IRR高达</div>

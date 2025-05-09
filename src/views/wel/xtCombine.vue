@@ -453,6 +453,9 @@
       };
     },
     mounted() {
+			if(this.$route.query.isInsurance==1){
+				this.setCat(100)
+			}
       const scrollCon = this.$refs.scrollCon;
       if (scrollCon) {
         scrollCon.addEventListener("scroll", this.scrollBottom, true);
