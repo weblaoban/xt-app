@@ -83,7 +83,7 @@
                       私<span></span>募<span></span>基<span></span>金
                     </div>
                   </div>
-                  {{ item.name }}
+                  <div class="titleDesc">{{ item.name }}</div>
                 </div>
                 <div class="descCon">
                   <div class="desc">业绩比较基准</div>
@@ -118,7 +118,8 @@
                     alt=""
                   />
                   <img v-else class="bao" src="/img/zhong.png" alt="" />
-                  {{ item.name }}
+
+                  <div class="titleDesc">{{ item.name }}</div>
                 </div>
                 <div class="descCon">
                   <div class="desc">IRR高达</div>
@@ -149,7 +150,7 @@
     <div class="phonel">客服电话：0571-86012055</div>
 
     <div class="copy">
-      <p>Copyright ©杭州泓林信息咨询有限公司All rights reserved|</p>
+      <p>Copyright ©杭州瑔石信息咨询有限公司All rights reserved|</p>
       <p>
         投资有风险，理财需谨慎。|
         <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank"
@@ -157,7 +158,7 @@
         >号
       </p>
       <p>
-        以上项目皆真实，信息来自信托、基金、保险等金融机构，其对提供信息的真实可靠性和完整准确性负责。
+        以上项目皆真实，信息来自信托、基金、保险等金融机构，其对提供信息的真实可靠性和完整准确性负责
       </p>
       <p>
         投资者应仔细阅读产品的法律文件，了解产品风险和收益特征(包括系统性风险和特定产品所特有的投资风险等)。
@@ -578,7 +579,8 @@
           }
         }
         .title {
-          width: 4.71rem;
+          //   width: 4.71rem;
+          width: 100%;
           font-size: 0.32rem;
           font-family: PingFang SC;
           font-weight: 400;
@@ -1215,5 +1217,12 @@
       align-items: center;
       border-image: linear-gradient(-90deg, #7683d9, #d8a0fe) 1 1;
     }
+  }
+
+  .titleDesc {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>

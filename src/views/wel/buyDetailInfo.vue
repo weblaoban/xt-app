@@ -436,28 +436,28 @@
       }
     }
     .title {
-      width: 4.71rem;
+      //   width: 4.71rem;
       font-size: 0.32rem;
       font-family: PingFang SC;
       font-weight: 400;
       color: #30333b;
       margin-bottom: 0.33rem;
       box-sizing: border-box;
-    //   padding-left: 1rem;
+      //   padding-left: 1rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
 
-    //   background-image: url(/img/h5/title1.png);
-    //   background-repeat: no-repeat;
-    //   background-size: 0.92rem 0.3rem;
-    //   background-position: left center;
-    //   &.title98 {
-    //     background-image: url(/img/h5/title2.png);
-    //   }
-    //   &.title99 {
-    //     background-image: url(/img/h5/title3.png);
-    //   }
+      //   background-image: url(/img/h5/title1.png);
+      //   background-repeat: no-repeat;
+      //   background-size: 0.92rem 0.3rem;
+      //   background-position: left center;
+      //   &.title98 {
+      //     background-image: url(/img/h5/title2.png);
+      //   }
+      //   &.title99 {
+      //     background-image: url(/img/h5/title3.png);
+      //   }
     }
     .desc {
       width: 50%;

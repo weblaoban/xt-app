@@ -112,7 +112,7 @@
               src="/img/zhong.png"
               alt=""
             />
-            {{ item.name }}
+            <div class="titleDesc">{{ item.name }}</div>
           </div>
           <div class="descCon">
             <div class="desc">业绩比较基准</div>
@@ -178,7 +178,7 @@
               src="/img/zhong.png"
               alt=""
             />
-            {{ item.name }}
+            <div class="titleDesc">{{ item.name }}</div>
           </div>
           <div class="descCon">
             <div class="desc">IRR高达</div>
@@ -726,7 +726,7 @@
         }
       }
       .title {
-        width: 4.71rem;
+        // width: 4.71rem;
         font-size: 0.32rem;
         font-family: PingFang SC;
         font-weight: 400;
@@ -970,5 +970,12 @@
         color: #fff;
       }
     }
+  }
+
+  .titleDesc {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>

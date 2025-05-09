@@ -22,7 +22,7 @@
                   私<span></span>募<span></span>基<span></span>金
                 </div>
               </div>
-              {{ detail.name }}
+              <div class="titleDesc">{{ detail.name }}</div>
             </div>
             <div class="descCon">
               <div class="desc">业绩比较基准</div>
@@ -628,7 +628,7 @@
       }
     }
     .title {
-      width: 4.71rem;
+      //   width: 4.71rem;
       font-size: 0.32rem;
       font-family: PingFang SC;
       font-weight: 400;
@@ -885,5 +885,12 @@
     width: 0.3rem;
     height: 0.3rem;
     margin-left: 0.05rem;
+  }
+
+  .titleDesc {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>

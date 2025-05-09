@@ -57,7 +57,8 @@
               </div>
               <!--              <img class="bao" src="/img/chu.png" alt="" />-->
               <!--              <img class="bao" src="/img/zhong.png" alt="" />-->
-              {{ item.name }}
+
+              <div class="titleDesc">{{ item.name }}</div>
             </div>
             <!--            <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>-->
 
@@ -114,7 +115,8 @@
               </div>
               <!--              <img class="bao" src="/img/chu.png" alt="" />-->
               <!--              <img class="bao" src="/img/zhong.png" alt="" />-->
-              {{ item.name }}
+
+              <div class="titleDesc">{{ item.name }}</div>
             </div>
 
             <div class="descCon">
@@ -537,7 +539,7 @@
         }
       }
       .title {
-        width: 4.71rem;
+        // width: 4.71rem;
         font-size: 0.32rem;
         font-family: PingFang SC;
         font-weight: 400;
@@ -741,5 +743,12 @@
     border-radius: 2px;
     overflow: hidden;
     margin-right: 3px;
+  }
+
+  .titleDesc {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 </style>

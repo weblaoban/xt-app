@@ -326,7 +326,7 @@
         }
       }
       .title {
-        width: 4.71rem;
+        // width: 4.71rem;
         font-size: 0.32rem;
         font-family: PingFang SC;
         font-weight: 400;
