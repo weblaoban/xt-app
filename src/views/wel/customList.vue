@@ -14,8 +14,21 @@
           <img src="/img/search.png" alt="" class="search" />
         </div>
       </div>
-
-      <div class="customList">
+			<div class="tabs">
+				<div
+						:class="{ tabItem: true, active: currentCat === 1 }"
+						@click="setCat(1)"
+				>
+					理财类
+				</div>
+				<div
+						:class="{ tabItem: true, active: currentCat === 2 }"
+						@click="setCat(2)"
+				>
+					保险类
+				</div>
+			</div>
+      <div class="customList" v-if="currentCat===1">
         <div
           class="customItem"
           v-for="item in customList"
@@ -46,15 +59,54 @@
           </div>
         </div>
       </div>
+      <div class="customList" v-if="currentCat === 2">
+        <div
+          class="customItem"
+          v-for="item in bCustomList"
+          :key="item"
+          @click="goDetail(item)"
+        >
+          <div class="userInfo">
+            <img src="/img/user1.png" alt="" />
+            &nbsp;
+            <span class="name">{{ item[0] && item[0].info.userDtm.nickName }}</span>
+            &nbsp;&nbsp;
+            <span class="phone">{{ item[0] && item[0].info.userDtm.userMobile }}</span>
+          </div>
+
+          <div class="subCon">
+            <div class="subItem sub1">
+							<p>总金额</p>
+							<p>{{ getTAmount(item) || "-" }}&nbsp;<span>元</span></p>
+            </div>
+            <div class="line"></div>
+            <div class="subItem sub2">
+							<p>待缴金额</p>
+							<p>{{ getbAmount(item) }}&nbsp;<span>元</span></p>
+            </div>
+          </div>
+					<div v-if="getNextBItem(item)">
+						<div class="line"></div>
+						<div class="subItem sub2" style="display: flex;align-items: center;padding:0">
+							<p style="margin:0;margin-right:4px;">下一个缴费日：</p>
+							<p>{{ getNextBItem(item) }}&nbsp;<span></span></p>
+						</div>
+					</div>
+          <div class="cNum">
+            持有数量： <span>{{ item.length }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
   
   <script>
-  import mainHeader from "../common/header.vue";
-  import { mapGetters } from "vuex";
-  import { getPlannerProd } from "@/api/user.js";
-  export default {
+	import mainHeader from "../common/header.vue";
+	import {mapGetters} from "vuex";
+	import {getBUserProd, getPlannerProd} from "@/api/user.js";
+	
+	export default {
     name: "account",
     components: {
       mainHeader,
@@ -66,13 +118,122 @@
       return {
         key: "",
         customList: [],
+				bCustomList:[],
         oList: [],
+				obList:[],
+				currentCat:1,
       };
     },
     created() {
       this.fetchList();
+			this.getBInfo()
     },
     methods: {
+			setCat(cat){
+				this.currentCat = cat
+			},
+			getBInfo() {
+				getBUserProd().then((res) => {
+					console.log(res);
+					this.getAllList(res.data.data);
+				});
+			},
+			getAllList(list) {
+				const cuserId = this.userInfo.id;
+				const result = [];
+				list.forEach((item) => {
+					const { userInsurances = [] } = item;
+					userInsurances.forEach((user) => {
+						let { userId, paidList, remainingAmount,puserid } = user;
+						const amount = remainingAmount ? remainingAmount : 0;
+						try {
+							paidList = JSON.parse(paidList);
+						} catch (error) {
+							paidList = [];
+						}
+						if (!paidList) {
+							paidList = [];
+						}
+						user.paidList = paidList;
+						user.totalAmount = paidList.length * amount;
+						const limit = paidList.filter((item) => item.status === 0);
+						const has = paidList.filter((item) => item.status === 1);
+						user.toAmount = limit.length * amount;
+						user.nextBItem = paidList.find((item) => item.status === 0);
+						if (user.nextBItem) {
+							user.nextBItem.amount = amount;
+						}
+						user.hasDate = 0;
+						if (has && has.length) {
+							user.hasDate = has.length;
+						}
+						user.lastDate = 0;
+						if (limit && limit.length) {
+							user.lastDate = limit.length;
+						}
+						if (puserid === cuserId) {
+							result.push({ ...item, info: user });
+						}
+					});
+				});
+				this.obList = result
+				let resultobj = {};
+				result.forEach((item) => {
+					if (resultobj[item.info.userId]) {
+						resultobj[item.info.userId].push(item);
+					} else {
+						resultobj[item.info.userId] = [item];
+					}
+				});
+				this.bCustomList = resultobj;
+				console.log(resultobj)
+				// this.state0list = result.filter((item) => item.info.nextBItem);
+				// this.state1list = result.filter((item) => !item.info.nextBItem);
+				// this.prodList = this.state0list;
+				// console.log(this.state0list);
+			},
+			filterBList(){
+				let oBList = JSON.parse(JSON.stringify(this.obList));
+				
+				let result = oBList.filter((item) => {
+					return (
+							(item.info.userDtm.nickName && item.info.userDtm.nickName.indexOf(this.key) > -1) ||
+							(item.info.userDtm.userMobile && item.info.userDtm.userMobile.indexOf(this.key) > -1)
+					);
+				});
+				let resultobj = {};
+				result.forEach((item) => {
+					if (resultobj[item.info.userId]) {
+						resultobj[item.info.userId].push(item);
+					} else {
+						resultobj[item.info.userId] = [item];
+					}
+				});
+				this.bCustomList = resultobj;
+			},
+			getTAmount(item){
+				return item.reduce((acc, cur) => {
+					const {totalAmount} = cur.info;
+					return acc + totalAmount;
+				}, 0);
+			},
+			getbAmount(item){
+				return item.reduce((acc, cur) => {
+					const {toAmount} = cur.info;
+					return acc + toAmount;
+				}, 0);
+			},
+			getNextBItem(result){
+				const nextDate = result.filter(item => item.info.nextBItem);
+				if(nextDate && nextDate.length){
+					
+					const nextBItem = nextDate.sort((a,b)=>{
+						return new Date(a.info.nextBItem.value).getTime() - new Date(b.info.nextBItem.value).getTime()
+					})
+					return nextBItem[0].info.nextBItem.value
+				}
+				return ''
+			},
       fetchList() {
         getPlannerProd({ uid: this.userInfo.id }).then((res) => {
           let list = [];
@@ -96,18 +257,19 @@
           this.customList = result;
         });
       },
-
       fetchListBykey() {
         if (!this.key) {
           this.fetchList();
+					this.getBInfo()
           return;
         }
+				this.filterBList()
         let oList = JSON.parse(JSON.stringify(this.oList));
         let list = [];
         oList.forEach((item) => {
           const { userDtm = [] } = item;
           userDtm.forEach((user) => {
-            if (user.puserId == this.userInfo.id) {
+            if (user.puserId === this.userInfo.id) {
               list.push({ ...user, ...item, uid: user.id });
             }
           });
@@ -116,7 +278,7 @@
         list = list.filter((item) => {
           return (
             (item.nickName && item.nickName.indexOf(this.key) > -1) ||
-            (item.idcard && item.idcard.indexOf(this.key) > -1)
+            (item.userMobile && item.userMobile.indexOf(this.key) > -1)
           );
         });
         list.forEach((item) => {
@@ -314,4 +476,38 @@
       }
     }
   }
+	
+	.tabs {
+		height: 0.6rem;
+		width: 100%;
+		//padding: 0 0.4rem;
+		box-sizing: border-box;
+		margin-bottom: 0.2rem;
+		.tabItem {
+			font-size: 0.28rem;
+			font-family: PingFang SC;
+			font-weight: 400;
+			color: #9a9a9c;
+			position: relative;
+			float: left;
+			margin-right: 0.34rem;
+			line-height: 0.6rem;
+			&.active {
+				font-size: 0.32rem;
+				font-family: PingFang SC;
+				font-weight: 400;
+				color: #30333b;
+				&::before {
+					content: "";
+					display: block;
+					width: 100%;
+					height: 0.06rem;
+					background: #eaba63;
+					left: 0;
+					bottom: 0;
+					position: absolute;
+				}
+			}
+		}
+	}
 </style>
