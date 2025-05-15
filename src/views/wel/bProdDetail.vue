@@ -26,7 +26,7 @@
             <div class="descCon">
               <p class="count">{{ detail.irr || 0 }}% <span></span></p>
               <p class="count">
-                <span>{{ detail.phasesc }}</span>
+                <span>{{ detail.paymentMode }}</span>
               </p>
             </div>
             <div class="line"></div>
