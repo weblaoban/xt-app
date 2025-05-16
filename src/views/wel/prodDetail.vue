@@ -340,7 +340,7 @@
         const cur = this.detail;
         const userInfo = this.userInfo;
         if (cur.id) {
-          yuyue({ prodId: cur.id, userId: userInfo.id }).then((res) => {
+          yuyue({ prodId: cur.id }).then((res) => {
             if (res && res.data && res.data.success) {
               this.$message.success("预约成功");
               this.showYuyue = false;
