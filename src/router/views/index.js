@@ -87,18 +87,18 @@ export default [
             },
             {
                 path: "information",
-                name: "信托资讯",
+                name: "财经资讯",
                 meta: {
-                    title: "信托资讯",
+                    title: "财经资讯",
                 },
                 component: () =>
                     import(/* webpackChunkName: "views" */ "@/views/wel/zixun.vue"),
             },
             {
                 path: "informationDetail/:id",
-                name: "信托资讯详情",
+                name: "财经资讯详情",
                 meta: {
-                    title: "信托资讯详情",
+                    title: "财经资讯详情",
                 },
                 component: () =>
                     import(/* webpackChunkName: "views" */ "@/views/wel/zixunDetail.vue"),

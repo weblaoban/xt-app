@@ -1,7 +1,7 @@
 <!-- 信托问答详情 -->
 <template>
 	<div class="index-container qadetail">
-		<main-header title="信托资讯"></main-header>
+		<main-header title="财经资讯"></main-header>
 		<div class="qadetailcon" @click="pause">
 			<h4>{{ detail.title }}</h4>
 			<p class="time">发布时间：{{ detail.uploadTime }}</p>

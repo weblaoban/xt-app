@@ -1,4 +1,4 @@
-<!-- 信托资讯 -->
+<!-- 财经资讯 -->
 <template>
   <div class="index-container zixun">
     <main-header title="资讯问答"></main-header>
