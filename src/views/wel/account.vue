@@ -136,6 +136,7 @@
 import mainHeader from "../common/header.vue";
 import {mapGetters} from "vuex";
 import {getBUserProd, getUserProd} from "@/api/user.js";
+import store from "@/store";
 
 export default {
     name: "account",
@@ -157,6 +158,7 @@ export default {
       };
     },
     created() {
+			store.dispatch('GetUserInfo')
       this.getMyAccountInfo();
 			this.getBInfo()
     },
