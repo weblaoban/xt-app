@@ -93,6 +93,7 @@
           {
             name: "产品列表",
             link: "/xtcombine",
+						needLogin:true
           },
           {
             name: "资讯问答",
@@ -160,6 +161,10 @@
     created() {},
     methods: {
       onMenuClick(menu) {
+				if(menu.needLogin && !this.userInfo.id){
+					this.$router.push("/login");
+					return;
+				}
         if (menu.link) {
           this.$router.push(menu.link);
         }

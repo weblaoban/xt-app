@@ -50,6 +50,15 @@ export default [
                     import(/* webpackChunkName: "views" */ "@/views/wel/prodDetail.vue"),
             },
             {
+                path: "oProdDetail/:id",
+                name: "产品详情（境外债）",
+                meta: {
+                    title: "产品详情（境外债）",
+                },
+                component: () =>
+                    import(/* webpackChunkName: "views" */ "@/views/wel/oProdDetail.vue"),
+            },
+            {
                 path: "bProdDetail/:id",
                 name: "产品详情（保险）",
                 meta: {

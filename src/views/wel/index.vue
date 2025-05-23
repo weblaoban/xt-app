@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="productC">
+    <div class="productC"  v-if="!userInfo.id">
       <div class="productContent product1">
         <div class="container">
           <div class="productTitle"><span>产品推荐</span></div>

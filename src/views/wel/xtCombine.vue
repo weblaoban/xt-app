@@ -40,12 +40,12 @@
           >
             保险
           </div>
-          <!--          <div-->
-          <!--            :class="{ tabItem: true, active: currentCat == 101 }"-->
-          <!--            @click="setCat(101)"-->
-          <!--          >-->
-          <!--            境外债-->
-          <!--          </div>-->
+                    <div
+                      :class="{ tabItem: true, active: currentCat == 2 }"
+                      @click="setCat(2)"
+                    >
+                      境外债
+                    </div>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
             <div class="titlePrefixCon" v-if="currentCat === 100">
               <div class="titlePrefix">保<span></span>险</div>
             </div>
-            <div class="titlePrefixCon" v-if="currentCat === 101">
+            <div class="titlePrefixCon" v-if="currentCat === 2">
               <div class="titlePrefix">境<span></span>外<span></span>债</div>
             </div>
             <img
@@ -163,7 +163,7 @@
             <div class="titlePrefixCon" v-if="currentCat === 100">
               <div class="titlePrefix">保<span></span>险</div>
             </div>
-            <div class="titlePrefixCon" v-if="currentCat === 101">
+            <div class="titlePrefixCon" v-if="currentCat === 2">
               <div class="titlePrefix">境<span></span>外<span></span>债</div>
             </div>
             <img
@@ -560,6 +560,16 @@
           this.$router.push("/login");
           return;
         }
+				if(this.currentCat === 2){
+					
+					this.$router.push({
+						path: "/oProdDetail/" + row.id,
+						query: {
+							type: 1,
+						},
+					});
+					return
+				}
         this.$router.push({
           path: "/prodDetail/" + row.id,
           query: {
