@@ -20,9 +20,13 @@
             </div>
             <div class="descCon">
               <p class="count">
-                {{ detail.userInfo.amount || 0 }} <span>元</span>
+                {{ detail.userInfo.amount || 0 }}
+                <span>{{ taskType == 1 ? "美元" : "元" }}</span>
               </p>
-              <p class="count pd">{{ getBen(detail) || 0 }}<span>元</span></p>
+              <p class="count pd">
+                {{ getBen(detail) || 0
+                }}<span>{{ taskType == 1 ? "美元" : "元" }}</span>
+              </p>
             </div>
             <div class="line"></div>
 
@@ -96,6 +100,7 @@
         detail: { userInfo: {} },
         loading: false,
         name: "",
+        taskType: "",
       };
     },
     computed: {
@@ -104,7 +109,9 @@
     created() {
       this.getDetail();
     },
-    mounted() {},
+    mounted() {
+      this.taskType = this.$route.query.taskType;
+    },
     methods: {
       getBen(item) {
         console.log(item);

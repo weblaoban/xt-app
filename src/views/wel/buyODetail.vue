@@ -46,7 +46,7 @@
           </div>
 
           <div class="descCon">
-            <p class="count">{{ item.amount || 0 }} <span>元</span></p>
+            <p class="count">{{ item.amount || 0 }} <span>美元</span></p>
             <p class="count" v-if="currentCat !== 1">
               {{ getBen(item) }}<span>元</span>
             </p>
@@ -153,6 +153,7 @@
         this.$router.push({
           path: "/buyDetailInfo/" + row.id,
           query: {
+            taskType: 1,
             type: row.rad,
             name: this.userInfo.score === 1 ? row.nickName : "",
           },
