@@ -29,7 +29,8 @@
           v-for="item in prodList"
           :key="item.id"
         >
-          <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>
+					<title-prefix :item="item" :current-cat="item.categoryId"></title-prefix>
+<!--          <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>-->
 
           <div class="descCon">
             <p class="count kehu" v-if="userInfo.score == 1">
@@ -64,9 +65,11 @@
   import mainHeader from "../common/header.vue";
   import { getUserProd } from "@/api/user.js";
   import { mapGetters } from "vuex";
+	import TitlePrefix from "components/titlePrefix.vue";
   export default {
     name: "jeZi",
     components: {
+			TitlePrefix,
       mainFooter,
       mainHeader,
     },

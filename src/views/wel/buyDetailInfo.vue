@@ -7,9 +7,11 @@
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
             <div class="linecenter"></div>
-            <div :class="'title ' + 'title' + detail.state">
-              {{ detail.name }}
-            </div>
+						
+						<title-prefix :item="detail" :current-cat="detail.categoryId"></title-prefix>
+<!--            <div :class="'title ' + 'title' + detail.state">-->
+<!--              {{ detail.name }}-->
+<!--            </div>-->
             <div class="descCon">
               <div class="desc">持有金额</div>
               <div class="desc pd">待收收益</div>
@@ -80,9 +82,11 @@
   import { mapGetters } from "vuex";
   import mainHeader from "../common/header.vue";
   import { getBuyDetail } from "@/api/user.js";
+	import TitlePrefix from "components/titlePrefix.vue";
   export default {
     name: "jeZi",
     components: {
+			TitlePrefix,
       mainHeader,
     },
     data() {
