@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="productC"  v-if="!userInfo.id">
+    <div class="productC" v-if="userInfo.id">
       <div class="productContent product1">
         <div class="container">
           <div class="productTitle"><span>产品推荐</span></div>
@@ -351,6 +351,10 @@
         this.$router.push("/forgetPassword");
       },
       goMore() {
+        if (!this.userInfo.id) {
+          this.$router.push("/login");
+          return;
+        }
         this.$router.push("/xtcombine");
       },
       goDetail(row, type) {

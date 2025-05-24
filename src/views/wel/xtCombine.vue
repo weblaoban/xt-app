@@ -40,12 +40,12 @@
           >
             保险
           </div>
-                    <div
-                      :class="{ tabItem: true, active: currentCat == 2 }"
-                      @click="setCat(2)"
-                    >
-                      境外债
-                    </div>
+          <div
+            :class="{ tabItem: true, active: currentCat == 3 }"
+            @click="setCat(3)"
+          >
+            境外债
+          </div>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
             <div class="titlePrefixCon" v-if="currentCat === 100">
               <div class="titlePrefix">保<span></span>险</div>
             </div>
-            <div class="titlePrefixCon" v-if="currentCat === 2">
+            <div class="titlePrefixCon" v-if="currentCat === 3">
               <div class="titlePrefix">境<span></span>外<span></span>债</div>
             </div>
             <img
@@ -121,7 +121,8 @@
           <div class="descCon">
             <p class="count">{{ item.brief || 0 }} <span></span></p>
             <p class="count">
-              <span>{{ item.pmStandCnt }}</span>
+              <span v-if="item.categoryId === 3">{{ item.pmStand }}万美元</span>
+              <span v-else>{{ item.pmStandCnt }}</span>
             </p>
           </div>
           <div class="line"></div>
@@ -163,7 +164,7 @@
             <div class="titlePrefixCon" v-if="currentCat === 100">
               <div class="titlePrefix">保<span></span>险</div>
             </div>
-            <div class="titlePrefixCon" v-if="currentCat === 2">
+            <div class="titlePrefixCon" v-if="currentCat === 3">
               <div class="titlePrefix">境<span></span>外<span></span>债</div>
             </div>
             <img
@@ -453,15 +454,15 @@
       };
     },
     mounted() {
-			if(this.$route.query.isInsurance==1){
-				this.setCat(100)
-			}
-			if(this.$route.query.isDirect==1){
-				this.setCat(98)
-			}
-			if(this.$route.query.isPrivate==1){
-				this.setCat(99)
-			}
+      if (this.$route.query.isInsurance == 1) {
+        this.setCat(100);
+      }
+      if (this.$route.query.isDirect == 1) {
+        this.setCat(98);
+      }
+      if (this.$route.query.isPrivate == 1) {
+        this.setCat(99);
+      }
       const scrollCon = this.$refs.scrollCon;
       if (scrollCon) {
         scrollCon.addEventListener("scroll", this.scrollBottom, true);
@@ -560,16 +561,15 @@
           this.$router.push("/login");
           return;
         }
-				if(this.currentCat === 2){
-					
-					this.$router.push({
-						path: "/oProdDetail/" + row.id,
-						query: {
-							type: 1,
-						},
-					});
-					return
-				}
+        if (this.currentCat === 3) {
+          this.$router.push({
+            path: "/oProdDetail/" + row.id,
+            query: {
+              type: 1,
+            },
+          });
+          return;
+        }
         this.$router.push({
           path: "/prodDetail/" + row.id,
           query: {
@@ -891,7 +891,7 @@
   .tabs {
     height: 0.6rem;
     width: 100%;
-    padding: 0 0.4rem;
+    padding-left: 0.4rem;
     box-sizing: border-box;
     margin-bottom: 0.2rem;
     .tabItem {

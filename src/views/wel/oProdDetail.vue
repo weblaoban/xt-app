@@ -7,9 +7,9 @@
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
             <div :class="'title ' + 'title' + detail.categoryId">
-							<div class="titlePrefixCon">
-								<div class="titlePrefix">境<span></span>外<span></span>债</div>
-							</div>
+              <div class="titlePrefixCon">
+                <div class="titlePrefix">境<span></span>外<span></span>债</div>
+              </div>
               <div class="titleDesc">{{ detail.name }}</div>
             </div>
             <div class="descCon">
@@ -19,7 +19,7 @@
             <div class="descCon">
               <p class="count">{{ detail.brief || 0 }} <span></span></p>
               <p class="count">
-                <span>{{ detail.pmStandCnt }}万美元</span>
+                <span>{{ detail.pmStand }}万美元</span>
               </p>
             </div>
             <div class="line"></div>
@@ -78,7 +78,7 @@
             <el-col :span="24"
               ><div class="infoItem">
                 <div class="infoLabel">投资门槛</div>
-                <div class="infoDesc">{{ detail.pmStandCnt }}</div>
+                <div class="infoDesc">{{ detail.pmStand }}万美元</div>
               </div></el-col
             >
             <el-col :span="24"
