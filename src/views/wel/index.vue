@@ -67,24 +67,10 @@
                 :class="{ productItem: true, finish: item.status == 3 }"
                 v-if="item.categoryId !== 100"
               >
-                <div :class="'title ' + 'title' + item.categoryId">
-                  <div class="titlePrefixCon" v-if="item.categoryId === 97">
-                    <div class="titlePrefix">
-                      集<span></span>合<span></span>信<span></span>托
-                    </div>
-                  </div>
-                  <div class="titlePrefixCon" v-if="item.categoryId === 98">
-                    <div class="titlePrefix">
-                      直<span></span>融<span></span>资<span></span>产
-                    </div>
-                  </div>
-                  <div class="titlePrefixCon" v-if="item.categoryId === 99">
-                    <div class="titlePrefix">
-                      私<span></span>募<span></span>基<span></span>金
-                    </div>
-                  </div>
-                  <div class="titleDesc">{{ item.name }}</div>
-                </div>
+                <title-prefix
+                  :currentCat="item.categoryId"
+                  :item="item"
+                ></title-prefix>
                 <div class="descCon">
                   <div class="desc">业绩比较基准</div>
                   <div class="desc">投资门槛</div>
@@ -92,7 +78,11 @@
                 <div class="descCon">
                   <p class="count">{{ item.brief || 0 }} <span></span></p>
                   <p class="count">
-                    <span>{{ item.pmStandCnt }}</span>
+                    <template v-if="item.categoryId === 3">
+                      {{ item.pmStand || 0 }}<span>万美元</span>
+                    </template>
+
+                    <span v-else>{{ item.pmStandCnt }}</span>
                   </p>
                 </div>
                 <div class="line"></div>
@@ -180,12 +170,14 @@
   import contact from "../common/contact.vue";
   import { getAmount } from "@/api/index.js";
   import { zxlist, list, bList } from "@/api/prod.js";
+  import TitlePrefix from "../../components/titlePrefix.vue";
   export default {
     name: "wel",
     components: {
       mainFooter,
       mainHeader,
       contact,
+      TitlePrefix,
     },
     data() {
       return {
@@ -360,6 +352,16 @@
       goDetail(row, type) {
         if (!this.userInfo.id) {
           this.$router.push("/login");
+          return;
+        }
+
+        if (row.categoryId === 3) {
+          this.$router.push({
+            path: "/oProdDetail/" + row.id,
+            query: {
+              type: 1,
+            },
+          });
           return;
         }
         this.$router.push({

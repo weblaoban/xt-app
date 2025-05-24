@@ -6,19 +6,10 @@
       <div class="container">
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
-            <div :class="'title ' + 'title' + detail.categoryId">
-              <div class="titlePrefixCon">
-                <div class="titlePrefix">保<span></span>险</div>
-              </div>
-              <img
-                v-if="detail.tpe == 0"
-                class="bao"
-                src="/img/chu.png"
-                alt=""
-              />
-              <img v-else class="bao" src="/img/zhong.png" alt="" />
-              <div class="titleDesc">{{ detail.name }}</div>
-            </div>
+            <title-prefix
+              :currentCat="detail.categoryId"
+              :item="detail"
+            ></title-prefix>
             <div class="descCon">
               <div class="desc">IRR高达</div>
               <div class="desc">缴费灵活</div>
@@ -232,6 +223,7 @@
 </template>
 
 <script>
+  import TitlePrefix from "../../components/titlePrefix.vue";
   import { mapGetters } from "vuex";
   import mainFooter from "../common/footer.vue";
   import mainHeader from "../common/header.vue";
@@ -245,6 +237,7 @@
       mainFooter,
       mainHeader,
       contact,
+      TitlePrefix,
     },
     data() {
       return {

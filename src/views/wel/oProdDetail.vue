@@ -6,12 +6,10 @@
       <div class="container">
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
-            <div :class="'title ' + 'title' + detail.categoryId">
-              <div class="titlePrefixCon">
-                <div class="titlePrefix">境<span></span>外<span></span>债</div>
-              </div>
-              <div class="titleDesc">{{ detail.name }}</div>
-            </div>
+            <title-prefix
+              :currentCat="detail.categoryId"
+              :item="detail"
+            ></title-prefix>
             <div class="descCon">
               <div class="desc">业绩比较基准</div>
               <div class="desc">投资门槛</div>
@@ -54,13 +52,13 @@
             <el-col :span="24"
               ><div class="infoItem">
                 <div class="infoLabel">发行人</div>
-                <div class="infoDesc">{{ detail.organCnt }}</div>
+                <div class="infoDesc">{{ detail.organId }}</div>
               </div></el-col
             >
             <el-col :span="24"
               ><div class="infoItem">
                 <div class="infoLabel">资金用途</div>
-                <div class="infoDesc">{{ detail.prodEffCnt }}</div>
+                <div class="infoDesc">{{ detail.prodEffId }}</div>
               </div></el-col
             >
             <el-col :span="24"
@@ -225,6 +223,7 @@
 </template>
 
 <script>
+  import TitlePrefix from "../../components/titlePrefix.vue";
   import { mapGetters } from "vuex";
   import mainFooter from "../common/footer.vue";
   import mainHeader from "../common/header.vue";
@@ -238,6 +237,7 @@
       mainFooter,
       mainHeader,
       contact,
+      TitlePrefix,
     },
     data() {
       return {

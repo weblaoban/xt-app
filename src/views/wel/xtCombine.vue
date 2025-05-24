@@ -78,42 +78,10 @@
           v-for="item in prodList"
           :key="item.id"
         >
-          <div :class="'title ' + 'title' + currentCat">
-            <div class="titlePrefixCon" v-if="currentCat === 97">
-              <div class="titlePrefix">
-                集<span></span>合<span></span>信<span></span>托
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 98">
-              <div class="titlePrefix">
-                直<span></span>融<span></span>资<span></span>产
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 99">
-              <div class="titlePrefix">
-                私<span></span>募<span></span>基<span></span>金
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 100">
-              <div class="titlePrefix">保<span></span>险</div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 3">
-              <div class="titlePrefix">境<span></span>外<span></span>债</div>
-            </div>
-            <img
-              v-if="currentCat === 100 && item.tpe === 0"
-              class="bao"
-              src="/img/chu.png"
-              alt=""
-            />
-            <img
-              v-if="currentCat === 100 && item.tpe === 1"
-              class="bao"
-              src="/img/zhong.png"
-              alt=""
-            />
-            <div class="titleDesc">{{ item.name }}</div>
-          </div>
+          <title-prefix
+            :currentCat="item.categoryId"
+            :item="item"
+          ></title-prefix>
           <div class="descCon">
             <div class="desc">业绩比较基准</div>
             <div class="desc">投资门槛</div>
@@ -145,42 +113,10 @@
           v-for="item in prodList"
           :key="item.id"
         >
-          <div :class="'title ' + 'title' + currentCat">
-            <div class="titlePrefixCon" v-if="currentCat === 97">
-              <div class="titlePrefix">
-                集<span></span>合<span></span>信<span></span>托
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 98">
-              <div class="titlePrefix">
-                直<span></span>融<span></span>资<span></span>产
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 99">
-              <div class="titlePrefix">
-                私<span></span>募<span></span>基<span></span>金
-              </div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 100">
-              <div class="titlePrefix">保<span></span>险</div>
-            </div>
-            <div class="titlePrefixCon" v-if="currentCat === 3">
-              <div class="titlePrefix">境<span></span>外<span></span>债</div>
-            </div>
-            <img
-              v-if="currentCat === 100 && item.tpe === 0"
-              class="bao"
-              src="/img/chu.png"
-              alt=""
-            />
-            <img
-              v-if="currentCat === 100 && item.tpe === 1"
-              class="bao"
-              src="/img/zhong.png"
-              alt=""
-            />
-            <div class="titleDesc">{{ item.name }}</div>
-          </div>
+          <title-prefix
+            :currentCat="item.categoryId"
+            :item="item"
+          ></title-prefix>
           <div class="descCon">
             <div class="desc">IRR高达</div>
             <div class="desc">投资门槛</div>
@@ -231,12 +167,14 @@
   import { list, keylist, bList } from "@/api/prod.js";
   import contact from "../common/contact.vue";
   import { mapGetters } from "vuex";
+  import TitlePrefix from "../../components/titlePrefix.vue";
   export default {
     name: "jeZi",
     components: {
       mainFooter,
       mainHeader,
       contact,
+      TitlePrefix,
     },
     computed: {
       ...mapGetters(["userInfo"]),

@@ -123,7 +123,7 @@
         getUserProd({ ...page, uid: paramsId || this.userInfo.id }).then(
           (res) => {
             let list = [];
-            const target = res.data.data.records.filter((item) => item.tpe === 0);
+            const target = res.data.data.records.filter((item) => item.tpe === 1);
             target.forEach((item) => {
               const { userDtm = [] } = item;
               userDtm.forEach((user) => {

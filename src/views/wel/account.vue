@@ -31,6 +31,17 @@
           >
             保险
           </div>
+          <div
+            class="section"
+            :class="{
+              section: true,
+              section2: true,
+              active: section === 3,
+            }"
+            @click="setSection(3)"
+          >
+            境外
+          </div>
         </div>
         <div
           :class="{
@@ -66,7 +77,7 @@
               总缴费金额
               <div class="total">当前已有 {{ bList.length }}份保单保障中</div>
             </div>
-            <div class="myNum">{{ bAmount*1 }} <span>元</span></div>
+            <div class="myNum">{{ bAmount * 1 }} <span>元</span></div>
           </div>
           <div class="subCon">
             <div class="subItem sub1">
@@ -77,6 +88,31 @@
             <div class="subItem sub2">
               <p>下一个缴费日</p>
               <p>{{ nextBItem.value }}&nbsp;<span></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          :class="{
+            sectionCon: true,
+            active: section === 3,
+          }"
+        >
+          <div class="muNumCon">
+            <div class="myNumLabel">持有资产（美元）</div>
+            <div class="myNum">
+              {{ oamount * 1 + oben * 1 }} <span>美元</span>
+            </div>
+          </div>
+          <div class="subCon">
+            <div class="subItem sub1">
+              <p>持有本金（美元）</p>
+              <p>{{ oamount }}&nbsp;<span>美元</span></p>
+            </div>
+            <div class="line"></div>
+            <div class="subItem sub2">
+              <p>待收收益（美元）</p>
+              <p>{{ oben }}&nbsp;<span>美元</span></p>
             </div>
           </div>
         </div>
@@ -117,6 +153,11 @@
           <div>份额管理</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
         </li>
+        <li @click="go('/buyODetail')">
+          <img src="/img/account1.png" alt="" />
+          <div>境外债管理</div>
+          <img class="arrow" src="/img/arrow.png" alt="" />
+        </li>
         <li @click="go('/bDetail')">
           <img src="/img/account3.png" alt="" />
           <div>保单详情</div>
@@ -133,12 +174,12 @@
 </template>
 
 <script>
-import mainHeader from "../common/header.vue";
-import {mapGetters} from "vuex";
-import {getBUserProd, getUserProd} from "@/api/user.js";
-import store from "@/store";
+  import mainHeader from "../common/header.vue";
+  import { mapGetters } from "vuex";
+  import { getBUserProd, getUserProd } from "@/api/user.js";
+  import store from "@/store";
 
-export default {
+  export default {
     name: "account",
     components: {
       mainHeader,
@@ -150,17 +191,19 @@ export default {
       return {
         amount: 0,
         ben: 0,
+        oamount: 0,
+        oben: 0,
         section: 1,
-				bAmount:0,
-				toAmount:0,
-				bList:[],
-				nextBItem:{}
+        bAmount: 0,
+        toAmount: 0,
+        bList: [],
+        nextBItem: {},
       };
     },
     created() {
-			store.dispatch('GetUserInfo')
+      store.dispatch("GetUserInfo");
       this.getMyAccountInfo();
-			this.getBInfo()
+      this.getBInfo();
     },
     methods: {
       setSection(section) {
@@ -185,6 +228,8 @@ export default {
 
           let amount = 0;
           let ben = 0;
+          let oamount = 0;
+          let oben = 0;
           list.forEach((item) => {
             const pList = JSON.parse(item.qlist);
             let days = 0;
@@ -196,75 +241,91 @@ export default {
               }
             });
             if (pList.find((pitem) => !pitem.finish)) {
-              amount += item.amount * 1;
+              if (item.tpe === 0) {
+                amount += item.amount * 1;
+              } else if (item.tpe === 1) {
+                oamount += item.amount * 1;
+              }
             }
             if (days) {
               if (!isNaN(item.brief * 1)) {
-                ben = ((((item.amount * days) / 365) * item.brief) / 100).toFixed(
-                  2
-                );
+                if (item.tpe === 0) {
+                  ben = (
+                    (((item.amount * days) / 365) * item.brief) /
+                    100
+                  ).toFixed(2);
+                } else if (item.tpe === 1) {
+                  oben = (
+                    (((item.amount * days) / 365) * item.brief) /
+                    100
+                  ).toFixed(2);
+                }
               }
             }
           });
           this.amount = amount;
           this.ben = ben;
+          this.oamount = oamount;
+          this.oben = oben;
         });
       },
       go(link) {
         this.$router.push(link);
       },
-			getBInfo(){
-				getBUserProd().then(res=>{
-					console.log(res)
-					this.getAllList(res.data.data)
-				})
-				
-			},
-			getAllList(list){
-				const cuserId = this.userInfo.id
-				const result = [];
-				list.forEach(item=>{
-					const {userInsurances=[]} = item
-					userInsurances.forEach(user=>{
-						let {userId, paidList,remainingAmount} = user
-						const amount = remainingAmount?remainingAmount:0
-						try {
-							paidList = JSON.parse(paidList)
-						} catch (error) {
-							paidList = []
-						}
-						if(!paidList){
-							paidList = []
-						}
-						user.paidList = paidList
-						user.totalAmount = paidList.length * amount;
-						user.toAmount = paidList.filter(item=>item.status===0).length*amount
-						user.nextBItem = paidList.find(item => item.status === 0);
-						if(user.nextBItem){
-							user.nextBItem.amount = amount
-						}
-						if(userId === cuserId){
-							result.push({ ...item,info:user })
-						}
-					})
-				})
-				console.log(result)
-				this.bList = result;
-				this.bAmount = result.reduce((acc, item) => {
-					return acc + (item.info.totalAmount || 0);
-				}, 0)
-				this.toAmount = result.reduce((acc, item) => {
-					return acc + (item.info.toAmount || 0);
-				}, 0)
-				const nextDate = result.filter(item => item.info.nextBItem);
-				if(nextDate && nextDate.length){
-					
-					const nextBItem = nextDate.sort((a,b)=>{
-						return new Date(a.info.nextBItem.value).getTime() - new Date(b.info.nextBItem.value).getTime()
-					})
-					this.nextBItem = nextBItem[0].info.nextBItem
-				}
-			}
+      getBInfo() {
+        getBUserProd().then((res) => {
+          console.log(res);
+          this.getAllList(res.data.data);
+        });
+      },
+      getAllList(list) {
+        const cuserId = this.userInfo.id;
+        const result = [];
+        list.forEach((item) => {
+          const { userInsurances = [] } = item;
+          userInsurances.forEach((user) => {
+            let { userId, paidList, remainingAmount } = user;
+            const amount = remainingAmount ? remainingAmount : 0;
+            try {
+              paidList = JSON.parse(paidList);
+            } catch (error) {
+              paidList = [];
+            }
+            if (!paidList) {
+              paidList = [];
+            }
+            user.paidList = paidList;
+            user.totalAmount = paidList.length * amount;
+            user.toAmount =
+              paidList.filter((item) => item.status === 0).length * amount;
+            user.nextBItem = paidList.find((item) => item.status === 0);
+            if (user.nextBItem) {
+              user.nextBItem.amount = amount;
+            }
+            if (userId === cuserId) {
+              result.push({ ...item, info: user });
+            }
+          });
+        });
+        console.log(result);
+        this.bList = result;
+        this.bAmount = result.reduce((acc, item) => {
+          return acc + (item.info.totalAmount || 0);
+        }, 0);
+        this.toAmount = result.reduce((acc, item) => {
+          return acc + (item.info.toAmount || 0);
+        }, 0);
+        const nextDate = result.filter((item) => item.info.nextBItem);
+        if (nextDate && nextDate.length) {
+          const nextBItem = nextDate.sort((a, b) => {
+            return (
+              new Date(a.info.nextBItem.value).getTime() -
+              new Date(b.info.nextBItem.value).getTime()
+            );
+          });
+          this.nextBItem = nextBItem[0].info.nextBItem;
+        }
+      },
     },
   };
 </script>
@@ -440,9 +501,11 @@ export default {
       font-weight: 400;
       font-size: 0.28rem;
       color: #9a9a9c;
-      width: 1.5rem;
+      width: 0.98rem;
       text-align: center;
       position: relative;
+      //   background: #fff;
+      border-radius: 0.1rem;
       &.section1.active {
         &:before {
           content: "";
@@ -465,6 +528,7 @@ export default {
           height: 0.64rem;
           box-shadow: 0px -5px 10px 0px rgba(48, 51, 59, 0.15);
           border-radius: 12px 12px 0px 0px;
+          transform: skewX(20deg);
           position: absolute;
           top: 0;
           left: 0;

@@ -49,8 +49,11 @@
           v-for="item in prodList"
           :key="item.id"
         >
-					<title-prefix :item="item" :current-cat="item.categoryId"></title-prefix>
-<!--          <div :class="'title ' + 'title' + item.state">{{ item.name }}</div>-->
+          <title-prefix
+            :item="item"
+            :status="item.state"
+            :current-cat="item.tpe === 1 ? 3 : 3000"
+          ></title-prefix>
           <p class="count kehu" v-if="currentCatbuy == 1">
             <span>客户姓名：{{ item.nickName }}</span>
           </p>
@@ -90,10 +93,10 @@
   import mainHeader from "../common/header.vue";
   import { getPlannerProd, getUserProd } from "@/api/user.js";
   import { mapGetters } from "vuex";
-	import TitlePrefix from "components/titlePrefix.vue";
+  import TitlePrefix from "components/titlePrefix.vue";
   export default {
     components: {
-			TitlePrefix,
+      TitlePrefix,
       mainFooter,
       mainHeader,
     },

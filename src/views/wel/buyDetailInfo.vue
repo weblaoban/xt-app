@@ -7,11 +7,13 @@
         <div class="section1">
           <div :class="{ productItem: true, finish: detail.status == 3 }">
             <div class="linecenter"></div>
-						
-						<title-prefix :item="detail" :current-cat="detail.categoryId"></title-prefix>
-<!--            <div :class="'title ' + 'title' + detail.state">-->
-<!--              {{ detail.name }}-->
-<!--            </div>-->
+
+            <title-prefix
+              :item="detail"
+              :status="detail.state"
+              :current-cat="detail.tpe === 1 ? 3 : 3000"
+            ></title-prefix>
+
             <div class="descCon">
               <div class="desc">持有金额</div>
               <div class="desc pd">待收收益</div>
@@ -82,11 +84,11 @@
   import { mapGetters } from "vuex";
   import mainHeader from "../common/header.vue";
   import { getBuyDetail } from "@/api/user.js";
-	import TitlePrefix from "components/titlePrefix.vue";
+  import TitlePrefix from "components/titlePrefix.vue";
   export default {
     name: "jeZi",
     components: {
-			TitlePrefix,
+      TitlePrefix,
       mainHeader,
     },
     data() {
@@ -107,7 +109,7 @@
       getBen(item) {
         console.log(item);
         let ben = 0;
-        const pList = item.qlist;
+        const pList = item.qlist || [];
         let days = 0;
         pList.forEach((item) => {
           if (!item.finish) {

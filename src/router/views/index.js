@@ -191,6 +191,17 @@ export default [
 						/* webpackChunkName: "views" */ "@/views/wel/buyDetail.vue"
                     ),
             }, {
+                path: 'buyODetail',
+                name: "境外债管理",
+                meta: {
+                    title: "境外债管理",
+                },
+                component: () =>
+                    import(
+						/* webpackChunkName: "views" */ "@/views/wel/buyODetail.vue"
+                    ),
+            },
+            {
                 path: 'customList',
                 name: "客户列表",
                 meta: {
