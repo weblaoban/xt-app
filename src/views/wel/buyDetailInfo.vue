@@ -140,7 +140,16 @@
         getBuyDetail(id).then(({ data }) => {
           if (data.success) {
             const detail = data.data;
-            detail.qlist = detail.qlist ? JSON.parse(detail.qlist) : [];
+            const qlist = JSON.parse(detail.qlist);
+            if (Array.isArray(qlist)) {
+              detail.qlist = qlist;
+            } else {
+              detail.qlist = qlist.qlist;
+              detail.days = qlist.days;
+              detail.tpe = qlist.tpe;
+              detail.periods = qlist.periods;
+            }
+            // detail.qlist = detail.qlist ? JSON.parse(detail.qlist) : [];
             const userDtm = detail.userDtm || [];
             const userInfo = userDtm.find((item) => item.rad === type);
             detail.userInfo = userInfo || {};

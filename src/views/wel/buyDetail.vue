@@ -36,7 +36,7 @@
           ></title-prefix>
 
           <div class="descCon">
-            <p class="count kehu" v-if="userInfo.score == 1">
+            <p class="count kehu" v-if="userInfo.score == 2">
               <span>客户姓名：{{ item.nickName }}</span>
             </p>
           </div>
@@ -100,9 +100,8 @@
     },
     methods: {
       getBen(item) {
-        console.log(item);
         let ben = 0;
-        const pList = JSON.parse(item.qlist);
+        const pList = item.pList;
         let days = 0;
         pList.forEach((item) => {
           if (!item.finish) {
@@ -123,7 +122,21 @@
         getUserProd({ ...page, uid: paramsId || this.userInfo.id }).then(
           (res) => {
             let list = [];
-            const target = res.data.data.records.filter((item) => item.tpe === 0);
+            let target = [];
+            res.data.data.records.filter((item) => {
+              const qlist = JSON.parse(item.qlist);
+              if (Array.isArray(qlist)) {
+                item.pList = qlist;
+              } else {
+                item.pList = qlist.qlist;
+                item.days = qlist.days;
+                item.tpe = qlist.tpe;
+                item.periods = qlist.periods;
+              }
+              if (item.tpe === 1) {
+                target.push(item);
+              }
+            });
             target.forEach((item) => {
               const { userDtm = [] } = item;
               userDtm.forEach((user) => {

@@ -231,7 +231,15 @@
           let oamount = 0;
           let oben = 0;
           list.forEach((item) => {
-            const pList = JSON.parse(item.qlist);
+            const qlist = JSON.parse(item.qlist);
+            let pList = [];
+            if (Array.isArray(qlist)) {
+              pList = qlist;
+            } else {
+              pList = qlist.qlist;
+              item.days = qlist.days;
+              item.tpe = qlist.tpe;
+            }
             let days = 0;
             pList.forEach((pitem) => {
               if (!pitem.finish) {

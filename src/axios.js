@@ -58,8 +58,18 @@ axios.interceptors.response.use(res => {
         return false
     }
     if (res.data.code === '400') {
+        if (res.data.msg.indexOf('用户不存在') > -1) {
+            store.dispatch('clearCancel');
+            ElMessage({
+                message: '请重新登录！',
+                type: 'error'
+            });
+            store.dispatch('FedLogOut')
+            location.href = '/#/login';
+            return false
+        }
         ElMessage({
-            message:res.data.msg,
+            message: res.data.msg,
             type: 'error'
         });
         return Promise.reject(new Error(message))

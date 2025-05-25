@@ -131,6 +131,15 @@
         getPlannerProd({ uid: this.userInfo.id }).then((res) => {
           let list = [];
           res.data.data.forEach((item) => {
+            const qlist = JSON.parse(item.qlist);
+            if (Array.isArray(qlist)) {
+              item.pList = qlist;
+            } else {
+              item.pList = qlist.qlist;
+              item.days = qlist.days;
+              item.tpe = qlist.tpe;
+              item.periods = qlist.periods;
+            }
             const { userDtm = [] } = item;
             userDtm.forEach((user) => {
               if (user.puserId == this.userInfo.id) {
@@ -145,6 +154,15 @@
         getUserProd({ ...page, uid: this.userInfo.id }).then((res) => {
           let list = [];
           res.data.data.records.forEach((item) => {
+            const qlist = JSON.parse(item.qlist);
+            if (Array.isArray(qlist)) {
+              item.pList = qlist;
+            } else {
+              item.pList = qlist.qlist;
+              item.days = qlist.days;
+              item.tpe = qlist.tpe;
+              item.periods = qlist.periods;
+            }
             const { userDtm = [] } = item;
             userDtm.forEach((user) => {
               if (user.id == this.userInfo.id) {
@@ -188,7 +206,7 @@
       },
       getBen(item) {
         let ben = 0;
-        const pList = JSON.parse(item.qlist);
+        const pList = item.pList;
         let days = 0;
         pList.forEach((item) => {
           if (!item.finish) {

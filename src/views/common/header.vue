@@ -30,14 +30,14 @@
               我的账户
             </div>
             <div
-              v-if="userInfo.id && userInfo.score == 0"
+              v-if="userInfo.id && userInfo.score != 2"
               class="menuItem"
               @click.stop="goBuyDetail"
             >
               购买详情
             </div>
             <div
-              v-if="userInfo.id && userInfo.score == 1"
+              v-if="userInfo.id && userInfo.score == 2"
               class="menuItem"
               @click.stop="gopBuyDetail"
             >
