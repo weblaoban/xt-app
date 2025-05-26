@@ -29,7 +29,7 @@
             <div class="descCon">
               <p class="count">
                 {{ item.info.totalAmount - item.info.toAmount || 0 }}
-                <span>元</span>
+                <span>美元</span>
               </p>
             </div>
             <div class="line"></div>
@@ -41,7 +41,7 @@
             <div class="descCon">
               <p class="count">
                 {{ item.info.nextBItem && item.info.nextBItem.amount }}
-                <span>元</span>
+                <span>美元</span>
               </p>
               <p class="count">
                 {{ item.info.nextBItem && item.info.nextBItem.value }}
@@ -86,7 +86,7 @@
 
             <div class="descCon">
               <p class="count">
-                {{ (item.info && item.info.totalAmount) || 0 }} <span>元</span>
+                {{ (item.info && item.info.totalAmount) || 0 }} <span>美元</span>
               </p>
             </div>
             <p class="count kehu">

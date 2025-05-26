@@ -77,12 +77,12 @@
               总缴费金额
               <div class="total">当前已有 {{ bList.length }}份保单保障中</div>
             </div>
-            <div class="myNum">{{ bAmount * 1 }} <span>元</span></div>
+            <div class="myNum">{{ bAmount * 1 }} <span>美元</span></div>
           </div>
           <div class="subCon">
             <div class="subItem sub1">
               <p>待缴金额</p>
-              <p>{{ toAmount }}&nbsp;<span>元</span></p>
+              <p>{{ toAmount }}&nbsp;<span>美元</span></p>
             </div>
             <div class="line"></div>
             <div class="subItem sub2">

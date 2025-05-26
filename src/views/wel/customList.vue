@@ -89,12 +89,12 @@
           <div class="subCon">
             <div class="subItem sub1">
               <p>总金额</p>
-              <p>{{ getTAmount(item) || "-" }}&nbsp;<span>元</span></p>
+              <p>{{ getTAmount(item) || "-" }}&nbsp;<span>美元</span></p>
             </div>
             <div class="line"></div>
             <div class="subItem sub2">
               <p>待缴金额</p>
-              <p>{{ getbAmount(item) }}&nbsp;<span>元</span></p>
+              <p>{{ getbAmount(item) }}&nbsp;<span>美元</span></p>
             </div>
           </div>
           <div v-if="getNextBItem(item)">
