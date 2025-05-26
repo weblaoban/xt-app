@@ -394,23 +394,19 @@
     mounted() {
       if (this.$route.query.isInsurance == 1) {
         this.setCat(100);
-      }
-      if (this.$route.query.isDirect == 1) {
+      }else if (this.$route.query.isDirect == 1) {
         this.setCat(98);
-      }
-      if (this.$route.query.isPrivate == 1) {
+      }else if (this.$route.query.isPrivate == 1) {
         this.setCat(99);
-      }
-      if (this.$route.query.isDebt == 1) {
+      }else if (this.$route.query.isDebt == 1) {
         this.setCat(3);
-      }
+      }else{
+				this.fetchList();
+			}
       const scrollCon = this.$refs.scrollCon;
       if (scrollCon) {
         scrollCon.addEventListener("scroll", this.scrollBottom, true);
       }
-    },
-    created() {
-      this.fetchList();
     },
     methods: {
       fetchList() {
@@ -447,8 +443,9 @@
         };
         if (cat === 100) {
           this.fetchBList();
-        }
-        this.fetchList();
+        }else{
+					this.fetchList();
+				}
       },
       toggleBType(type) {
         this.bType = this.bType === type ? "" : type;
