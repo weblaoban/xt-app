@@ -133,7 +133,7 @@
                 item.tpe = qlist.tpe;
                 item.periods = qlist.periods;
               }
-              if (item.tpe === 1) {
+              if (item.tpe === 0) {
                 target.push(item);
               }
             });

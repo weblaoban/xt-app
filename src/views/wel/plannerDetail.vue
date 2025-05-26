@@ -58,18 +58,18 @@
             <span>客户姓名：{{ item.nickName }}</span>
           </p>
           <div class="descCon">
-            <div class="desc">持有金额（元）</div>
+            <div class="desc">持有金额（{{ item.tpe === 1?'美元':'元' }}）</div>
             <!-- <div class="desc" v-if="currentCatbuy == 0">业绩比较基准</div> -->
-            <div class="desc" v-if="currentCat !== 1">待收收益（元）</div>
+            <div class="desc" v-if="currentCat !== 1">待收收益（{{ item.tpe === 1?'美元':'元' }}）</div>
           </div>
 
           <div class="descCon">
-            <p class="count">{{ item.amount || 0 }} <span>元</span></p>
+            <p class="count">{{ item.amount || 0 }} <span>{{ item.tpe === 1?'美元':'元' }}</span></p>
             <!-- <p class="count" v-if="currentCatbuy == 0">
               {{ item.brief || 0 }} <span>%</span>
             </p> -->
             <p class="count" v-if="currentCat !== 1">
-              {{ getBen(item) || "0" }} <span>元</span>
+              {{ getBen(item) || "0" }} <span>{{ item.tpe === 1?'美元':'元' }}</span>
             </p>
           </div>
           <div class="line"></div>

@@ -48,7 +48,7 @@
           <div class="descCon">
             <p class="count">{{ item.amount || 0 }} <span>美元</span></p>
             <p class="count" v-if="currentCat !== 1">
-              {{ getBen(item) }}<span>元</span>
+              {{ getBen(item) }}<span>美元</span>
             </p>
           </div>
 
