@@ -15,7 +15,7 @@
               <div class="desc">投资门槛</div>
             </div>
             <div class="descCon">
-              <p class="count">{{ detail.brief || 0 }} <span></span></p>
+              <p class="count">{{ detail.brief?detail.brief.indexOf('%')>-1?detail.brief:detail.brief+'%': 0 }} <span></span></p>
               <p class="count">
                 <span>{{ detail.pmStand }}万美元</span>
               </p>
@@ -100,7 +100,7 @@
             <el-col :span="24"
               ><div class="infoItem">
                 <div class="infoLabel">业绩比较基准</div>
-                <div class="infoDesc">{{ detail.brief }}</div>
+                <div class="infoDesc">{{ detail.brief?detail.brief.indexOf('%')>-1?detail.brief:detail.brief+'%': 0 }}</div>
               </div></el-col
             >
             <el-col :span="24"

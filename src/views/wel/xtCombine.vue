@@ -87,7 +87,7 @@
             <div class="desc">投资门槛</div>
           </div>
           <div class="descCon">
-            <p class="count">{{ item.brief || 0 }} <span></span></p>
+            <p class="count">{{ item.brief?item.brief.indexOf('%')>-1?item.brief:item.brief+'%': 0 }} <span></span></p>
             <p class="count">
               <span v-if="item.categoryId === 3">{{ item.pmStand }}万美元</span>
               <span v-else>{{ item.pmStandCnt }}</span>
@@ -400,6 +400,9 @@
       }
       if (this.$route.query.isPrivate == 1) {
         this.setCat(99);
+      }
+      if (this.$route.query.isDebt == 1) {
+        this.setCat(3);
       }
       const scrollCon = this.$refs.scrollCon;
       if (scrollCon) {
