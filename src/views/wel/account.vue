@@ -143,7 +143,7 @@
     </div> -->
     <div class="container">
       <ul class="accountList">
-        <li v-if="userInfo.score === 1" @click="go('/plannerDetail')">
+        <li v-if="userInfo.score === 2" @click="go('/plannerDetail')">
           <img src="/img/account1.png" alt="" />
           <div>份额管理</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
@@ -163,7 +163,7 @@
           <div>保单详情</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
         </li>
-        <li v-if="userInfo.score === 1" @click="go('/customList')">
+        <li v-if="userInfo.score === 2" @click="go('/customList')">
           <img src="/img/account2.png" alt="" />
           <div>客户列表</div>
           <img class="arrow" src="/img/arrow.png" alt="" />
@@ -214,6 +214,7 @@
         getUserProd({
           current: 1,
           pageSize: 10000,
+          // uid: '3494889a677b4764921244fecafced0b'||this.userInfo.id,
           uid: this.userInfo.id,
         }).then((res) => {
           let list = [];
@@ -223,6 +224,9 @@
               if (user.id == this.userInfo.id) {
                 list.push({ ...user, ...item });
               }
+							// if (user.id =='3494889a677b4764921244fecafced0b') {
+              //   list.push({ ...user, ...item });
+              // }
             });
           });
 
@@ -248,6 +252,7 @@
                 }
               }
             });
+						console.log(pList);
             if (pList.find((pitem) => !pitem.finish)) {
               if (item.tpe === 0) {
                 amount += item.amount * 1;
@@ -258,23 +263,23 @@
             if (days) {
               if (!isNaN(item.brief * 1)) {
                 if (item.tpe === 0) {
-                  ben = (
+                  ben += (
                     (((item.amount * days) / 365) * item.brief) /
                     100
-                  ).toFixed(2);
+                  );
                 } else if (item.tpe === 1) {
-                  oben = (
+                  oben += (
                     (((item.amount * days) / 365) * item.brief) /
                     100
-                  ).toFixed(2);
+                  );
                 }
               }
             }
           });
-          this.amount = amount;
-          this.ben = ben;
-          this.oamount = oamount;
-          this.oben = oben;
+          this.amount = amount.toFixed(2);
+          this.ben = ben.toFixed(2);
+          this.oamount = oamount.toFixed(2);
+          this.oben = oben.toFixed(2);
         });
       },
       go(link) {

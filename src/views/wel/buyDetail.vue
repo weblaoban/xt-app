@@ -167,7 +167,7 @@
           path: "/buyDetailInfo/" + row.id,
           query: {
             type: row.rad,
-            name: this.userInfo.score === 1 ? row.nickName : "",
+            name: this.userInfo.score === 2 ? row.nickName : "",
           },
         });
       },

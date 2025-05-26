@@ -168,7 +168,7 @@
           query: {
             taskType: 1,
             type: row.rad,
-            name: this.userInfo.score === 1 ? row.nickName : "",
+            name: this.userInfo.score === 2 ? row.nickName : "",
           },
         });
       },
