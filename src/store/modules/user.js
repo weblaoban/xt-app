@@ -3,6 +3,7 @@ import { setStore, getStore, clearStore } from 'utils/store'
 import { encrypt, deepClone } from 'utils/util'
 import { loginByUsername, getUserInfo, getMenu, getTopMenu, logout, refreshToken } from '@/api/user'
 import { formatPath } from '@/router/avue-router'
+import { ElMessage } from 'element-plus'
 
 const user = {
     state: {
@@ -60,11 +61,20 @@ const user = {
             return new Promise((resolve, reject) => {
                 getUserInfo().then((res) => {
                     const data = res.data.data;
-                    commit('SET_USERIFNO', data);
-                    setStore({ name: 'userInfo', content: data })
-                    // commit('SET_ROLES', data.roles);
-                    // commit('SET_PERMISSION', data.permission)
-                    resolve(data);
+                    if (data.userMemo === '1') {
+                        commit('SET_USERIFNO', data);
+                        setStore({ name: 'userInfo', content: data });
+                        resolve(data);
+                    } else {
+                        const message = data.userMemo === '2'
+                            ? "您的注册审核未通过，请联系管理员"
+                            : "您的注册申请已发送，请耐心等待审核";
+                        ElMessage.info({
+                            message,
+                            icon:'none'
+                        });
+                        reject();
+                    }
                 }).catch(err => {
                     reject(err);
                 })
