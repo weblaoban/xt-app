@@ -260,7 +260,7 @@
         width: 100%;
         line-height: 1.04rem;
         position: relative;
-        font-size: 0.24rem;
+        font-size: 0.26rem;
         font-family: PingFang SC;
         font-weight: 400;
         color: #806b4b;

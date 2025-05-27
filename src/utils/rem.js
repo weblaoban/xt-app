@@ -1,9 +1,9 @@
 // 基准大小
-const baseSize = 100;
+const baseSize = 106;
 // 设置 rem 函数
 function setRem() {
     // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
-    const scale = document.documentElement.clientWidth / 750;
+    const scale = document.documentElement.clientWidth / 745;
     let fontSize = (baseSize * Math.min(scale, 2));
     // if (fontSize > 100) {
     //     fontSize = 100;
