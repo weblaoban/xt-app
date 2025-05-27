@@ -333,6 +333,7 @@ export default {
 			}).then((res) => {
 				if (res.data.success) {
 					this.$message.success("注册成功，请登录");
+					// this.$message.success("您的注册申请已发送，请耐心等待审核");
 					this.setActive(1);
 				} else {
 					this.$message.error(res.data.msg);
