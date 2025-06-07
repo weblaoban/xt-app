@@ -87,7 +87,16 @@
             <div class="desc">投资门槛</div>
           </div>
           <div class="descCon">
-            <p class="count">{{ item.brief?item.brief.indexOf('%')>-1?item.brief:item.brief+'%': 0 }} <span></span></p>
+            <p class="count">
+              {{
+                item.brief
+                  ? item.brief.indexOf("%") > -1
+                    ? item.brief
+                    : item.brief + "%"
+                  : 0
+              }}
+              <span></span>
+            </p>
             <p class="count">
               <span v-if="item.categoryId === 3">{{ item.pmStand }}万美元</span>
               <span v-else>{{ item.pmStandCnt }}</span>
@@ -394,15 +403,19 @@
     mounted() {
       if (this.$route.query.isInsurance == 1) {
         this.setCat(100);
-      }else if (this.$route.query.isDirect == 1) {
+        document.title = "保险 | 瑔石家办";
+      } else if (this.$route.query.isDirect == 1) {
         this.setCat(98);
-      }else if (this.$route.query.isPrivate == 1) {
+        document.title = "直融资产 | 瑔石家办";
+      } else if (this.$route.query.isPrivate == 1) {
         this.setCat(99);
-      }else if (this.$route.query.isDebt == 1) {
+        document.title = "私募基金 | 瑔石家办";
+      } else if (this.$route.query.isDebt == 1) {
         this.setCat(3);
-      }else{
-				this.fetchList();
-			}
+        document.title = "境外债 | 瑔石家办";
+      } else {
+        this.fetchList();
+      }
       const scrollCon = this.$refs.scrollCon;
       if (scrollCon) {
         scrollCon.addEventListener("scroll", this.scrollBottom, true);
@@ -443,9 +456,9 @@
         };
         if (cat === 100) {
           this.fetchBList();
-        }else{
-					this.fetchList();
-				}
+        } else {
+          this.fetchList();
+        }
       },
       toggleBType(type) {
         this.bType = this.bType === type ? "" : type;
