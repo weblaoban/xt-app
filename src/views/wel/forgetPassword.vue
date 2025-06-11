@@ -382,14 +382,14 @@ border-left:1px solid #EABA63;
 padding-left:0.2rem;
 }
 				.hasSend {
-					width: 70px;
-					height: 39px;
-					background: #f8f8f8;
-					border-radius: 8px;
-					line-height: 39px;
-					font-size: 14px;
-					font-family: Heiti SC;
-					font-weight: 500;
+					//width: 70px;
+					//height: 39px;
+					//background: #f8f8f8;
+					//border-radius: 8px;
+					//line-height: 39px;
+					//font-size: 14px;
+					//font-family: Heiti SC;
+					//font-weight: 500;
 					color: #30333b;
 					text-align: center;
 				}

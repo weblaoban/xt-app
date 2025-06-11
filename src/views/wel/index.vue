@@ -1046,6 +1046,7 @@
             font-weight: 500;
             color: #30333b;
             text-align: center;
+						bottom:-10px;
           }
         }
         .button {
