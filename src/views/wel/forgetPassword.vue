@@ -11,7 +11,7 @@
                     <div class="label">手机号</div>
 					<input autocomplete="off" v-model="phone" class="input" id="phone" type="text" />
 				</div>
-            
+     
 					<div class="smscodeCon">
                         <div class="label">图形验证码</div>
 						<div class="inputItem">
@@ -29,7 +29,7 @@
 						</div>
 					</div>
 					<div class="smscodeCon">
-                        <div class="label">验证码（短信由杭州泓林信息咨询发送）</div>
+                        <div class="label">验证码（短信由杭州瑔石信息咨询发送）</div>
 						<div class="inputItem">
 							<input
 								autocomplete="off"
@@ -92,8 +92,8 @@ export default {
             phone:'',
             gender:0,
             smsCode:'',
-            originTime:30,
-            timeDown:30,
+            originTime:120,
+            timeDown:120,
             timer:null,
             products:[
                 {
@@ -469,7 +469,7 @@ margin:0.4rem 0 0.21rem 0;
 
     .button {
 	width: 100%;
-	background: linear-gradient(163deg, #e1ad4f, 
+	background: linear-gradient(163deg, #e1ad4f,
 		rgba(234, 186, 99, 0.7), #e0af56);
 
         border-radius: 0.12rem;

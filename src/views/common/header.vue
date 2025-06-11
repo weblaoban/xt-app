@@ -128,8 +128,8 @@
         phone: "13888888888",
         gender: 0,
         smsCode: "",
-        originTime: 30,
-        timeDown: 30,
+        originTime: 120,
+        timeDown: 120,
         timer: null,
         products: [
           {
