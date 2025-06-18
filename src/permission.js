@@ -2,6 +2,7 @@ import router from './router/'
 import store from './store'
 import { validatenull } from '@/utils/validate'
 import { getToken } from '@/utils/auth'
+console.log(getToken())
 const lockPage = '/lock'; //锁屏页
 router.beforeEach((to, from, next) => {
   const meta = to.meta || {};
@@ -14,7 +15,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' })
     } else {
       //如果用户信息为空则获取用户信息，获取用户信息失败，跳转到登录页
-      if (store.getters.roles.length === 0) {
+      if (!store.getters.userInfo.id) {
         store.dispatch('GetUserInfo').then(() => {
           next({ ...to, replace: true })
         }).catch(() => {
@@ -43,7 +44,6 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     //判断是否需要认证，没有登录访问去登录页
-    console.log(meta.isAuth)
     if (meta.isAuth === true) {
       next('/login')
     } else {
@@ -53,8 +53,17 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(to => {
-  console.log(to)
   let title = router.$avueRouter.generateTitle(to)
-  router.$avueRouter.setTitle(title);
+  if(to.query.isInsurance=='1'){
+    router.$avueRouter.setTitle('保险');
+  }else if(to.query.isDirect=='1'){
+    router.$avueRouter.setTitle('直融资产');
+  }else if(to.query.isPrivate=='1'){
+    router.$avueRouter.setTitle('私募基金');
+  }else if(to.query.isDebt=='1'){
+    router.$avueRouter.setTitle('境外债');
+  }else{
+    router.$avueRouter.setTitle(title);
+  }
   store.commit('SET_IS_SEARCH', false)
 });

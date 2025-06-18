@@ -403,16 +403,16 @@
     mounted() {
       if (this.$route.query.isInsurance == 1) {
         this.setCat(100);
-        document.title = "保险 | 瑔石家办";
+        // document.title = "保险 | 瑔石家办";
       } else if (this.$route.query.isDirect == 1) {
         this.setCat(98);
-        document.title = "直融资产 | 瑔石家办";
+        // document.title = "直融资产 | 瑔石家办";
       } else if (this.$route.query.isPrivate == 1) {
         this.setCat(99);
-        document.title = "私募基金 | 瑔石家办";
+        // document.title = "私募基金 | 瑔石家办";
       } else if (this.$route.query.isDebt == 1) {
         this.setCat(3);
-        document.title = "境外债 | 瑔石家办";
+        // document.title = "境外债 | 瑔石家办";
       } else {
         this.fetchList();
       }

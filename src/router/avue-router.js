@@ -18,6 +18,7 @@ RouterPlugin.install = function (option = {}) {
     setTitle: (title) => {
       const defaultTitle = i18n.t('title');
       title = title ? `${title} | ${defaultTitle}` : defaultTitle;
+      console.log(title)
       document.title = title;
     },
     closeTag: (value) => {
