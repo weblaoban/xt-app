@@ -12,7 +12,7 @@ import Avue from '@smallwei/avue';
 import '@smallwei/avue/lib/index.css';
 import crudCommon from '@/mixins/crud.js'
 import { getScreen } from './utils/util'
-// import './permission';
+import './permission';
 import './utils/rem.js'
 import error from './error';
 import basicBlock from 'components/basic-block/main.vue'
