@@ -164,7 +164,7 @@
             autocomplete="off"
             v-model="userName"
             class="input"
-            id="phone"
+            id="userName"
             type="text"
             placeholder="请输入您的手机号"
           />
@@ -360,6 +360,7 @@
       },
 
       onLogin() {
+				const _ = this;
         const { userName, passWord } = this;
         if (!userName) {
           document.getElementById("userName").focus();
@@ -380,6 +381,7 @@
             if (data.success) {
               this.$store.dispatch("GetUserInfo").then((res) => {
                 history.go(-1);
+								_.$router.replace('/index')
               });
             } else {
               this.errInfo = data.msg;
